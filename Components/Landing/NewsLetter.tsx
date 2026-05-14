@@ -34,11 +34,11 @@ const NewsLetter = () => {
 
         <div className="flex justify-center items-center w-full sm:w-[80%] flex-col relative z-10">
           <div className="flex flex-col justify-center items-center gap-3">
-            <h2 className="font-antic-didone font-[600] text-[28px] leading-[1.2] tracking-[0.03em] text-[#fffdf2] text-center sm:text-[36px] md:text-[47px]">
+            <h2 className="font-tt-ramillas font-[600] text-[28px] leading-[1.2] tracking-[0.03em] text-[#fffdf2] text-center sm:text-[36px] md:text-[47px]">
               Subscribe to our newsletter
             </h2>
-            <h2 className="font-antic-didone text-[14px] w-full sm:w-[80%] leading-[1.3] tracking-[0.03em] text-[#fffdf2] text-center sm:text-[15px] md:text-[16px] md:leading-[1.2]">
-              Get local community event announcements, access to new product launches, tips and exclusive discounts.
+            <h2 className="font-switzer text-[14px] w-full sm:w-[80%] leading-[1.3] tracking-[0.03em] text-[#fffdf2] text-center sm:text-[15px] md:text-[16px] md:leading-[1.2]">
+              Get local community event announcements, access to new product launches, tips and exclusive discounts
             </h2>
           </div>
         </div>

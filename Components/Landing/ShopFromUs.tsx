@@ -31,11 +31,11 @@ const ShopFromUs = () => {
         <section className="w-full pt-14 bg-[#fffdf2] px-6 pb-10 ">
             {/* Section Header */}
             <div className="mb-8 flex flex-col items-center gap-2 text-center sm:mb-12">
-                <h2 className="font-antic-didone font-semibold text-[36px] leading-[1.2] tracking-[0.01em] text-black sm:text-[48px] lg:text-[60px]">
+                <h2 className="font-tt-ramillas font-medium text-[36px] leading-[1.2] tracking-[0.01em] text-black sm:text-[48px] lg:text-[60px]">
                     Shop from Us
                 </h2>
-                <p className="font-poppins text-[14px] font-medium uppercase tracking-[0.12em] text-black sm:text-[18px] lg:text-[22px]">
-                    OUR PREMIUM RANGE OF COLLAGEN
+                <p className="font-tt-ramillas text-[14px] font-medium tracking-[0.12em] text-black sm:text-[18px] lg:text-[22px]">
+                    Our premium range of collagen
                 </p>
             </div>
 
@@ -103,12 +103,15 @@ const ShopFromUs = () => {
                             ))}
                         </div>
                         <span className="font-poppins text-[12px] sm:text-[16px] lg:text-[20px] font-semibold text-[#11731b]">
-                            4.9/5.0 (80,000) | 1 lakh+ customers
+                            4.9/5.0 (80,000)
                         </span>
+                        <a href="#" className="font-tt-ramillas text-[12px] sm:text-[14px] lg:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
+                            View test results
+                        </a>
                     </div>
 
                     {/* Product title */}
-                    <h3 className="w-full break-words whitespace-pre-wrap font-antic-didone text-[32px] sm:text-[38px] lg:text-[45px] font-extrabold leading-[1.2] tracking-[0.02em] text-[#34803c]">
+                    <h3 className="w-full break-words  whitespace-pre-wrap font-tt-ramillas text-[32px] sm:text-[38px] lg:text-[45px] font-semibold leading-[1.2] tracking-[0.02em] text-[#34803c]">
                         Collagreens
                     </h3>
 
@@ -184,6 +187,113 @@ const ShopFromUs = () => {
                             <button className="box-border rounded-full border border-gray-300 bg-[#fffc60] px-6 py-2.5 sm:px-10 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] ">
                                 Buy Now
                             </button>
+                        </div>
+                    </div>
+
+                    {/* Clinical Studies Section */}
+                    <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
+                        <h3 className="font-tt-ramillas text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+                            Clinical studies and results
+                        </h3>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div className="bg-[#f5f5f5] p-6 rounded-2xl">
+                                <p className="font-tt-ramillas text-[32px] font-bold text-[#34803c] mb-2">28%</p>
+                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#333]">
+                                    Decrease in skin roughness from baseline levels
+                                </p>
+                            </div>
+                            <div className="bg-[#f5f5f5] p-6 rounded-2xl">
+                                <p className="font-tt-ramillas text-[32px] font-bold text-[#34803c] mb-2">18%</p>
+                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#333]">
+                                    Increase in skin elasticity from baseline levels
+                                </p>
+                            </div>
+                            <div className="bg-[#f5f5f5] p-6 rounded-2xl">
+                                <p className="font-tt-ramillas text-[32px] font-bold text-[#34803c] mb-2">25%</p>
+                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#333]">
+                                    Increase in skin hydration
+                                </p>
+                            </div>
+                        </div>
+
+                        <p className="font-switzer text-[12px] sm:text-[14px] leading-[1.4] text-[#666] mb-4">
+                            Source: https://www.mdpi.com/2072-6643/10/7/826
+                        </p>
+                        <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.4] text-[#666] mb-6">
+                            Note: These results may be enhanced because of daily greens. These numbers are solely for collagen supplementation. Based on a 12 week randomized, double blind placebo study with daily collagen supplementation.
+                        </p>
+
+                        <a href="#" className="font-tt-ramillas text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
+                            View test results (10,000+ clinical studies)
+                        </a>
+                    </div>
+
+                    {/* Testing Parameters Section */}
+                    <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
+                        <h3 className="font-tt-ramillas text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+                            Testing parameters
+                        </h3>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {[
+                                { icon: "🧫", label: "Microbial contamination" },
+                                { icon: "🧬", label: "Amino acid profiling" },
+                                { icon: "⚖️", label: "Heavy metal test" },
+                                { icon: "🌾", label: "Pesticide testing" },
+                                { icon: "☣️", label: "Aflatoxin testing" },
+                                { icon: "⏱️", label: "Stability testing" },
+                                { icon: "👃", label: "Organoleptic testing" },
+                            ].map((test, i) => (
+                                <div key={i} className="bg-white border-2 border-[#34803c] p-4 rounded-xl text-center">
+                                    <p className="text-3xl mb-2">{test.icon}</p>
+                                    <p className="font-switzer text-[13px] sm:text-[14px] leading-[1.3] text-[#333]">
+                                        {test.label}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* How to Use Section */}
+                    <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
+                        <h3 className="font-tt-ramillas text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+                            How to use
+                        </h3>
+                        
+                        <div className="space-y-4">
+                            <div className="flex gap-4">
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">1</div>
+                                <div>
+                                    <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
+                                        Mix one sachet with 200ml of water or your favorite beverage
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">2</div>
+                                <div>
+                                    <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
+                                        Stir well or shake until fully dissolved
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">3</div>
+                                <div>
+                                    <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
+                                        Consume once daily, preferably in the morning on an empty stomach
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">4</div>
+                                <div>
+                                    <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
+                                        Consistent use for 8-12 weeks for best results
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

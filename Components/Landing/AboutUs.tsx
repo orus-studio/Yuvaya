@@ -38,7 +38,7 @@ const AboutUs = () => {
                         </h3>
 
                         {/* Card body */}
-                        <p className="w-full break-words whitespace-pre-wrap text-center font-antic-didone text-[14px] font-semibold mt-2 leading-[1.3] tracking-[0.04em] text-[#fffdf2] sm:mt-3 sm:text-[17px] sm:leading-[1.2] md:text-[22px]">
+                        <p className="w-full break-words whitespace-pre-wrap text-center font-switzer  text-[14px]  mt-2 leading-[1.3] tracking-[0.04em] text-[#fffdf2] sm:mt-3 sm:text-[17px] sm:leading-[1.2] md:text-[22px]">
                             {card.body}
                         </p>
                     </div>

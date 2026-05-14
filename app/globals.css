@@ -14,6 +14,8 @@
   --font-cormorant: var(--font-cormorant);
   --font-new-title: var(--font-new-title);
   --font-antic-didone: var(--font-anti-didone);
+  --font-tt-ramillas: var(--font-tt-ramillas);
+  --font-switzer: var(--font-switzer);
 }
 
 @media (prefers-color-scheme: dark) {

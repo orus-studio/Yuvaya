@@ -97,8 +97,8 @@ const Testimonials = () => {
                 </div>
 
                 {/* Heading */}
-                <h2 className="font-antic-didone mb-6 text-center text-[20px] font-semibold leading-[1.2] tracking-[0.03em] text-black sm:mb-8 sm:text-[28px] md:mb-10 md:text-[32px]">
-                    Here&apos;s what our customers wrote us.
+                <h2 className="font-tt-ramillas mb-6 text-center text-[20px] font-medium leading-[1.2] tracking-[0.03em] text-black sm:mb-8 sm:text-[28px] md:mb-10 md:text-[32px]">
+                    Here&apos;s what our customers wrote us
                 </h2>
 
                 {/* ── Card area ──────────────────────────────────── */}

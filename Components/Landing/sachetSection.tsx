@@ -57,7 +57,7 @@ const SachetSection = () => {
                 style={{ padding: "35px 0px 0px 0px" }}
             >
                 <h2
-                    className="font-antic-didone whitespace-pre text-center text-[22px] font-semibold leading-[1.2] tracking-[0.03em] text-black sm:text-[28px] md:text-[36px] lg:text-[50px]"
+                    className="font-tt-ramillas whitespace-pre text-center text-[22px] leading-[1.2] tracking-[0.03em] text-black sm:text-[28px] md:text-[36px] lg:text-[50px]"
                 >
                     1 Sachet = 6 Powerful Complexes
                 </h2>

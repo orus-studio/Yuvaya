@@ -52,6 +52,93 @@ const newTitle = localFont({
   variable: "--font-new-title",
 });
 
+const ttRamillas = localFont({
+  src: [
+    {
+      path: "../public/Fonts/TT Ramillas Trial ExtraLight.ttf",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/TT Ramillas Trial Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/TT Ramillas Trial Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/TT Ramillas Trial Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/TT Ramillas Trial Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/TT Ramillas Trial ExtraBold.ttf",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/TT Ramillas Trial Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-tt-ramillas",
+});
+
+const switzer = localFont({
+  src: [
+    {
+      path: "../public/Fonts/Switzer-Extralight.otf",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/Switzer-Light.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/Switzer-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/Switzer-Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/Switzer-Semibold.otf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/Switzer-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/Switzer-Extrabold.otf",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../public/Fonts/Switzer-Black.otf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-switzer",
+});
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -66,7 +153,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant_garamond.variable} ${poppins.variable} ${newTitle.variable} ${anti_didone.variable} h-full antialiased`}
+      className={`${cormorant_garamond.variable} ${poppins.variable} ${newTitle.variable} ${anti_didone.variable} ${ttRamillas.variable} ${switzer.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white">{children}</body>
     </html>
