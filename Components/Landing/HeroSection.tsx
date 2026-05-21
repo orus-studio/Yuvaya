@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ZigzagSVG from "@/Components/Shared/ZigzagSVG";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -27,7 +28,7 @@ const HeroSection = () => {
               stick routine.
             </p>
 
-            <button className="mt-4 box-border flex h-[52px] w-[170px] cursor-pointer flex-row items-center justify-end gap-3 overflow-hidden rounded-[100px] border-none bg-[#11731b] px-1 py-0 font-poppins sm:mt-6 sm:h-[56px] sm:w-[194px] sm:gap-4 md:mt-6 md:h-[54px] md:w-[200px]">
+            <Link href="/#shop" className="mt-4 box-border flex h-[52px] w-[170px] cursor-pointer flex-row items-center justify-end gap-3 overflow-hidden rounded-[100px] border-none bg-[#11731b] px-1 py-0 font-poppins sm:mt-6 sm:h-[56px] sm:w-[194px] sm:gap-4 md:mt-6 md:h-[54px] md:w-[200px]">
               <span className="whitespace-pre text-[18px] font-medium leading-[1.2] tracking-normal text-[#fffdf2] sm:text-[21px] md:text-[20px]">
                 Shop Now
               </span>
@@ -55,7 +56,7 @@ const HeroSection = () => {
                   />
                 </svg>
               </div>
-            </button>
+            </Link>
           </div>
 
           {/* Right Image Container */}
