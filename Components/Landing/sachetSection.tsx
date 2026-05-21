@@ -49,7 +49,7 @@ const SachetSection = () => {
     return (
         <section
             className="relative w-full mb-10"
-            style={{ backgroundColor: "#fffdf2", overflow: "visible" }}
+            style={{ backgroundColor: "#fffff7", overflow: "visible" }}
         >
             {/* ── Heading Section ─────────────────────────────────── */}
             <div

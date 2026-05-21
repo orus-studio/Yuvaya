@@ -20,8 +20,8 @@ const AboutUs = () => {
         /* Parent div: w-100%, h-763px, flex-col, justify-end, padding 40px 0 60px 0, gap 30px */
         <section id='about' className="box-border flex rounded-3xl mt-3 min-h-screen w-full flex-col items-center justify-end gap-6 overflow-clip bg-[#26312d] px-4 pt-10 pb-10 sm:gap-8 sm:px-8 md:gap-[30px] md:px-0 md:pt-[40px] md:pb-[60px]">
             {/* About Us heading */}
-            <h2 className="z-[1] mt-6 whitespace-pre font-antic-didone text-[36px] font-semibold leading-[1.2] tracking-[0.01em] text-[#fffdf2] sm:mt-10 sm:text-[48px] md:text-[64px]">
-                About Us
+            <h2 className="z-[1] mt-3 whitespace-pre font-cormorant text-[36px] font-semibold leading-[1.2] tracking-[0.01em] text-[#fffdf2] sm:mt-10 sm:text-[48px] md:text-[64px]">
+                About us
             </h2>
 
             {/* Cards row */}
@@ -30,15 +30,15 @@ const AboutUs = () => {
                     /* Card */
                     <div
                         key={i}
-                        className="box-border flex flex-1 flex-col items-center justify-start gap-[10px] overflow-clip rounded-2xl border-[4px] border-[#014d07] bg-[#34803c] p-4 sm:rounded-[20px] sm:p-5 md:p-[30px]"
+                        className="box-border flex flex-1 flex-col items-center justify-start gap-[10px] overflow-clip rounded-2xl border-[4px] border-[#014d07] bg-[#fffff7] text-black p-4 sm:rounded-[20px] sm:p-5 md:p-[30px]"
                     >
                         {/* Card title */}
-                        <h3 className="whitespace-pre font-antic-didone text-[24px] font-semibold leading-[1.2] tracking-[0.04em] text-[#fffdf2] sm:text-[28px] md:text-[35px]">
+                        <h3 className="whitespace-pre font-cormorant text-[32px] font-black leading-[1.2] tracking-[0.04em] text-black sm:text-[28px] md:text-[35px]">
                             {card.title}
                         </h3>
 
                         {/* Card body */}
-                        <p className="w-full break-words whitespace-pre-wrap text-center font-switzer  text-[14px]  mt-2 leading-[1.3] tracking-[0.04em] text-[#fffdf2] sm:mt-3 sm:text-[17px] sm:leading-[1.2] md:text-[22px]">
+                        <p className="w-full break-words whitespace-pre-wrap text-center font-switzer  text-[14px]  mt-2 leading-[1.3] tracking-[0.04em] text-black sm:mt-3 sm:text-[17px] sm:leading-[1.2] md:text-[22px]">
                             {card.body}
                         </p>
                     </div>

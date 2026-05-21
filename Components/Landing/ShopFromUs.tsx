@@ -60,14 +60,15 @@ const ShopFromUs = () => {
     const [activeThumbnail, setActiveThumbnail] = useState(0);
 
     return (
-        <section id="/shop" className="w-full pt-14 bg-[#fffdf2] px-6 pb-10 ">
+        <section id="shop" className="w-full pt-14 bg-[#fffff7] px-6 pb-10 ">
             {/* Section Header */}
             <div className="mb-8 flex flex-col items-center gap-2 text-center sm:mb-12">
-                <h2 className="font-tt-ramillas font-medium text-[36px] leading-[1.2] tracking-[0.01em] text-black sm:text-[48px] lg:text-[60px]">
-                    Shop from Us
+                <h2 className="font-cormorant  font-bold text-[36px] leading-[1.2] tracking-[0.01em] text-black sm:text-[48px] lg:text-[60px]">
+                    Shop from us
                 </h2>
-                <p className="font-tt-ramillas text-[14px] font-medium tracking-[0.12em] text-black sm:text-[18px] lg:text-[22px]">
-                    Our premium range of collagen
+                <p className="font-switzer flex gap-1 text-[14px] font-medium tracking-[0.12em] text-black sm:text-[18px] lg:text-[22px]">
+                    The only
+                    <span className="font-bold">Collagen</span> that works
                 </p>
             </div>
 
@@ -267,21 +268,23 @@ const ShopFromUs = () => {
                             Testing parameters
                         </h3>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="flex flex-wrap justify-center -m-2">
                             {testingParameters.map((test, i) => (
-                                <div key={i} className="bg-white border-2 border-[#34803c] p-4 rounded-xl text-center">
-                                    <div className="relative mx-auto mb-2 h-10 w-10 sm:h-11 sm:w-11">
-                                        <Image
-                                            src={test.src}
-                                            alt={test.label}
-                                            fill
-                                            sizes="44px"
-                                            className="object-contain"
-                                        />
+                                <div key={i} className="p-2 w-full sm:w-1/2 lg:w-1/4">
+                                    <div className="bg-white border-2 border-[#34803c] p-4 rounded-xl text-center h-full">
+                                        <div className="relative mx-auto mb-2 h-10 w-10 sm:h-11 sm:w-11">
+                                            <Image
+                                                src={test.src}
+                                                alt={test.label}
+                                                fill
+                                                sizes="44px"
+                                                className="object-contain"
+                                            />
+                                        </div>
+                                        <p className="font-switzer text-[13px] sm:text-[14px] leading-[1.3] text-[#333]">
+                                            {test.label}
+                                        </p>
                                     </div>
-                                    <p className="font-switzer text-[13px] sm:text-[14px] leading-[1.3] text-[#333]">
-                                        {test.label}
-                                    </p>
                                 </div>
                             ))}
                         </div>

@@ -16,12 +16,12 @@ const MiddleBanner = () => {
             {/* Heading Block explicitly matching CSS */}
             <div className="flex w-full justify-center z-10 items-center">
                 <div className="flex flex-col justify-center items-center">
-                    <h1 className="font-cormorant italic text-center text-[32px] font-base leading-[1.2] tracking-[0.03em] text-[#fffdf2] sm:text-[48px] md:text-[70px]">
-                        Greens with collagen
+                    <h1 className="font-cormorant italic text-center text-[32px] font-base leading-[1.1] tracking-[-0.03em] text-[#fffdf2] sm:text-[48px] md:text-[70px]">
+                        Greens with Collagen
                     </h1>
-                    <span className="flex text-center font-switzer font-base text-sm sm:text-lg md:text-2xl pt-2 flex-col">
+                    <span className="flex text-center font-switzer font-semibold text-sm sm:text-lg md:text-2xl pt-2 flex-col">
                         <h2>
-                            One sachet. Six complexes. Thirty-six ingredients
+                            1 sachet. 6 complexes. 36 ingredients
                         </h2>
                         <h2 className="text-stone-300">
                             And an unmatched taste

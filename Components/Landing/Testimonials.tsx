@@ -27,7 +27,7 @@ const testimonials = [
     },
     {
         greeting: "Dear Yuvaya,",
-        body: `Being a fitness enthusiast, I'm very particular about what goes into my body. Yuvaya checked every box — clean ingredients, no artificial sweeteners, and 25+ bioactives in one serving. I mix it into my post-workout smoothie and it blends seamlessly. The marine collagen has noticeably improved my recovery time.`,
+        body: `Being a fitness enthusiast, I'm very particular about what goes into my body. Yuvaya checked every box — clean ingredients, no artificial sweeteners, and 25+ bioactives in one serving. I mix it into my post-workout smoothie and it blends seamlessly. The marine collagen has noticeably improved my recovery time significantly.`,
         signoff: "Cheers,",
         name: "Kavya Nair",
     },
@@ -81,7 +81,7 @@ const Testimonials = () => {
 
     return (
         <section
-            className="relative w-full overflow-hidden bg-[#fffdf2]"
+            className="relative w-full overflow-hidden bg-[#fffff7]"
             style={{ minHeight: "500px", zIndex: 1 }}
         >
             {/* ── Inner wrapper ──────────────────────────────────── */}
