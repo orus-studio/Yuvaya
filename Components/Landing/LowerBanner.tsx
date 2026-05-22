@@ -16,7 +16,11 @@ const items = [
     },
     {
         label: "No Added Sugar",
-        src: "/sugar.png",
+        src: "/NoAddedSugar.png",
+    },
+    {
+        label: "100% Natural",
+        src: "/Natural.png",
     },
     {
         label: "No Preservatives",

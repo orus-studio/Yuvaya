@@ -6,8 +6,8 @@ import Link from "next/link";
 
 const variants = [
     { label: "30 days pack", price: "₹ 3,100", img: "/Landing/Stand Up Pouch Front latest mockup.png" },
-    { label: "60 days pack", price: "₹ 5,800", img: "/Landing/Stand Up Pouch Front latest mockup.png" },
-    { label: "6 days trial", price: "₹ 699", img: "/Landing/Stand Up Pouch Front latest mockup.png" },
+    { label: "60 days pack", price: "₹ 5,600", originalPrice: "₹ 5,800", img: "/Landing/Stand Up Pouch Front latest mockup.png" },
+    { label: "6 days trial", price: "₹ 1,100", img: "/Landing/Stand Up Pouch Front latest mockup.png" },
 ];
 
 const thumbnails = [
@@ -93,11 +93,11 @@ const ShopFromUs = () => {
                         {/* Main product image — responsive height */}
                         <div className="relative box-border flex flex-col overflow-clip rounded-xl lg:rounded-[14px] border-2 sm:border-[3px] lg:border-[4px] border-[#34803c] bg-[#fffdf2]" style={{ width: "73%", height: "100%" }}>
                             {/* Limited Time Offer banner */}
-                            <div className="absolute top-4 sm:top-6 lg:top-10 z-50 flex h-8 sm:h-10 lg:h-11 w-full shrink-0 items-center justify-center border-y-2 sm:border-y-4 border-[#11731b] bg-[#fffc60]">
+                            {/* <div className="absolute top-4 sm:top-6 lg:top-10 z-50 flex h-8 sm:h-10 lg:h-11 w-full shrink-0 items-center justify-center border-y-2 sm:border-y-4 border-[#11731b] bg-[#fffc60]">
                                 <span className="font-cormorant text-[14px] sm:text-[18px] lg:text-[20px] font-normal italic text-[#11731b]">
                                     Limited Time Offer
                                 </span>
-                            </div>
+                            </div> */}
 
                             {/* Product image — changes based on selected thumbnail */}
                             <div className="absolute inset-0 z-30 flex items-center justify-center p-8 sm:p-10 lg:p-12">
@@ -208,9 +208,16 @@ const ShopFromUs = () => {
                             <p className="font-antic-didone text-[24px] sm:text-[28px] lg:text-[32px] font-bold pb-1 leading-[1.2] text-black">
                                 {variants[selectedVariant].label}
                             </p>
-                            <p className="font-poppins text-[20px] sm:text-[24px] lg:text-[28px] font-normal pb-1 leading-[1.2] text-gray-500">
-                                {variants[selectedVariant].price}
-                            </p>
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                                {variants[selectedVariant].originalPrice ? (
+                                    <span className="font-poppins text-[16px] sm:text-[18px] lg:text-[22px] font-normal leading-[1.2] text-gray-400 line-through decoration-2 decoration-gray-400/80">
+                                        {variants[selectedVariant].originalPrice}
+                                    </span>
+                                ) : null}
+                                <span className="font-poppins text-[20px] sm:text-[24px] lg:text-[28px] font-normal leading-[1.2] text-gray-500">
+                                    {variants[selectedVariant].price}
+                                </span>
+                            </div>
                         </div>
                         {/* CTA Buttons */}
                         <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4 ">
@@ -268,11 +275,11 @@ const ShopFromUs = () => {
                             Testing parameters
                         </h3>
 
-                        <div className="flex flex-wrap justify-center -m-2">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                             {testingParameters.map((test, i) => (
-                                <div key={i} className="p-2 w-full sm:w-1/2 lg:w-1/4">
-                                    <div className="bg-white border-2 border-[#34803c] p-4 rounded-xl text-center h-full">
-                                        <div className="relative mx-auto mb-2 h-10 w-10 sm:h-11 sm:w-11">
+                                <div key={i} className="h-full">
+                                    <div className="flex h-full flex-col items-center justify-start rounded-xl border-2 border-[#34803c] bg-white p-4 text-center sm:p-5">
+                                        <div className="relative mx-auto mb-3 h-10 w-10 sm:h-11 sm:w-11 lg:h-12 lg:w-12">
                                             <Image
                                                 src={test.src}
                                                 alt={test.label}
@@ -281,7 +288,7 @@ const ShopFromUs = () => {
                                                 className="object-contain"
                                             />
                                         </div>
-                                        <p className="font-switzer text-[13px] sm:text-[14px] leading-[1.3] text-[#333]">
+                                        <p className="font-switzer text-[13px] sm:text-[14px] lg:text-[15px] leading-[1.35] text-[#333] wrap-break-word text-balance">
                                             {test.label}
                                         </p>
                                     </div>

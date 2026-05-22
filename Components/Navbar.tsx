@@ -1,7 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -16,8 +21,11 @@ const navLinks = [
 const Navbar = () => {
   const { scrollY } = useScroll();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isNavHidden, setIsNavHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   const shrinkThreshold = 20;
+  const hideThreshold = 80;
 
   // Keep near-full width on mobile and compact on desktop while scrolling.
   const navWidth = useTransform(
@@ -27,6 +35,25 @@ const Navbar = () => {
   );
 
   const navMaxWidth = useTransform(scrollY, [0, shrinkThreshold], [1200, 800]);
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const previous = lastScrollY.current;
+    const scrollingDown = current > previous;
+    const scrollingUp = current < previous;
+
+    if (current < 10) {
+      setIsNavHidden(false);
+    } else if (scrollingDown && current > hideThreshold) {
+      setIsNavHidden(true);
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    } else if (scrollingUp) {
+      setIsNavHidden(false);
+    }
+
+    lastScrollY.current = current;
+  });
 
   useEffect(() => {
     if (!isMobileMenuOpen) return;
@@ -44,14 +71,19 @@ const Navbar = () => {
   return (
     <div className="font-poppins fixed top-3 left-1/2 z-100 w-full -translate-x-1/2 px-2 sm:px-4">
       <motion.nav
-        className="mx-auto flex h-16 items-center justify-between rounded-full bg-[#191a1d] px-3 sm:px-5"
+        className="mx-auto flex h-16 items-center justify-between rounded-full bg-[#191a1d] px-3 shadow-lg shadow-black/10 sm:px-5"
         style={{
           width: navWidth,
           maxWidth: navMaxWidth,
+          pointerEvents: isNavHidden ? "none" : "auto",
         }}
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        animate={{
+          opacity: isNavHidden ? 0 : 1,
+          y: isNavHidden ? -90 : 0,
+          scale: isNavHidden ? 0.98 : 1,
+        }}
+        transition={{ duration: 0.28, ease: "easeInOut" }}
       >
         {/* Left: Logo */}
         <Link href="/" className="ml-1 flex items-center">

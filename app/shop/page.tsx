@@ -199,11 +199,11 @@ export const ProductsPart = () => {
               style={{ width: "75%", height: "100%" }}
             >
               {/* Limited Time Offer banner */}
-              <div className="absolute top-2 sm:top-4 lg:top-10 z-50 flex h-6 sm:h-8 lg:h-11 w-full shrink-0 items-center justify-center border-y-2 sm:border-y-4 border-[#11731b] bg-[#fffc60]">
+              {/* <div className="absolute top-2 sm:top-4 lg:top-10 z-50 flex h-6 sm:h-8 lg:h-11 w-full shrink-0 items-center justify-center border-y-2 sm:border-y-4 border-[#11731b] bg-[#fffc60]">
                 <span className="font-cormorant text-[11px] sm:text-[14px] md:text-[16px] lg:text-[20px] font-normal italic text-[#11731b]">
                   Limited Time Offer
                 </span>
-              </div>
+              </div> */}
 
               {/* Product image — changes based on selected thumbnail */}
               <div className="absolute inset-0 z-30 flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">

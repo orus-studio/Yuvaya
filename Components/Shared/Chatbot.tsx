@@ -112,13 +112,13 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 pointer-events-auto">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 pointer-events-auto">
       <div
         className={`absolute bottom-16 right-0 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] origin-bottom-right ${
           open ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" : "opacity-0 scale-95 translate-y-4 pointer-events-none"
         }`}
       >
-        <div className="w-[340px] max-w-[92vw] h-[480px] bg-[#fffdf2] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] rounded-[28px] overflow-hidden flex flex-col border border-[#e8e4d9]">
+        <div className="w-[92vw] sm:w-[340px] max-w-[92vw] h-[60vh] sm:h-[480px] max-h-[80vh] bg-[#fffdf2] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] rounded-[28px] overflow-hidden flex flex-col border border-[#e8e4d9]">
             {/* Header */}
             <div className="relative overflow-hidden px-5 py-4 bg-[#26312d]">
               <div className="flex items-center justify-between">
@@ -218,7 +218,7 @@ const Chatbot: React.FC = () => {
       <button
         onClick={toggleOpen}
         aria-label={open ? "Close chat" : "Open chat"}
-        className={`relative h-14 w-14 rounded-full shadow-[0_8px_30px_rgba(17,115,27,0.3)] transition-all duration-300 flex items-center justify-center ${
+        className={`relative h-12 w-12 sm:h-14 sm:w-14 rounded-full shadow-[0_8px_30px_rgba(17,115,27,0.3)] transition-all duration-300 flex items-center justify-center ${
           open
             ? "bg-[#fffdf2] text-[#11731b] border border-[#11731b]/20 rotate-0"
             : "bg-[#11731b] text-[#fffdf2] hover:bg-[#0d5a14] hover:scale-105"
