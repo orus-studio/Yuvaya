@@ -3,11 +3,13 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { createCheckout } from "@/app/actions/createCheckout";
+import { Loader2 } from "lucide-react";
 
 const variants = [
-    { label: "30 days pack", price: "₹ 3,100", img: "/Landing/Stand Up Pouch Front latest mockup.png" },
-    { label: "60 days pack", price: "₹ 5,600", originalPrice: "₹ 5,800", img: "/Landing/Stand Up Pouch Front latest mockup.png" },
-    { label: "6 days trial", price: "₹ 1,100", img: "/Landing/Stand Up Pouch Front latest mockup.png" },
+    { label: "30 days pack", price: "₹ 3,100", img: "/Landing/Stand Up Pouch Front latest mockup.png", id: "gid://shopify/ProductVariant/58221348290641" },
+    { label: "60 days pack", price: "₹ 5,600", originalPrice: "₹ 5,800", img: "/Landing/Stand Up Pouch Front latest mockup.png", id: "gid://shopify/ProductVariant/58395879473233" },
+    { label: "6 days trial", price: "₹ 1,100", img: "/Landing/Stand Up Pouch Front latest mockup.png", id: "gid://shopify/ProductVariant/59057234608209" },
 ];
 
 const thumbnails = [
@@ -58,6 +60,30 @@ const testingParameters = [
 const ShopFromUs = () => {
     const [selectedVariant, setSelectedVariant] = useState(0);
     const [activeThumbnail, setActiveThumbnail] = useState(0);
+    const [isBuying, setIsBuying] = useState(false);
+    const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+    const handleBuyNow = async () => {
+        const variantId = variants[selectedVariant].id;
+        if (!variantId) return;
+
+        setIsBuying(true);
+        setCheckoutError(null);
+
+        try {
+            const result = await createCheckout(variantId, 1);
+            if ("error" in result) {
+                setCheckoutError(result.error);
+                setIsBuying(false);
+            } else if (result.webUrl) {
+                window.location.href = result.webUrl;
+            }
+        } catch (err) {
+            console.error("Checkout creation failed:", err);
+            setCheckoutError("Failed to initiate checkout. Please try again.");
+            setIsBuying(false);
+        }
+    };
 
     return (
         <section id="shop" className="w-full pt-14 bg-[#fffff7] px-6 pb-10 ">
@@ -138,9 +164,6 @@ const ShopFromUs = () => {
                         <span className="font-poppins text-[12px] sm:text-[16px] lg:text-[20px] font-semibold text-[#11731b]">
                             4.9/5.0 (80,000)
                         </span>
-                        <a href="#" className="font-tt-ramillas text-[12px] sm:text-[14px] lg:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
-                            View test results
-                        </a>
                     </div>
 
                     {/* Product title */}
@@ -220,13 +243,31 @@ const ShopFromUs = () => {
                             </div>
                         </div>
                         {/* CTA Buttons */}
-                        <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4 ">
-                            <Link href='/shop' className="box-border rounded-full border border-gray-400 bg-white px-6 py-2.5 sm:px-8 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] ">
-                                View Details
-                            </Link>
-                            <button className="box-border rounded-full border border-gray-300 bg-[#fffc60] px-6 py-2.5 sm:px-10 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] ">
-                                Buy Now
-                            </button>
+                        <div className="flex w-full flex-col gap-3">
+                            <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
+                                <Link href='/shop' className="box-border rounded-full border border-gray-400 bg-white px-6 py-2.5 sm:px-8 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
+                                    View Details
+                                </Link>
+                                <button
+                                    onClick={handleBuyNow}
+                                    disabled={isBuying}
+                                    className="box-border rounded-full border border-gray-300 bg-[#fffc60] px-6 py-2.5 sm:px-10 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                                >
+                                    {isBuying ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 animate-spin" />
+                                            <span>Redirecting...</span>
+                                        </>
+                                    ) : (
+                                        "Buy Now"
+                                    )}
+                                </button>
+                            </div>
+                            {checkoutError && (
+                                <p className="text-red-500 text-sm font-medium mt-1">
+                                    {checkoutError}
+                                </p>
+                            )}
                         </div>
                     </div>
 
@@ -264,9 +305,9 @@ const ShopFromUs = () => {
                             Note: These results may be enhanced because of daily greens. These numbers are solely for collagen supplementation. Based on a 12 week randomized, double blind placebo study with daily collagen supplementation.
                         </p>
 
-                        <a href="#" className="font-tt-ramillas text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
+                        <Link href="https://www.notion.so/TEST-RESULTS-Yuvaya-3683ae035ffc80e39898d3dff170d830" target="_blank" className="font-tt-ramillas text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
                             View test results (10,000+ clinical studies)
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Testing Parameters Section */}
