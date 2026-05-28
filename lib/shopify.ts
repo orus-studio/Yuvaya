@@ -25,7 +25,7 @@ export async function shopifyFetch<T>({
     throw new Error("Missing Shopify environment variables: SHOPIFY_STORE or SHOPIFY_STOREFRONT_TOKEN");
   }
 
-  const endpoint = `https://${SHOPIFY_STORE}/api/2026-01/graphql.json`;
+  const endpoint = `https://${SHOPIFY_STORE}/api/2026-04/graphql.json`;
 
   try {
     const response = await fetch(endpoint, {
@@ -133,4 +133,92 @@ export async function getProducts(): Promise<ShopifyProduct[]> {
       variantId: variantNode?.id || "",
     };
   });
+}
+
+export interface ShopifyLandingProductNode {
+  id: string;
+  title: string;
+  handle: string;
+  descriptionHtml: string;
+  vendor: string;
+  productType: string;
+  tags: string[];
+  images: {
+    edges: Array<{
+      node: {
+        url: string;
+        altText: string | null;
+      };
+    }>;
+  };
+  variants: {
+    edges: Array<{
+      node: {
+        id: string;
+        title: string;
+        price: {
+          amount: string;
+          currencyCode: string;
+        };
+        availableForSale: boolean;
+      };
+    }>;
+  };
+}
+
+interface ShopifyLandingProductsResponse {
+  products: {
+    edges: Array<{
+      node: ShopifyLandingProductNode;
+    }>;
+  };
+}
+
+export async function getLandingProducts(): Promise<ShopifyLandingProductNode[]> {
+  const query = `
+    query {
+      products(first: 5) {
+        edges {
+          node {
+            id
+            title
+            handle
+            descriptionHtml
+            vendor
+            productType
+            tags
+            images(first: 3) {
+              edges {
+                node {
+                  url
+                  altText
+                }
+              }
+            }
+            variants(first: 5) {
+              edges {
+                node {
+                  id
+                  title
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  availableForSale
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await shopifyFetch<ShopifyLandingProductsResponse>({ query });
+    return response.data.products.edges.map(({ node }) => node);
+  } catch (error) {
+    console.error("Failed to fetch landing products from Shopify:", error);
+    return [];
+  }
 }

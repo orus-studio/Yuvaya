@@ -15,7 +15,7 @@ const HeroSection = () => {
             </span>
 
             <div className="z-10 flex w-full flex-col gap-1">
-              <h1 className="font-tt-ramillas m-0 pt-1 text-[clamp(1.8rem,7vw,4.5rem)] font-medium leading-[0.98] tracking-[0.02em] text-[#11731b] md:text-[2.8rem] lg:text-[85px]">
+              <h1 className="font-tt-ramillas uppercase m-0 pt-1 text-[clamp(1.8rem,7vw,4.5rem)] font-medium leading-[0.98] -tracking-[0em] text-[#11731b] md:text-[2.8rem] lg:text-[85px]">
                 World&apos;s First
               </h1>
               <h2 className="font-cormorant m-0 mx-auto w-full max-w-[22ch] text-[clamp(1.5rem,6vw,3.5rem)] font-normal italic leading-[1.1] tracking-[-0.03em] text-[#11731b] md:mx-auto md:max-w-[90%] md:text-[2.3rem] lg:mx-0 lg:w-[80%] lg:max-w-none lg:text-[60px]">

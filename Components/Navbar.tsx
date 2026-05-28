@@ -10,6 +10,9 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
+import { useCart } from "@/context/CartContext";
+import { AnimatePresence } from "framer-motion";
+
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Shop", href: "/#shop" },
@@ -23,6 +26,8 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNavHidden, setIsNavHidden] = useState(false);
   const lastScrollY = useRef(0);
+
+  const { setIsCartOpen, cartCount } = useCart();
 
   const shrinkThreshold = 20;
   const hideThreshold = 80;
@@ -119,6 +124,7 @@ const Navbar = () => {
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Cart Icon */}
           <motion.button
+            onClick={() => setIsCartOpen(true)}
             className="flex items-center justify-center text-white transition-colors duration-200"
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
@@ -129,6 +135,7 @@ const Navbar = () => {
               border: "none",
               cursor: "pointer",
               padding: 0,
+              position: "relative",
             }}
           >
             <svg
@@ -143,6 +150,20 @@ const Navbar = () => {
                 fill="rgb(255, 255, 255)"
               />
             </svg>
+            <AnimatePresence>
+              {cartCount > 0 && (
+                <motion.span
+                  key={cartCount}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                  className="absolute -top-1.5 -right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[#11731b] text-[10px] font-bold text-white shadow-sm"
+                >
+                  {cartCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </motion.button>
 
           {/* Mobile Menu Toggle */}

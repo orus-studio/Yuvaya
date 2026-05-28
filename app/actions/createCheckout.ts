@@ -15,9 +15,27 @@ interface CartCreateResponse {
   };
 }
 
-export async function createCheckout(variantId: string, quantity: number = 1): Promise<{ webUrl: string } | { error: string }> {
-  if (!variantId) {
-    return { error: "Variant ID is required to proceed to checkout." };
+export interface CartLineItem {
+  merchandiseId: string;
+  quantity: number;
+}
+
+export async function createCheckout(
+  lineItems: string | CartLineItem[],
+  quantity: number = 1
+): Promise<{ webUrl: string } | { error: string }> {
+  let lines: CartLineItem[] = [];
+
+  if (typeof lineItems === "string") {
+    if (!lineItems) {
+      return { error: "Variant ID is required to proceed to checkout." };
+    }
+    lines = [{ merchandiseId: lineItems, quantity }];
+  } else {
+    if (!lineItems || lineItems.length === 0) {
+      return { error: "Cart is empty. Please add items to your cart before checking out." };
+    }
+    lines = lineItems;
   }
 
   const mutation = `
@@ -40,12 +58,10 @@ export async function createCheckout(variantId: string, quantity: number = 1): P
       query: mutation,
       variables: {
         input: {
-          lines: [
-            {
-              merchandiseId: variantId,
-              quantity: quantity,
-            },
-          ],
+          lines: lines.map(line => ({
+            merchandiseId: line.merchandiseId,
+            quantity: line.quantity,
+          })),
         },
       },
     });

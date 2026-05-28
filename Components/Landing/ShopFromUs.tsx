@@ -4,26 +4,19 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createCheckout } from "@/app/actions/createCheckout";
-import { Loader2 } from "lucide-react";
+import { Loader2, ShoppingCart, Plus } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import { ShopifyLandingProductNode } from "@/lib/shopify";
 
-const variants = [
-    { label: "30 days pack", price: "₹ 3,100", img: "/Landing/Stand Up Pouch Front latest mockup.png", id: "gid://shopify/ProductVariant/58221348290641" },
-    { label: "60 days pack", price: "₹ 5,600", originalPrice: "₹ 5,800", img: "/Landing/Stand Up Pouch Front latest mockup.png", id: "gid://shopify/ProductVariant/58395879473233" },
-    { label: "6 days trial", price: "₹ 1,100", img: "/Landing/Stand Up Pouch Front latest mockup.png", id: "gid://shopify/ProductVariant/59057234608209" },
-];
-
-const thumbnails = [
-    { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
-    { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
-    { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
-];
+interface ShopFromUsProps {
+    initialProducts?: ShopifyLandingProductNode[];
+}
 
 const features = [
     "Refreshing taste and no fishy smell",
     "Quick absorbing",
     "Clinically proven results",
-    "Sourced from India for Indians",
-    "Tested amino acids",
+    "Scientifically Formulated",
 ];
 
 const testingParameters = [
@@ -57,11 +50,115 @@ const testingParameters = [
     },
 ];
 
-const ShopFromUs = () => {
+const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
     const [selectedVariant, setSelectedVariant] = useState(0);
     const [activeThumbnail, setActiveThumbnail] = useState(0);
     const [isBuying, setIsBuying] = useState(false);
     const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+    const { addToCart } = useCart();
+
+    const displayProducts = React.useMemo(() => {
+        if (!initialProducts || initialProducts.length === 0) {
+            return [
+                {
+                    id: "gid://shopify/ProductVariant/58221348290641",
+                    label: "30 days pack",
+                    price: "₹ 3,100",
+                    originalPrice: undefined,
+                    img: "/Landing/Stand Up Pouch Front latest mockup.png",
+                    title: "Collagreens",
+                    descriptionHtml: "",
+                    images: [
+                        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
+                        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+                        { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+                    ]
+                },
+                {
+                    id: "gid://shopify/ProductVariant/58395879473233",
+                    label: "60 days pack",
+                    price: "₹ 5,600",
+                    originalPrice: "₹ 5,800",
+                    img: "/Landing/Stand Up Pouch Front latest mockup.png",
+                    title: "Collagreens",
+                    descriptionHtml: "",
+                    images: [
+                        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
+                        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+                        { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+                    ]
+                },
+                {
+                    id: "gid://shopify/ProductVariant/59057234608209",
+                    label: "6 days trial",
+                    price: "₹ 1,100",
+                    originalPrice: undefined,
+                    img: "/Landing/Stand Up Pouch Front latest mockup.png",
+                    title: "Collagreens",
+                    descriptionHtml: "",
+                    images: [
+                        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
+                        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+                        { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+                    ]
+                }
+            ];
+        }
+
+        const sortedProducts = [...initialProducts].sort((a, b) => {
+            const order = {
+                "collagreens": 1,
+                "60-day-collagreens": 2,
+                "mini-collagreens-6-day-pack": 3
+            };
+            const orderA = order[a.handle as keyof typeof order] || 99;
+            const orderB = order[b.handle as keyof typeof order] || 99;
+            return orderA - orderB;
+        });
+
+        return sortedProducts.map((prod) => {
+            const handle = prod.handle;
+            const variantNode = prod.variants.edges[0]?.node;
+            const variantId = variantNode?.id || "";
+            const amount = variantNode?.price?.amount || "0";
+            const priceFormatted = `₹ ${parseFloat(amount).toLocaleString("en-IN")}`;
+
+            let label = "30 days pack";
+            let originalPrice = undefined;
+            if (handle === "60-day-collagreens") {
+                label = "60 days pack";
+                originalPrice = "₹ 5,800";
+            } else if (handle === "mini-collagreens-6-day-pack") {
+                label = "6 days trial";
+            }
+
+            const images = prod.images.edges.map(edge => ({
+                src: edge.node.url,
+                alt: edge.node.altText || prod.title
+            }));
+
+            const displayImages = images.length > 0 ? images : [
+                { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
+                { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+                { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+            ];
+
+            return {
+                id: variantId,
+                label,
+                price: priceFormatted,
+                originalPrice,
+                img: displayImages[0]?.src || "/Landing/Stand Up Pouch Front latest mockup.png",
+                title: prod.title,
+                descriptionHtml: prod.descriptionHtml ? prod.descriptionHtml.replace(/<meta[^>]*>/gi, "") : "",
+                images: displayImages
+            };
+        });
+    }, [initialProducts]);
+
+    const variants = displayProducts;
+    const thumbnails = variants[selectedVariant]?.images || [];
 
     const handleBuyNow = async () => {
         const variantId = variants[selectedVariant].id;
@@ -82,6 +179,31 @@ const ShopFromUs = () => {
             console.error("Checkout creation failed:", err);
             setCheckoutError("Failed to initiate checkout. Please try again.");
             setIsBuying(false);
+        }
+    };
+
+    const handleAddToCart = () => {
+        const variant = variants[selectedVariant];
+        if (!variant.id) return;
+
+        addToCart({
+            id: variant.id,
+            title: "Collagreens",
+            variantLabel: variant.label,
+            price: variant.price,
+            image: variant.img,
+        });
+    };
+
+    const handleVariantChange = (index: number) => {
+        setSelectedVariant(index);
+        setActiveThumbnail(0);
+
+        const element = document.getElementById("shop");
+        if (element) {
+            const yOffset = -90; // offset to account for sticky navbar
+            const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+            window.scrollTo({ top: y, behavior: "smooth" });
         }
     };
 
@@ -108,8 +230,9 @@ const ShopFromUs = () => {
                             {thumbnails.map((t, i) => (
                                 <button
                                     key={i}
+                                    type="button"
                                     onClick={() => setActiveThumbnail(i)}
-                                    className={`relative box-border flex w-full flex-1 cursor-pointer items-center justify-center overflow-clip ${i === 0 ? "rounded-t-2xl" : ""} ${i === 2 ? "rounded-b-2xl" : ""} border-2 sm:border-[3px] lg:border-[4px] border-[#34803c] bg-[#fffdf2] transition-all`}
+                                    className={`relative box-border flex w-full flex-1 cursor-pointer items-center justify-center overflow-clip ${i === 0 ? "rounded-t-2xl" : ""} ${i === thumbnails.length - 1 ? "rounded-b-2xl" : ""} border-2 sm:border-[3px] lg:border-[4px] border-[#34803c] bg-[#fffdf2] transition-all`}
                                 >
                                     <Image src={t.src} alt={t.alt} fill sizes="(max-width: 768px) 30vw, 10vw" className="object-contain p-2 sm:p-3" />
                                 </button>
@@ -128,15 +251,17 @@ const ShopFromUs = () => {
                             {/* Product image — changes based on selected thumbnail */}
                             <div className="absolute inset-0 z-30 flex items-center justify-center p-8 sm:p-10 lg:p-12">
                                 <div className="relative h-full w-full max-h-full max-w-full">
-                                    <Image
-                                        src={thumbnails[activeThumbnail].src}
-                                        alt={thumbnails[activeThumbnail].alt}
-                                        key={activeThumbnail}
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 50vw"
-                                        className="object-contain object-center"
-                                        priority
-                                    />
+                                    {thumbnails[activeThumbnail] && (
+                                        <Image
+                                            src={thumbnails[activeThumbnail].src}
+                                            alt={thumbnails[activeThumbnail].alt}
+                                            key={`${selectedVariant}-${activeThumbnail}`}
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                            className="object-contain object-center"
+                                            priority
+                                        />
+                                    )}
                                 </div>
                             </div>
 
@@ -153,7 +278,7 @@ const ShopFromUs = () => {
                 </div>
 
                 {/* ── RIGHT PANEL ── */}
-                <div className="box-border flex w-full flex-col items-center justify-center gap-0 overflow-clip rounded-2xl px-4 pt-4 pb-0 lg:w-[45%] lg:px-[30px] lg:pt-[16px]">
+                <div className="box-border flex w-full flex-col items-center justify-center gap-0 overflow-clip rounded-2xl px-4 pt-4 pb-0 lg:w-[45%] lg:px-[30px] lg:pt-[16px] lg:min-h-[680px]">
                     {/* Rating */}
                     <div className="flex h-auto min-h-[40px] lg:h-[53px] w-full flex-row flex-wrap items-center justify-start gap-2 lg:gap-[10px] overflow-clip">
                         <div className="flex text-[#11731b]">
@@ -168,21 +293,28 @@ const ShopFromUs = () => {
 
                     {/* Product title */}
                     <h3 className="w-full break-words  whitespace-pre-wrap font-tt-ramillas text-[32px] sm:text-[38px] lg:text-[45px] font-semibold leading-[1.2] tracking-[0.02em] text-[#34803c]">
-                        Collagreens
+                        {variants[selectedVariant]?.title || "Collagreens"}
                     </h3>
 
                     {/* Description paragraphs */}
-                    <div className="mt-4 flex w-full flex-col gap-3 lg:gap-5">
-                        <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
-                            Collagreens combines hydrolyzed marine collagen with supergreens and 30+ bioactive ingredients across 6 clinically studied complexes. Designed to support radiant skin, stronger hair, and healthier nails while promoting gut health.
-                        </p>
-                        <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
-                            The 6 complexes naturally deliver Vitamin C, Vitamin A, antioxidants, fibres, minerals and actives like amla, moringa and spirulina to support collagen supplementation deeply.
-                        </p>
-                        <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
-                            Each convenient sachet delivers natural taste with real ingredients. Manufactured in a USFDA certified facility with third-party testing for purity and safety. No fillers. No artificial preservatives. No artificial sweeteners. No colourants.
-                        </p>
-                    </div>
+                    {variants[selectedVariant]?.descriptionHtml ? (
+                        <div
+                            className="mt-4 flex w-full flex-col gap-3 lg:gap-5 shopify-description min-h-[120px] sm:min-h-[120px] lg:min-h-[120px]"
+                            dangerouslySetInnerHTML={{ __html: variants[selectedVariant].descriptionHtml }}
+                        />
+                    ) : (
+                        <div className="mt-4 flex w-full flex-col gap-3 lg:gap-5 min-h-[120px] sm:min-h-[150px] lg:min-h-[220px]">
+                            <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
+                                Collagreens combines hydrolyzed marine collagen with supergreens and 30+ bioactive ingredients across 6 clinically studied complexes. Designed to support radiant skin, stronger hair, and healthier nails while promoting gut health.
+                            </p>
+                            <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
+                                The 6 complexes naturally deliver Vitamin C, Vitamin A, antioxidants, fibres, minerals and actives like amla, moringa and spirulina to support collagen supplementation deeply.
+                            </p>
+                            <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
+                                Each convenient sachet delivers natural taste with real ingredients. Manufactured in a USFDA certified facility with third-party testing for purity and safety. No fillers. No artificial preservatives. No artificial sweeteners. No colourants.
+                            </p>
+                        </div>
+                    )}
 
                     {/* Feature checkmarks */}
                     <div className="mt-4 lg:mt-6 flex w-full flex-col items-start gap-2 lg:gap-[10px] overflow-clip">
@@ -204,7 +336,8 @@ const ShopFromUs = () => {
                             {variants.map((v, i) => (
                                 <button
                                     key={i}
-                                    onClick={() => setSelectedVariant(i)}
+                                    type="button"
+                                    onClick={() => handleVariantChange(i)}
                                     className="flex flex-col items-center gap-2 shrink-0"
                                 >
                                     {/* Each variant */}
@@ -245,23 +378,39 @@ const ShopFromUs = () => {
                         {/* CTA Buttons */}
                         <div className="flex w-full flex-col gap-3">
                             <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
-                                <Link href='/shop' className="box-border rounded-full border border-gray-400 bg-white px-6 py-2.5 sm:px-8 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
+                                <Link href='/shop' className="box-border rounded-full border border-gray-400 bg-white px-12 py-2.5 sm:px-8 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
                                     View Details
                                 </Link>
-                                <button
-                                    onClick={handleBuyNow}
-                                    disabled={isBuying}
-                                    className="box-border rounded-full border border-gray-300 bg-[#fffc60] px-6 py-2.5 sm:px-10 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
-                                >
-                                    {isBuying ? (
-                                        <>
-                                            <Loader2 className="w-4 h-4 animate-spin" />
-                                            <span>Redirecting...</span>
-                                        </>
-                                    ) : (
-                                        "Buy Now"
-                                    )}
-                                </button>
+                                <div className="flex justify-center items-center flex-1 md:justify-normal gap-3 sm:flex-1 w-full">
+                                    <button
+                                        onClick={handleBuyNow}
+                                        type="button"
+                                        disabled={isBuying}
+                                        className="box-border flex-1 sm:flex-none rounded-full border border-gray-300 bg-[#fffc60] px-12 py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                                    >
+                                        {isBuying ? (
+                                            <>
+                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                                <span>Redirecting...</span>
+                                            </>
+                                        ) : (
+                                            "Buy Now"
+                                        )}
+                                    </button>
+                                    <button
+                                        onClick={handleAddToCart}
+                                        type="button"
+                                        title="Add to Cart"
+                                        className="box-border h-12 w-12 sm:h-12 sm:w-12 shrink-0 flex items-center justify-center rounded-full border border-[#34803c] bg-white text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white cursor-pointer active:scale-95 shadow-sm hover:shadow-md"
+                                    >
+                                        <div className="relative">
+                                            <ShoppingCart className="w-5.5 h-5.5 sm:w-5.5 sm:h-5.5" />
+                                            <div className="absolute -top-1.5 -right-1.5 bg-[#34803c] text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[10px] font-bold border border-white">
+                                                <Plus className="w-2 h-2 stroke-[3px]" />
+                                            </div>
+                                        </div>
+                                    </button>
+                                </div>
                             </div>
                             {checkoutError && (
                                 <p className="text-red-500 text-sm font-medium mt-1">
@@ -273,7 +422,7 @@ const ShopFromUs = () => {
 
                     {/* Clinical Studies Section */}
                     <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
-                        <h3 className="font-tt-ramillas text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+                        <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
                             Clinical studies and results
                         </h3>
 
@@ -305,14 +454,14 @@ const ShopFromUs = () => {
                             Note: These results may be enhanced because of daily greens. These numbers are solely for collagen supplementation. Based on a 12 week randomized, double blind placebo study with daily collagen supplementation.
                         </p>
 
-                        <Link href="https://www.notion.so/TEST-RESULTS-Yuvaya-3683ae035ffc80e39898d3dff170d830" target="_blank" className="font-tt-ramillas text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
+                        <Link href="https://www.notion.so/TEST-RESULTS-Yuvaya-3683ae035ffc80e39898d3dff170d830" target="_blank" className="font-tt-ramillas italic text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
                             View test results (10,000+ clinical studies)
                         </Link>
                     </div>
 
                     {/* Testing Parameters Section */}
                     <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
-                        <h3 className="font-tt-ramillas text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+                        <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
                             Testing parameters
                         </h3>
 
@@ -340,7 +489,7 @@ const ShopFromUs = () => {
 
                     {/* How to Use Section */}
                     <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
-                        <h3 className="font-tt-ramillas text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+                        <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
                             How to use
                         </h3>
 

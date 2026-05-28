@@ -30,3 +30,53 @@ body {
   color: var(--foreground);
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
+
+.shopify-description {
+  font-family: var(--font-poppins), sans-serif;
+  color: #3d3d3d;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: -0.03em;
+}
+
+@media (min-width: 640px) {
+  .shopify-description {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shopify-description {
+    font-size: 21px;
+    line-height: 1.2;
+  }
+}
+
+.shopify-description p {
+  margin-bottom: 0.75rem;
+}
+
+.shopify-description p:last-child {
+  margin-bottom: 0;
+}
+
+.shopify-description strong {
+  font-weight: 600;
+  color: #111111;
+}
+
+.shopify-description ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.shopify-description li {
+  margin-bottom: 0.25rem;
+}
+
+.shopify-description hr {
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+  margin: 1rem 0;
+}

@@ -14,8 +14,11 @@ import Footer from "@/Components/Footer";
 import InstagramReelsScroller from "@/Components/Landing/InstagramReelsScroller";
 import ClinicalResults from "@/Components/Landing/ClinicalResults";
 import Chatbot from "@/Components/Shared/Chatbot";
+import { getLandingProducts } from "@/lib/shopify";
 
-export default function Home() {
+export default async function Home() {
+  const products = await getLandingProducts();
+
   return (
     <div className="w-full ">
       <main className="w-full  pt-20 bg-white relative flex flex-col">
@@ -23,7 +26,7 @@ export default function Home() {
         <ScrollingSection />
         <SachetSection />
         <MiddleBanner />
-        <ShopFromUs />
+        <ShopFromUs initialProducts={products} />
         <LowerBanner />
         <InstagramReelsScroller />
         <AboutUs />

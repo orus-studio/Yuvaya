@@ -4,6 +4,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
+import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/Components/CartDrawer";
+
 
 const cormorant_garamond = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -157,9 +160,12 @@ export default function RootLayout({
       className={`${cormorant_garamond.variable} scroll-smooth ${poppins.variable} ${newTitle.variable} ${anti_didone.variable} ${ttRamillas.variable} ${switzer.variable} h-full antialiased`}
     >
       <body className="min-h-full scroll-smooth relative flex flex-col bg-white">
-        <Navbar />
-        {children}
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          {children}
+          <CartDrawer />
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

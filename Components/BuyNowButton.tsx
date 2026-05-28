@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { createCheckout } from "@/app/actions/createCheckout";
-import { Loader2, ShoppingBag } from "lucide-react";
+import { Loader2, ShoppingCart } from "lucide-react";
 
 interface BuyNowButtonProps {
   variantId: string;
@@ -62,7 +62,7 @@ export default function BuyNowButton({ variantId, className = "" }: BuyNowButton
           </>
         ) : (
           <>
-            <ShoppingBag className="w-5 h-5" />
+            <ShoppingCart className="w-5 h-5" />
             <span>Buy Now</span>
           </>
         )}

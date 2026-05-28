@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { getProducts, ShopifyProduct } from "@/lib/shopify";
 import BuyNowButton from "@/Components/BuyNowButton";
+import AddToCartButton from "@/Components/AddToCartButton";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -78,8 +79,17 @@ export default async function ProductsPage() {
                     </p>
                   </div>
 
-                  {/* Buy Now Flow */}
-                  <BuyNowButton variantId={product.variantId} />
+                  {/* Buy / Add to Cart Flow */}
+                  <div className="flex flex-col gap-3">
+                    <AddToCartButton
+                      variantId={product.variantId}
+                      price={product.price}
+                      title={product.title}
+                      variantLabel="Standard Pack"
+                      image={product.image}
+                    />
+                    <BuyNowButton variantId={product.variantId} />
+                  </div>
                 </div>
               </div>
             ))}

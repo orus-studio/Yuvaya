@@ -9,7 +9,7 @@ const complexes = [
         title: "Peptide Blend Complex",
         description:
             "Hydrolyzed collagen peptides for better absorption.",
-        img: "/Landing/Peptide_Blend.jpg",
+        img: "/Complex_1.jpeg",
     },
     {
         title: "Supergreens",
@@ -57,9 +57,9 @@ const SachetSection = () => {
                 style={{ padding: "35px 0px 0px 0px" }}
             >
                 <h2
-                    className="font-tt-ramillas whitespace-pre text-center text-[22px] leading-[1.2] tracking-[0.03em] text-black sm:text-[28px] md:text-[36px] lg:text-[50px]"
+                    className="font-switzer whitespace-pre text-center text-[22px] leading-[1.2] tracking-[0em] text-black font-medium  sm:text-[28px] md:text-[36px] lg:text-[50px]"
                 >
-                    1 Sachet = 6 Powerful Complexes
+                    <span className="font-switzer font-medium non-italic" style={{ fontStyle: "normal" }}>1 Sachet.{" "}</span>6 powerful Complexes
                 </h2>
             </div>
 
@@ -68,7 +68,7 @@ const SachetSection = () => {
                 className="box-border flex w-full flex-row flex-wrap items-start justify-center gap-3 px-4 sm:gap-4 sm:px-6 md:justify-evenly lg:justify-center md:gap-5 md:px-8 lg:gap-10"
                 style={{
                     minHeight: "300px",
-                    padding: "30px 0px 0px 0px",
+                    padding: "20px 0px 0px 0px",
                     alignContent: "flex-start",
                     overflow: "visible",
                 }}
