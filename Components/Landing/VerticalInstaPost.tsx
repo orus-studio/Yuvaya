@@ -11,7 +11,7 @@ const instaPosts = [
     { src: "/Landing/InstaPost_1.JPG", alt: "Yuvaya sachets flat lay" },
 ];
 
-const instagramUrl = "https://www.instagram.com/yuvaya";
+const instagramUrl = "https://www.instagram.com/yuvayaindia";
 
 // Duplicate once for a seamless loop while keeping the DOM lighter.
 const repeatedPosts = [...instaPosts, ...instaPosts];

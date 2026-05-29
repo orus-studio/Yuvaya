@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ── Social Icon SVGs ──────────────────────────────────────────── */
 
@@ -147,25 +148,34 @@ const Footer = () => {
 
             {/* Social icons */}
             <div className="flex flex-row items-center gap-4 text-[#26312d]">
-              <a
-                href="https://www.instagram.com/yuvaya"
+              <Link
+                href="https://www.instagram.com/yuvayaindia"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="flex text-inherit"
               >
                 <InstagramIcon />
-              </a>
-              <a
-                href="https://www.facebook.com/yuvaya"
+              </Link>
+              <Link
+                href="https://www.threads.com/@yuvayaindia"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X"
+                className="flex text-inherit"
+              >
+                <Image src="/threadsLogo.webp" alt="X" width={30} height={30} />
+              </Link>
+              <Link
+                href="https://www.facebook.com/yuvayaindia"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
                 className="flex text-inherit"
               >
                 <FacebookIcon />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="https://www.linkedin.com/company/yuvaya"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -173,25 +183,16 @@ const Footer = () => {
                 className="flex text-inherit"
               >
                 <LinkedInIcon />
-              </a>
-              <a
-                href="https://x.com/yuvaya"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X"
-                className="flex text-inherit"
-              >
-                <XIcon />
-              </a>
-              <a
-                href="https://www.youtube.com/@yuvaya"
+              </Link>
+              <Link
+                href="https://www.youtube.com/@yuvayaindia"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"
                 className="flex text-inherit"
               >
                 <YouTubeIcon />
-              </a>
+              </Link>
             </div>
           </div>
 
