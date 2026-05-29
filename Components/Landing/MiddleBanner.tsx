@@ -20,7 +20,7 @@ const MiddleBanner = () => {
                         Daily Greens with <span className="italic"> Collagen </span>
                     </h1>
                     <span className="flex text-center font-switzer font-medium text-sm sm:text-lg md:text-2xl pt-2 flex-col">
-                        <h2>
+                        <h2 className="text-white">
                             Your greens don't have to bitter
                         </h2>
                         <h2 className="text-stone-300">
@@ -28,7 +28,7 @@ const MiddleBanner = () => {
                         </h2>
                     </span>
                     <a
-                        href="/shop#products"
+                        href="/#shop"
                         className="box-border flex h-[48px] w-[180px] flex-row items-center justify-end gap-3 overflow-clip mt-6 sm:mt-8 sm:h-[54px] sm:w-[200px] md:mt-10 md:h-[60px] md:w-[214px] rounded-full border-none bg-white pr-1 pl-4 py-0 font-poppins cursor-pointer hover:bg-white/90 transition-colors duration-200"
                     >
                         <span className="whitespace-pre text-[18px] font-medium leading-[1.2] tracking-normal text-black sm:text-[21px] md:text-[24px]">Shop Now</span>

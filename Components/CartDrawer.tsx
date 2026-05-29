@@ -27,6 +27,16 @@ export default function CartDrawer() {
     setIsMounted(true);
   }, []);
 
+  useEffect(() => {
+    const handlePageShow = () => {
+      setIsCheckingOut(false);
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, []);
+
   // Prevent background scroll when cart is open
   useEffect(() => {
     if (isCartOpen) {

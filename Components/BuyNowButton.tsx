@@ -13,6 +13,16 @@ export default function BuyNowButton({ variantId, className = "" }: BuyNowButton
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  React.useEffect(() => {
+    const handlePageShow = () => {
+      setIsLoading(false);
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, []);
+
   const handleBuyNow = async () => {
     if (!variantId) {
       setError("Product variant is unavailable.");

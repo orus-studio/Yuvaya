@@ -58,6 +58,16 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
 
     const { addToCart } = useCart();
 
+    React.useEffect(() => {
+        const handlePageShow = () => {
+            setIsBuying(false);
+        };
+        window.addEventListener("pageshow", handlePageShow);
+        return () => {
+            window.removeEventListener("pageshow", handlePageShow);
+        };
+    }, []);
+
     const displayProducts = React.useMemo(() => {
         if (!initialProducts || initialProducts.length === 0) {
             return [
