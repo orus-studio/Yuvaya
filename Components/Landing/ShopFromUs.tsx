@@ -10,6 +10,7 @@ import { ShopifyLandingProductNode } from "@/lib/shopify";
 
 interface ShopFromUsProps {
     initialProducts?: ShopifyLandingProductNode[];
+    initialVariantParam?: string;
 }
 
 const features = [
@@ -50,29 +51,48 @@ const testingParameters = [
     },
 ];
 
-const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
-    const [selectedVariant, setSelectedVariant] = useState(0);
-    const [activeThumbnail, setActiveThumbnail] = useState(0);
-    const [isBuying, setIsBuying] = useState(false);
-    const [checkoutError, setCheckoutError] = useState<string | null>(null);
+const getVariantIndex = (products: any[], targetParam?: string) => {
+    if (!targetParam) return 0;
+    const target = targetParam.toLowerCase().trim();
+    const index = products.findIndex((v) => {
+        // 1. Check handle (e.g. "60-day-collagreens", "mini-collagreens-6-day-pack")
+        if (v.handle) {
+            const handleLower = v.handle.toLowerCase();
+            if (handleLower === target || handleLower.includes(target) || target.includes(handleLower)) return true;
+        }
 
+        if (!v.id) return false;
+        const idLower = v.id.toLowerCase();
+
+        // 2. Exact match
+        if (idLower === target) return true;
+
+        // 3. Suffix match (e.g. "58221348290641" matched from "gid://shopify/ProductVariant/58221348290641")
+        if (idLower.endsWith(target)) return true;
+
+        // 4. Compare stripped pure numeric values
+        const numericParam = target.replace(/\D/g, "");
+        const numericId = idLower.replace(/\D/g, "");
+        if (numericParam && numericId && numericId === numericParam) return true;
+
+        // 5. Fallback: match by label keywords (e.g., "30", "60", "trial", "6")
+        const labelLower = v.label.toLowerCase();
+        if (labelLower.includes(target) || target.includes(labelLower)) return true;
+
+        return false;
+    });
+    return index !== -1 ? index : 0;
+};
+
+const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) => {
     const { addToCart } = useCart();
-
-    React.useEffect(() => {
-        const handlePageShow = () => {
-            setIsBuying(false);
-        };
-        window.addEventListener("pageshow", handlePageShow);
-        return () => {
-            window.removeEventListener("pageshow", handlePageShow);
-        };
-    }, []);
 
     const displayProducts = React.useMemo(() => {
         if (!initialProducts || initialProducts.length === 0) {
             return [
                 {
                     id: "gid://shopify/ProductVariant/58221348290641",
+                    handle: "collagreens",
                     label: "30 days pack",
                     price: "₹ 3,100",
                     originalPrice: undefined,
@@ -87,6 +107,7 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
                 },
                 {
                     id: "gid://shopify/ProductVariant/58395879473233",
+                    handle: "60-day-collagreens",
                     label: "60 days pack",
                     price: "₹ 5,600",
                     originalPrice: "₹ 5,800",
@@ -101,6 +122,7 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
                 },
                 {
                     id: "gid://shopify/ProductVariant/59057234608209",
+                    handle: "mini-collagreens-6-day-pack",
                     label: "6 days trial",
                     price: "₹ 1,100",
                     originalPrice: undefined,
@@ -156,6 +178,7 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
 
             return {
                 id: variantId,
+                handle,
                 label,
                 price: priceFormatted,
                 originalPrice,
@@ -166,6 +189,55 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
             };
         });
     }, [initialProducts]);
+
+    const [selectedVariant, setSelectedVariant] = useState(() => {
+        return getVariantIndex(displayProducts, initialVariantParam);
+    });
+    const [activeThumbnail, setActiveThumbnail] = useState(0);
+    const [isBuying, setIsBuying] = useState(false);
+    const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+    React.useEffect(() => {
+        const handlePageShow = () => {
+            setIsBuying(false);
+        };
+        window.addEventListener("pageshow", handlePageShow);
+        return () => {
+            window.removeEventListener("pageshow", handlePageShow);
+        };
+    }, []);
+
+    React.useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        // Parse variant/varient from the standard query string or hash query string
+        const getParamValue = (queryString: string) => {
+            const params = new URLSearchParams(queryString);
+            return params.get("variant") || params.get("varient");
+        };
+
+        let variantParam = getParamValue(window.location.search);
+
+        // If not in window.location.search, check in hash (e.g., #shop?variant=...)
+        if (!variantParam && window.location.hash) {
+            const hashParts = window.location.hash.split("?");
+            if (hashParts.length > 1) {
+                variantParam = getParamValue("?" + hashParts[1]);
+            }
+        }
+
+        if (variantParam) {
+            // Auto scroll to #shop after a short delay for rendering
+            setTimeout(() => {
+                const element = document.getElementById("shop");
+                if (element) {
+                    const yOffset = -90; // offset to account for sticky navbar
+                    const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                    window.scrollTo({ top: y, behavior: "smooth" });
+                }
+            }, 250);
+        }
+    }, []);
 
     const variants = displayProducts;
     const thumbnails = variants[selectedVariant]?.images || [];
@@ -208,6 +280,14 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
     const handleVariantChange = (index: number) => {
         setSelectedVariant(index);
         setActiveThumbnail(0);
+
+        const variant = displayProducts[index];
+        if (variant && variant.id && typeof window !== "undefined") {
+            const newUrl = new URL(window.location.href);
+            const numericId = variant.id.replace(/\D/g, "");
+            newUrl.searchParams.set("variant", numericId || variant.id);
+            window.history.replaceState({ ...window.history.state }, "", newUrl.toString());
+        }
 
         const element = document.getElementById("shop");
         if (element) {
@@ -297,7 +377,7 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
                             ))}
                         </div>
                         <span className="font-poppins text-[12px] sm:text-[16px] lg:text-[20px] font-semibold text-[#11731b]">
-                            4.9/5.0 (80,000)
+                            4.9/5.0
                         </span>
                     </div>
 
@@ -457,20 +537,18 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
                             </div>
                         </div>
 
-                        <p className="font-switzer text-[12px] sm:text-[14px] leading-[1.4] text-[#666] mb-4">
-                            Source: https://www.mdpi.com/2072-6643/10/7/826
-                        </p>
-                        <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.4] text-[#666] mb-6">
+                        <Link href="https://www.mdpi.com/2072-6643/10/7/826" target="_blank" className="font-switzer text-[12px] font-medium sm:text-[16px] leading-[1.4] text-[#666] mb-4 underline">
+                            Clinical Study Source
+                        </Link>
+                        <p className="font-switzer pt-2 text-[13px] sm:text-[15px] leading-[1.4] text-[#666] mb-6">
                             Note: These results may be enhanced because of daily greens. These numbers are solely for collagen supplementation. Based on a 12 week randomized, double blind placebo study with daily collagen supplementation.
                         </p>
 
-                        <Link href="https://www.notion.so/TEST-RESULTS-Yuvaya-3683ae035ffc80e39898d3dff170d830" target="_blank" className="font-tt-ramillas italic text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
-                            View test results (10,000+ clinical studies)
-                        </Link>
+
                     </div>
 
                     {/* Testing Parameters Section */}
-                    <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
+                    <div className="w-full mt-10 pt-10 border-t-2 gap-3 border-[#e0e0e0]">
                         <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
                             Testing parameters
                         </h3>
@@ -494,6 +572,11 @@ const ShopFromUs = ({ initialProducts }: ShopFromUsProps) => {
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                        <div className="w-full mt-5">
+                            <Link href="https://www.notion.so/TEST-RESULTS-Yuvaya-3683ae035ffc80e39898d3dff170d830" target="_blank" className="font-tt-ramillas pt-3 italic text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
+                                View third-party Lab test results
+                            </Link>
                         </div>
                     </div>
 

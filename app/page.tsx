@@ -5,6 +5,8 @@ import SachetSection from "@/Components/Landing/sachetSection";
 import Navbar from "@/Components/Navbar";
 import ShopFromUs from "@/Components/Landing/ShopFromUs";
 import LowerBanner from "@/Components/Landing/LowerBanner";
+import Authorized_retailer from "@/Components/Landing/Authorized_retailer";
+import BlogSection from "@/Components/Landing/BlogSection";
 import AboutUs from "@/Components/Landing/AboutUs";
 import FAQs from "@/Components/Landing/FAQs";
 import Testimonials from "@/Components/Landing/Testimonials";
@@ -16,8 +18,14 @@ import ClinicalResults from "@/Components/Landing/ClinicalResults";
 import Chatbot from "@/Components/Shared/Chatbot";
 import { getLandingProducts } from "@/lib/shopify";
 
-export default async function Home() {
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function Home({ searchParams }: PageProps) {
   const products = await getLandingProducts();
+  const resolvedSearchParams = await searchParams;
+  const variantParam = (resolvedSearchParams?.variant || resolvedSearchParams?.varient) as string | undefined;
 
   return (
     <div className="w-full ">
@@ -26,13 +34,15 @@ export default async function Home() {
         <ScrollingSection />
         <SachetSection />
         <MiddleBanner />
-        <ShopFromUs initialProducts={products} />
+        <ShopFromUs initialProducts={products} initialVariantParam={variantParam} />
         <LowerBanner />
         <InstagramReelsScroller />
-        <AboutUs />
         <Testimonials />
+        <Authorized_retailer />
         <FAQs />
+        <BlogSection />
         <NewsLetter />
+        <AboutUs />
         <VerticalInstaPost />
       </main>
       <Chatbot />

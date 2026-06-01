@@ -1,7 +1,12 @@
 import { redirect } from 'next/navigation';
 import React from 'react';
 
-export default function Page({ params }: { params: { id: string } }) {
-  // Server-side redirect to landing page's ShopFromUs section for SEO
-  redirect('/#shop');
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  const resolvedParams = await params;
+  // Redirect to landing page and pass the variant handle or ID in the query param
+  redirect(`/?variant=${resolvedParams.id}#shop`);
 }
