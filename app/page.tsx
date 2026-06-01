@@ -2,19 +2,14 @@ import HeroSection from "@/Components/Landing/HeroSection";
 import ScrollingSection from "@/Components/Landing/ScrollingSection";
 import MiddleBanner from "@/Components/Landing/MiddleBanner";
 import SachetSection from "@/Components/Landing/sachetSection";
-import Navbar from "@/Components/Navbar";
 import ShopFromUs from "@/Components/Landing/ShopFromUs";
 import LowerBanner from "@/Components/Landing/LowerBanner";
-import Authorized_retailer from "@/Components/Landing/Authorized_retailer";
-import BlogSection from "@/Components/Landing/BlogSection";
 import AboutUs from "@/Components/Landing/AboutUs";
 import FAQs from "@/Components/Landing/FAQs";
 import Testimonials from "@/Components/Landing/Testimonials";
 import NewsLetter from "@/Components/Landing/NewsLetter";
 import VerticalInstaPost from "@/Components/Landing/VerticalInstaPost";
-import Footer from "@/Components/Footer";
 import InstagramReelsScroller from "@/Components/Landing/InstagramReelsScroller";
-import ClinicalResults from "@/Components/Landing/ClinicalResults";
 import Chatbot from "@/Components/Shared/Chatbot";
 import { getLandingProducts } from "@/lib/shopify";
 
@@ -38,9 +33,7 @@ export default async function Home({ searchParams }: PageProps) {
         <LowerBanner />
         <InstagramReelsScroller />
         <Testimonials />
-        <Authorized_retailer />
         <FAQs />
-        <BlogSection />
         <NewsLetter />
         <AboutUs />
         <VerticalInstaPost />
