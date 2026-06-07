@@ -187,7 +187,7 @@ export async function getLandingProducts(): Promise<ShopifyLandingProductNode[]>
             vendor
             productType
             tags
-            images(first: 3) {
+            images(first: 20) {
               edges {
                 node {
                   url

@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createCheckout } from "@/app/actions/createCheckout";
-import { Loader2, ShoppingCart, Plus } from "lucide-react";
+import { Loader2, ShoppingCart, Plus, ChevronUp, ChevronDown } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { ShopifyLandingProductNode } from "@/lib/shopify";
 
@@ -239,8 +239,117 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
         }
     }, []);
 
+    React.useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        const isCompleted = localStorage.getItem("yuvaya_offer_quiz_completed");
+        const isDismissed = localStorage.getItem("yuvaya_offer_quiz_dismissed");
+        const dismissTime = isDismissed ? parseInt(isDismissed, 10) : 0;
+        const now = Date.now();
+
+        // If completed, or dismissed less than 24 hours ago, do not trigger
+        if (isCompleted || (now - dismissTime < 24 * 60 * 60 * 1000)) {
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        window.dispatchEvent(new CustomEvent("open-offer-quiz"));
+                        observer.disconnect();
+                    }
+                });
+            },
+            {
+                threshold: 0.15, // Trigger when 15% of the section is visible
+            }
+        );
+
+        const element = document.getElementById("shop");
+        if (element) {
+            observer.observe(element);
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
     const variants = displayProducts;
     const thumbnails = variants[selectedVariant]?.images || [];
+
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const isFirstRender = useRef(true);
+    const [isScrollable, setIsScrollable] = useState(false);
+    const [canScrollUp, setCanScrollUp] = useState(false);
+    const [canScrollDown, setCanScrollDown] = useState(false);
+
+    const updateScrollButtons = React.useCallback(() => {
+        const container = scrollContainerRef.current;
+        if (container) {
+            const { scrollTop, scrollHeight, clientHeight } = container;
+            setIsScrollable(scrollHeight > clientHeight);
+            setCanScrollUp(scrollTop > 1.5);
+            setCanScrollDown(scrollTop + clientHeight < scrollHeight - 1.5);
+        } else {
+            setIsScrollable(false);
+            setCanScrollUp(false);
+            setCanScrollDown(false);
+        }
+    }, []);
+
+    const scrollUp = () => {
+        const container = scrollContainerRef.current;
+        if (container) {
+            const firstChild = container.firstElementChild as HTMLElement;
+            const itemHeight = firstChild ? firstChild.clientHeight : 100;
+            const gap = parseFloat(window.getComputedStyle(container).gap) || 8;
+            container.scrollBy({ top: -(itemHeight + gap), behavior: "smooth" });
+        }
+    };
+
+    const scrollDown = () => {
+        const container = scrollContainerRef.current;
+        if (container) {
+            const firstChild = container.firstElementChild as HTMLElement;
+            const itemHeight = firstChild ? firstChild.clientHeight : 100;
+            const gap = parseFloat(window.getComputedStyle(container).gap) || 8;
+            container.scrollBy({ top: itemHeight + gap, behavior: "smooth" });
+        }
+    };
+
+    React.useEffect(() => {
+        // Reset scroll position to top when variant changes
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = 0;
+        }
+        const timer = setTimeout(updateScrollButtons, 100);
+        return () => clearTimeout(timer);
+    }, [selectedVariant, thumbnails, updateScrollButtons]);
+
+    React.useEffect(() => {
+        updateScrollButtons();
+        window.addEventListener("resize", updateScrollButtons);
+        return () => {
+            window.removeEventListener("resize", updateScrollButtons);
+        };
+    }, [updateScrollButtons, thumbnails]);
+
+    React.useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        const container = scrollContainerRef.current;
+        if (container && container.children[activeThumbnail]) {
+            const activeElement = container.children[activeThumbnail] as HTMLElement;
+            activeElement.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+            });
+        }
+    }, [activeThumbnail]);
 
     const handleBuyNow = async () => {
         const variantId = variants[selectedVariant].id;
@@ -315,18 +424,65 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                 <div className="h-fit w-full shrink-0 lg:sticky lg:top-24 lg:w-[55%]">
                     {/* Outer container: responsive height and styling */}
                     <div className="box-border flex h-[350px] w-full flex-row items-center justify-center gap-3 overflow-clip rounded-2xl border-[4px] border-[#fff6b3] bg-[#faf6de] p-3 sm:h-[450px] sm:gap-4 sm:p-4 lg:h-[650px] lg:gap-5 lg:p-5">
-                        {/* Thumbnails column — each card fully rounded with gaps between */}
-                        <div className="flex h-full shrink-0 flex-col gap-2 sm:gap-2.5" style={{ width: "27%" }}>
-                            {thumbnails.map((t, i) => (
+                        {/* Thumbnails column — vertical scrolling carousel */}
+                        <div className="relative flex h-full shrink-0 flex-col items-center justify-between py-1" style={{ width: "27%" }}>
+                            {/* Up Scroll Button */}
+                            {isScrollable && (
                                 <button
-                                    key={i}
                                     type="button"
-                                    onClick={() => setActiveThumbnail(i)}
-                                    className={`relative box-border flex w-full flex-1 cursor-pointer items-center justify-center overflow-clip ${i === 0 ? "rounded-t-2xl" : ""} ${i === thumbnails.length - 1 ? "rounded-b-2xl" : ""} border-2 sm:border-[3px] lg:border-[4px] border-[#34803c] bg-[#fffdf2] transition-all`}
+                                    onClick={scrollUp}
+                                    disabled={!canScrollUp}
+                                    className="z-10 flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none mb-1 shadow-sm active:scale-95 cursor-pointer"
+                                    aria-label="Scroll Up"
                                 >
-                                    <Image src={t.src} alt={t.alt} fill sizes="(max-width: 768px) 30vw, 10vw" className="object-contain p-2 sm:p-3" />
+                                    <ChevronUp className="w-5 h-5" />
                                 </button>
-                            ))}
+                            )}
+
+                            {/* Scrollable Thumbnails Container */}
+                            <div
+                                ref={scrollContainerRef}
+                                onScroll={updateScrollButtons}
+                                className={`w-full flex-1 overflow-y-auto no-scrollbar scroll-smooth flex flex-col gap-2 sm:gap-2.5 py-1 ${
+                                    isScrollable ? "justify-start" : "justify-center"
+                                }`}
+                            >
+                                {thumbnails.map((t, i) => (
+                                    <button
+                                        key={i}
+                                        type="button"
+                                        onClick={() => setActiveThumbnail(i)}
+                                        className={`relative box-border w-full aspect-square shrink-0 cursor-pointer items-center justify-center overflow-clip rounded-xl sm:rounded-2xl border-2 sm:border-[3px] lg:border-[4px] transition-all ${
+                                            activeThumbnail === i
+                                                ? "border-[#34803c] bg-[#fffdf2] opacity-100 shadow-md scale-[0.98]"
+                                                : "border-[#e5e7eb] bg-[#fffdf2] opacity-60 hover:opacity-100 hover:border-[#34803c]/40"
+                                        }`}
+                                    >
+                                        <div className="relative w-full h-full p-2 sm:p-3">
+                                            <Image 
+                                                src={t.src} 
+                                                alt={t.alt} 
+                                                fill 
+                                                sizes="(max-width: 768px) 30vw, 10vw" 
+                                                className="object-contain p-1" 
+                                            />
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Down Scroll Button */}
+                            {isScrollable && (
+                                <button
+                                    type="button"
+                                    onClick={scrollDown}
+                                    disabled={!canScrollDown}
+                                    className="z-10 flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none mt-1 shadow-sm active:scale-95 cursor-pointer"
+                                    aria-label="Scroll Down"
+                                >
+                                    <ChevronDown className="w-5 h-5" />
+                                </button>
+                            )}
                         </div>
 
                         {/* Main product image — responsive height */}

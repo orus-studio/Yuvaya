@@ -2,16 +2,16 @@ import React from 'react'
 
 const cards = [
     {
-        title: "Our Vision",
-        body: `We aim to innovate nutrition with intention. Our vision is to build an evolving range of products that bring biology and thoughtful formulation together to solve real, everyday problems. We only create when there is a genuine need and never just to follow trends. As we grow, we aim to expand this vision and create solutions that seamlessly fit into your life and make a real difference. We believe nutrition should be accessible, enjoyable, and easy to stay consistent with, using quality sourcing, research, and modern formats to make wellness a natural part of your day.`,
+        title: "Vision",
+        body: `We aim to innovate nutrition with intention. Our vision is to build an evolving range of products that bring biology and thoughtful formulation together to solve real, everyday problems. We believe nutrition should be accessible, enjoyable, and easy to stay consistent with, using quality sourcing, research, and modern formats to make wellness a natural part of your day.`,
     },
     {
-        title: "Our Story",
-        body: `Yuvaya is a family-run affair, rooted in care and curiosity. Our recipes are backed by science but inspired by our mom's way of making nutrition feel simple, enjoyable, and consistent in everyday life. She showed us that good nutrition doesn't have to feel like a task or something difficult to maintain over time. That belief continues to shape everything we build today, creating solutions that are functional, easy to adopt, and designed for busy lifestyles.\nWhat started at home now helps others improve their health without disrupting routines.`,
+        title: "Story",
+        body: `Yuvaya is a family-run affair, rooted in care and curiosity. Our recipes are backed by science but inspired by our mom's way of making nutrition feel simple, enjoyable, and consistent in everyday life. She showed us that good nutrition doesn't have to feel like a task or something difficult to maintain over time. That belief continues to shape everything we build today, creating solutions that are functional, easy to adopt, and designed for busy lifestyles.`,
     },
     {
-        title: "Our Science",
-        body: `To build with intention, we begin by understanding the biology behind what we're solving and the real needs people experience daily. This helps us identify meaningful gaps, from gut health to skin support and overall wellness, and innovate with clarity and purpose. We don't follow trends or chase popular claims; instead, we focus on building formulations that are effective, thoughtfully sourced, and easy to use consistently. Every step is carefully considered to deliver real results without unnecessary complexity in your routine.`,
+        title: "Science",
+        body: `To build with intention, we begin by understanding the biology behind what we're solving and the real needs people experience daily. This helps us identify meaningful gaps, from gut health to skin support and overall wellness, and innovate with clarity and purpose. Every step is carefully considered to deliver real results without unnecessary complexity in your routine.`,
     },
 ]
 
@@ -33,7 +33,7 @@ const AboutUs = () => {
                         className="box-border flex flex-1 flex-col items-center justify-start gap-[10px] overflow-clip rounded-2xl border-[4px] border-[#014d07] bg-[#fffff7] text-black p-4 sm:rounded-[20px] sm:p-5 md:p-[30px]"
                     >
                         {/* Card title */}
-                        <h3 className="whitespace-pre font-cormorant text-[32px] font-black leading-[1.2] tracking-[0.04em] text-black sm:text-[28px] md:text-[35px]">
+                        <h3 className="whitespace-pre font-tt-ramillas text-[32px] font-medium leading-[1.2] tracking-[0.0em] text-black sm:text-[28px] md:text-[35px] ">
                             {card.title}
                         </h3>
 

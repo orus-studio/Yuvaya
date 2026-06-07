@@ -70,7 +70,7 @@ const FAQs = () => {
         </h2>
       </div>
       {/* Accordion container */}
-      <div className="flex w-full flex-col items-center justify-start gap-2 rounded-2xl border-[3px] border-[#26312d] bg-[#26312d] p-[2px] md:max-w-[950px] md:gap-3">
+      <div className="flex w-full flex-col items-center justify-start gap-2 rounded-[20px] border-[3px] border-[#26312d] bg-[#26312d] p-[2px] md:max-w-[950px] md:gap-3">
         {faqs.map((faq, index) => {
           const isOpen = openIndex === index;
           return (
