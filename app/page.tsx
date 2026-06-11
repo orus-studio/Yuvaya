@@ -17,14 +17,17 @@ import InstagramReelsScroller from "@/Components/Landing/InstagramReelsScroller"
 import ClinicalResults from "@/Components/Landing/ClinicalResults";
 import Chatbot from "@/Components/Shared/Chatbot";
 import OfferSection from "@/Components/Offer/OfferSection";
-import { getLandingProducts } from "@/lib/shopify";
+import { getLandingProducts, getBlogPosts } from "@/lib/shopify";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function Home({ searchParams }: PageProps) {
-  const products = await getLandingProducts();
+  const [products, blogs] = await Promise.all([
+    getLandingProducts(),
+    getBlogPosts(),
+  ]);
   const resolvedSearchParams = await searchParams;
   const variantParam = (resolvedSearchParams?.variant || resolvedSearchParams?.varient) as string | undefined;
 
@@ -42,7 +45,8 @@ export default async function Home({ searchParams }: PageProps) {
         <FAQs />
         <Authorized_retailer />
         <NewsLetter />
-        <BlogSection />
+        <BlogSection initialPosts={blogs} />
+
         <AboutUs />
         <VerticalInstaPost />
       </main>

@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
+import { ShopifyArticle } from '@/lib/shopify'
 
 const BLOG_POSTS = [
     {
@@ -19,7 +20,34 @@ const BLOG_POSTS = [
     },
 ]
 
-const BlogSection = () => {
+interface BlogSectionProps {
+    initialPosts?: ShopifyArticle[]
+}
+
+const BlogSection = ({ initialPosts }: BlogSectionProps) => {
+    const displayPosts = initialPosts && initialPosts.length > 0
+        ? initialPosts.slice(0, 2).map((post) => ({
+            id: post.id,
+            date: new Date(post.publishedAt).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+            }),
+            title: post.title,
+            src: post.image?.url || "/Blog/Blog_1.jpg",
+            alt: post.image?.altText || post.title,
+            link: `http://localhost:3000/blogs/${post.handle}`,
+        }))
+        : BLOG_POSTS.map((post) => ({
+            ...post,
+            id: String(post.id),
+            link: "http://localhost:3000/blogs/how-can-you-increase-absorption-of-your-collagen-supplements",
+        }));
+
+    const blogUrl = (initialPosts && initialPosts[0]?.blog?.handle)
+        ? `https://yuvaya.in/blogs/${initialPosts[0].blog.handle}`
+        : "https://yuvaya.in/blogs/how-can-you-increase-absorption-of-your-collagen-supplements";
+
     return (
         <section className="w-full bg-[#fffff7] px-4 sm:px-6 md:px-8 py-12 md:py-20">
             <div className="max-w-[1400px] mx-auto bg-[#26312d] rounded-[24px] sm:rounded-[32px] p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row gap-12 lg:gap-16 justify-between items-stretch shadow-xl">
@@ -40,16 +68,29 @@ const BlogSection = () => {
                     </div>
 
                     {/* Action Button */}
-                    <button className="mt-8 lg:mt-auto border-2 border-[#fffc60] hover:bg-[#fffc60] hover:text-[#26312d] text-[#fffc60] px-6 py-3 rounded-full text-[14px] font-semibold tracking-wide transition-all duration-300 w-fit cursor-pointer flex items-center gap-2 group/btn active:scale-95">
-                        <span>See What Goes In</span>
-                        <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                    </button>
+                    <a
+                        href={blogUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-8 lg:mt-auto w-fit block"
+                    >
+                        <button className="border-2 border-[#fffc60] hover:bg-[#fffc60] hover:text-[#26312d] text-[#fffc60] px-6 py-3 rounded-full text-[14px] font-semibold tracking-wide transition-all duration-300 w-fit cursor-pointer flex items-center gap-2 group/btn active:scale-95">
+                            <span>See What Goes In</span>
+                            <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                        </button>
+                    </a>
                 </div>
 
                 {/* Right Column - Blog Posts */}
                 <div className="w-full lg:w-[60%] flex flex-col sm:flex-row gap-8 sm:gap-6 md:gap-8">
-                    {BLOG_POSTS.map((post) => (
-                        <div key={post.id} className="w-full sm:w-1/2 flex flex-col group justify-between">
+                    {displayPosts.map((post) => (
+                        <a
+                            key={post.id}
+                            href={post.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full sm:w-1/2 flex flex-col group justify-between no-underline"
+                        >
                             <div>
                                 {/* Post Date */}
                                 <p className="font-switzer text-[11px] md:text-[12px] text-[#8cb892] mb-3 font-semibold tracking-wider">
@@ -77,7 +118,7 @@ const BlogSection = () => {
                                     <ArrowUpRight className="w-5 h-5 text-[#26312d] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     ))}
                 </div>
 
@@ -85,5 +126,6 @@ const BlogSection = () => {
         </section>
     )
 }
+
 
 export default BlogSection

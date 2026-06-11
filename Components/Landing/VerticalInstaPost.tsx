@@ -4,11 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const instaPosts = [
-    { src: "/Landing/InstaPost_3.JPG", alt: "Yuvaya Collagreens with tropical backdrop" },
-    { src: "/Landing/InstaPost_4.JPG", alt: "Model holding Yuvaya sachet" },
+    { src: "/Landing/InstaPost_3.jpg", alt: "Yuvaya Collagreens with tropical backdrop" },
+    { src: "/Landing/InstaPost_4.jpg", alt: "Model holding Yuvaya sachet" },
     { src: "/Landing/InstaPost_2.jpg", alt: "Yuvaya pouch in a luxury handbag" },
-    { src: "/Landing/InstaPost_5.JPG", alt: "Model drinking Yuvaya greens drink" },
-    { src: "/Landing/InstaPost_1.JPG", alt: "Yuvaya sachets flat lay" },
+    { src: "/Landing/InstaPost_5.jpg", alt: "Model drinking Yuvaya greens drink" },
+    { src: "/Landing/InstaPost_1.jpg", alt: "Yuvaya sachets flat lay" },
 ];
 
 const instagramUrl = "https://www.instagram.com/yuvayaindia";

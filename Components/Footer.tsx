@@ -209,16 +209,28 @@ const Footer = () => {
                 Contact Us
               </Link>
               <Link
-                href="/shipping-policy"
+                href="/policies/shipping-policy"
                 className="font-poppins whitespace-nowrap text-[14px] font-normal leading-[1.2] text-[#5a5a5a] no-underline sm:text-[16px]"
               >
                 Shipping Policy
               </Link>
               <Link
-                href="/return-cancellation"
+                href="/policies/return-refund-policy"
                 className="font-poppins whitespace-nowrap text-[14px] font-normal leading-[1.2] text-[#5a5a5a] no-underline sm:text-[16px]"
               >
                 Return &amp; Cancellation
+              </Link>
+              <Link
+                href="/policies/privacy-policy"
+                className="font-poppins whitespace-nowrap text-[14px] font-normal leading-[1.2] text-[#5a5a5a] no-underline sm:text-[16px]"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/policies/terms-of-services"
+                className="font-poppins whitespace-nowrap text-[14px] font-normal leading-[1.2] text-[#5a5a5a] no-underline sm:text-[16px]"
+              >
+                Terms of Service
               </Link>
             </div>
           </div>
@@ -236,13 +248,13 @@ const Footer = () => {
 
           <div className="flex flex-row items-center gap-4 sm:gap-8">
             <Link
-              href="/privacy-policy"
+              href="/policies/privacy-policy"
               className="font-poppins whitespace-nowrap text-[12px] font-normal leading-[1.2] text-[#26312d] underline underline-offset-4 sm:text-[13px]"
             >
               Privacy Policy
             </Link>
             <Link
-              href="/terms-of-service"
+              href="/policies/terms-of-services"
               className="font-poppins whitespace-nowrap text-[12px] font-normal leading-[1.2] text-[#26312d] underline underline-offset-4 sm:text-[13px]"
             >
               Terms of Service

@@ -90,3 +90,113 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Custom premium styling for Shopify blog article HTML content rendering */
+.prose-yuvaya {
+  font-family: var(--font-switzer), var(--font-poppins), sans-serif;
+  color: #3d3d3d;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+@media (min-width: 768px) {
+  .prose-yuvaya {
+    font-size: 18px;
+    line-height: 1.85;
+  }
+}
+
+.prose-yuvaya p {
+  margin-bottom: 1.5rem;
+}
+
+.prose-yuvaya h1,
+.prose-yuvaya h2,
+.prose-yuvaya h3,
+.prose-yuvaya h4 {
+  font-family: var(--font-cormorant), serif;
+  font-weight: 600;
+  color: #26312d;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.prose-yuvaya h1 {
+  font-size: 32px;
+}
+
+.prose-yuvaya h2 {
+  font-size: 28px;
+}
+
+.prose-yuvaya h3 {
+  font-size: 24px;
+}
+
+.prose-yuvaya h4 {
+  font-size: 20px;
+}
+
+@media (min-width: 768px) {
+  .prose-yuvaya h1 { font-size: 40px; }
+  .prose-yuvaya h2 { font-size: 34px; }
+  .prose-yuvaya h3 { font-size: 28px; }
+  .prose-yuvaya h4 { font-size: 24px; }
+}
+
+.prose-yuvaya a {
+  color: #34803c;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.prose-yuvaya a:hover {
+  color: #26312d;
+}
+
+.prose-yuvaya ul,
+.prose-yuvaya ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.prose-yuvaya ul {
+  list-style-type: disc;
+}
+
+.prose-yuvaya ol {
+  list-style-type: decimal;
+}
+
+.prose-yuvaya li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-yuvaya blockquote {
+  border-left: 4px solid #8cb892;
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: #26312d;
+  margin: 2rem 0;
+}
+
+.prose-yuvaya img {
+  border-radius: 16px;
+  margin: 2.5rem auto;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.prose-yuvaya strong {
+  font-weight: 700;
+  color: #26312d;
+}
+
+.prose-yuvaya hr {
+  border: 0;
+  border-top: 1px solid rgba(38, 49, 45, 0.1);
+  margin: 2.5rem 0;
+}

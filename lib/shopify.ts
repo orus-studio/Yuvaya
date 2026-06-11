@@ -222,3 +222,128 @@ export async function getLandingProducts(): Promise<ShopifyLandingProductNode[]>
     return [];
   }
 }
+
+export interface ShopifyArticle {
+  id: string;
+  title: string;
+  publishedAt: string;
+  handle: string;
+  onlineStoreUrl: string;
+  image: {
+    url: string;
+    altText: string | null;
+    width?: number;
+    height?: number;
+  } | null;
+  excerpt: string;
+  content: string;
+  contentHtml?: string;
+  authorV2?: {
+    name: string;
+  } | null;
+  blog: {
+    title: string;
+    handle: string;
+  };
+}
+
+interface ShopifyBlogPostsResponse {
+  articles: {
+    edges: Array<{
+      node: ShopifyArticle;
+    }>;
+  };
+}
+
+export async function getBlogPosts(): Promise<ShopifyArticle[]> {
+  const query = `
+    query {
+      articles(first: 5) {
+        edges {
+          node {
+            id
+            title
+            publishedAt
+            handle
+            onlineStoreUrl
+            image {
+              url
+              altText
+              width
+              height
+            }
+            excerpt
+            content
+            blog {
+              title
+              handle
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await shopifyFetch<ShopifyBlogPostsResponse>({ query });
+    return response.data.articles.edges.map(({ node }) => node);
+  } catch (error) {
+    console.error("Failed to fetch blog posts from Shopify:", error);
+    return [];
+  }
+}
+
+export async function getArticleByHandle(handle: string): Promise<ShopifyArticle | null> {
+  const query = `
+    query getArticleByHandle($query: String!) {
+      articles(first: 1, query: $query) {
+        edges {
+          node {
+            id
+            title
+            publishedAt
+            handle
+            onlineStoreUrl
+            image {
+              url
+              altText
+              width
+              height
+            }
+            excerpt
+            content
+            contentHtml
+            authorV2 {
+              name
+            }
+            blog {
+              title
+              handle
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await shopifyFetch<{
+      articles: {
+        edges: Array<{
+          node: ShopifyArticle;
+        }>;
+      };
+    }>({ 
+      query,
+      variables: { query: `handle:${handle}` }
+    });
+
+    const edge = response.data.articles.edges[0];
+    return edge ? edge.node : null;
+  } catch (error) {
+    console.error(`Failed to fetch article with handle ${handle}:`, error);
+    return null;
+  }
+}
+
+
