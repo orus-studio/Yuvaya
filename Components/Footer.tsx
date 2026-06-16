@@ -203,12 +203,6 @@ const Footer = () => {
             </h3>
             <div className="flex w-full flex-col flex-nowrap items-start justify-start gap-3 overflow-hidden p-0 sm:w-min sm:gap-3.5">
               <Link
-                href="/contact"
-                className="font-poppins whitespace-nowrap text-[14px] font-normal leading-[1.2] text-[#5a5a5a] no-underline sm:text-[16px]"
-              >
-                Contact Us
-              </Link>
-              <Link
                 href="/policies/shipping-policy"
                 className="font-poppins whitespace-nowrap text-[14px] font-normal leading-[1.2] text-[#5a5a5a] no-underline sm:text-[16px]"
               >

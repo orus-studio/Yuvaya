@@ -46,7 +46,6 @@ export default async function Home({ searchParams }: PageProps) {
         <Authorized_retailer />
         <NewsLetter />
         <BlogSection initialPosts={blogs} />
-
         <AboutUs />
         <VerticalInstaPost />
       </main>

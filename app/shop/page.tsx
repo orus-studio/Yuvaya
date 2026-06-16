@@ -43,7 +43,7 @@ const page = () => {
             </div>
 
             <div className="mt-3 text-xs text-gray-500">
-              Follow us on <a href="https://instagram.com" className="underline">Instagram</a> for launch updates and exclusive previews.
+              Follow us on <a href="https://instagram.com/yuvayaindia" className="underline">Instagram</a> for launch updates and exclusive previews.
             </div>
           </div>
         </div>
@@ -339,11 +339,10 @@ export const ProductsPart = () => {
                 >
                   {/* Each variant */}
                   <div
-                    className={`relative box-border h-[60px] w-[60px] xs:h-[65px] xs:w-[65px] sm:h-[75px] sm:w-[75px] md:h-[85px] md:w-[85px] lg:h-[100px] lg:w-[100px] overflow-clip rounded-full border-2 bg-[#fffdf2] transition-all hover:scale-105 ${
-                      selectedVariant === i
+                    className={`relative box-border h-[60px] w-[60px] xs:h-[65px] xs:w-[65px] sm:h-[75px] sm:w-[75px] md:h-[85px] md:w-[85px] lg:h-[100px] lg:w-[100px] overflow-clip rounded-full border-2 bg-[#fffdf2] transition-all hover:scale-105 ${selectedVariant === i
                         ? "border-[#34803c] shadow-md"
                         : "border-[#c9c9c9]"
-                    }`}
+                      }`}
                   >
                     <Image
                       src={v.img}
@@ -354,11 +353,10 @@ export const ProductsPart = () => {
                     />
                   </div>
                   <span
-                    className={`font-poppins text-[10px] xs:text-[11px] sm:text-[12px] lg:text-[14px] text-center ${
-                      selectedVariant === i
+                    className={`font-poppins text-[10px] xs:text-[11px] sm:text-[12px] lg:text-[14px] text-center ${selectedVariant === i
                         ? "font-semibold text-black"
                         : "font-normal text-gray-500"
-                    }`}
+                      }`}
                   >
                     {v.label}
                   </span>
@@ -446,9 +444,8 @@ export const ProductTransparency = () => {
         return (
           <div
             key={i}
-            className={`flex flex-col ${
-              isEven ? "lg:flex-row" : "lg:flex-row-reverse"
-            } w-full min-h-[280px] xs:min-h-[320px] sm:min-h-[380px] md:min-h-[450px] lg:min-h-[500px] 2xl:min-h-[600px]`}
+            className={`flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"
+              } w-full min-h-[280px] xs:min-h-[320px] sm:min-h-[380px] md:min-h-[450px] lg:min-h-[500px] 2xl:min-h-[600px]`}
           >
             {/* Image half */}
             <div

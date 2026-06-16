@@ -8,20 +8,10 @@ const RETAILERS = [
     alt: "Amazon Logo",
   },
   {
-    name: "Blinkit",
-    src: "/Authorized_Retailers/blinkit-logo.png",
-    alt: "Blinkit Logo",
-  },
-  {
-    name: "Flipkart",
-    src: "/Authorized_Retailers/flipkart_logo.png",
-    alt: "Flipkart Logo",
-  },
-  {
-    name: "Myntra",
-    src: "/Authorized_Retailers/myntra_logo.png",
-    alt: "Myntra Logo",
-  },
+    name: "Nature's Basket",
+    src: "/Authorized_Retailers/Natures_Basket.png",
+    alt: "Nature's Basket Logo",
+  }
 ]
 
 const Authorized_retailer = () => {
@@ -41,19 +31,19 @@ const Authorized_retailer = () => {
         </h2>
 
         {/* Logos Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-[1000px] mx-auto px-4 justify-items-center">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-[1000px] mx-auto px-4 justify-items-center">
           {RETAILERS.map((retailer) => (
             <div
               key={retailer.name}
               className="group relative w-full h-[65px] sm:h-[80px] md:h-[95px] max-w-[220px] rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.02)] flex items-center justify-center p-4 sm:p-5 md:p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(52,128,60,0.08)] hover:border-[#34803c]/35 active:scale-[0.98] cursor-pointer"
             >
-              <div className="relative w-44 h-full  transition-all duration-300">
+              <div className="relative w-52 h-full  transition-all duration-300">
                 <Image
                   src={retailer.src}
                   alt={retailer.alt}
                   fill
                   className="object-contain"
-                  sizes="(max-width: 640px) 110px, (max-width: 768px) 130px, 150px"
+                  sizes="(max-width: 640px) 160px, (max-width: 768px) 180px, 220px"
                   priority
                 />
               </div>
