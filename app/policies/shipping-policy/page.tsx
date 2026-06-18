@@ -115,8 +115,8 @@ const ShippingPolicy = () => {
           </h2>
           <p className="mb-4 font-light">
             If you cannot receive your delivery at the mentioned shipping address and the order has not been dispatched yet, contact us at{" "}
-            <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">
-              aqaihealth@gmail.com
+            <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">
+              hello@yuvaya.in
             </a>
             . We cannot hold, divert, or alter deliveries once they are dispatched from our facility.
           </p>

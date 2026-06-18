@@ -443,28 +443,26 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                             <div
                                 ref={scrollContainerRef}
                                 onScroll={updateScrollButtons}
-                                className={`w-full flex-1 overflow-y-auto no-scrollbar scroll-smooth flex flex-col gap-2 sm:gap-2.5 py-1 ${
-                                    isScrollable ? "justify-start" : "justify-center"
-                                }`}
+                                className={`w-full flex-1 overflow-y-auto no-scrollbar scroll-smooth flex flex-col gap-2 sm:gap-2.5 py-1 ${isScrollable ? "justify-start" : "justify-center"
+                                    }`}
                             >
                                 {thumbnails.map((t, i) => (
                                     <button
                                         key={i}
                                         type="button"
                                         onClick={() => setActiveThumbnail(i)}
-                                        className={`relative box-border w-full aspect-square shrink-0 cursor-pointer items-center justify-center overflow-clip rounded-xl sm:rounded-2xl border-2 sm:border-[3px] lg:border-[4px] transition-all ${
-                                            activeThumbnail === i
-                                                ? "border-[#34803c] bg-[#fffdf2] opacity-100 shadow-md scale-[0.98]"
-                                                : "border-[#e5e7eb] bg-[#fffdf2] opacity-60 hover:opacity-100 hover:border-[#34803c]/40"
-                                        }`}
+                                        className={`relative box-border w-full aspect-square shrink-0 cursor-pointer items-center justify-center overflow-clip rounded-xl sm:rounded-2xl border-2 sm:border-[3px] lg:border-[4px] transition-all ${activeThumbnail === i
+                                            ? "border-[#34803c] bg-[#fffdf2] opacity-100 shadow-md scale-[0.98]"
+                                            : "border-[#e5e7eb] bg-[#fffdf2] opacity-60 hover:opacity-100 hover:border-[#34803c]/40"
+                                            }`}
                                     >
                                         <div className="relative w-full h-full p-2 sm:p-3">
-                                            <Image 
-                                                src={t.src} 
-                                                alt={t.alt} 
-                                                fill 
-                                                sizes="(max-width: 768px) 30vw, 10vw" 
-                                                className="object-contain p-1" 
+                                            <Image
+                                                src={t.src}
+                                                alt={t.alt}
+                                                fill
+                                                sizes="(max-width: 768px) 30vw, 10vw"
+                                                className="object-contain p-1"
                                             />
                                         </div>
                                     </button>
@@ -673,21 +671,21 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                         </h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            <div className="bg-[#f5f5f5] p-6 rounded-2xl">
-                                <p className="font-tt-ramillas text-[32px] font-bold text-[#34803c] mb-2">28%</p>
-                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#333]">
+                            <div className="bg-[#26312d]  p-6 rounded-2xl">
+                                <p className="font-tt-ramillas text-[32px] font-bold text-[#47b852] mb-2">28%</p>
+                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#fcfafa]">
                                     Decrease in skin roughness from baseline levels
                                 </p>
                             </div>
-                            <div className="bg-[#f5f5f5] p-6 rounded-2xl">
-                                <p className="font-tt-ramillas text-[32px] font-bold text-[#34803c] mb-2">18%</p>
-                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#333]">
+                            <div className="bg-[#26312d] p-6 rounded-2xl">
+                                <p className="font-tt-ramillas text-[32px] font-bold text-[#47b852] mb-2">18%</p>
+                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#fefefe]">
                                     Increase in skin elasticity from baseline levels
                                 </p>
                             </div>
-                            <div className="bg-[#f5f5f5] p-6 rounded-2xl">
-                                <p className="font-tt-ramillas text-[32px] font-bold text-[#34803c] mb-2">25%</p>
-                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#333]">
+                            <div className="bg-[#26312d] p-6 rounded-2xl">
+                                <p className="font-tt-ramillas text-[32px] font-bold text-[#47b852] mb-2">25%</p>
+                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#f8f8f8]">
                                     Increase in skin hydration
                                 </p>
                             </div>

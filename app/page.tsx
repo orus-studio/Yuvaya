@@ -17,16 +17,19 @@ import InstagramReelsScroller from "@/Components/Landing/InstagramReelsScroller"
 import ClinicalResults from "@/Components/Landing/ClinicalResults";
 import Chatbot from "@/Components/Shared/Chatbot";
 import OfferSection from "@/Components/Offer/OfferSection";
-import { getLandingProducts, getBlogPosts } from "@/lib/shopify";
+import { getLandingProducts, getBlogPosts, getSurveyQuestions } from "@/lib/shopify";
+
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function Home({ searchParams }: PageProps) {
-  const [products, blogs] = await Promise.all([
+  const [products, blogs, questions] = await Promise.all([
     getLandingProducts(),
     getBlogPosts(),
+    getSurveyQuestions(),
   ]);
   const resolvedSearchParams = await searchParams;
   const variantParam = (resolvedSearchParams?.variant || resolvedSearchParams?.varient) as string | undefined;
@@ -50,7 +53,7 @@ export default async function Home({ searchParams }: PageProps) {
         <VerticalInstaPost />
       </main>
       <Chatbot />
-      <OfferSection />
+      <OfferSection initialQuestions={questions} />
     </div>
   );
 }

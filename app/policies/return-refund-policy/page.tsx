@@ -75,7 +75,7 @@ const ReturnRefundPolicy = () => {
               <ul className="list-decimal pl-5 space-y-3 font-light text-[14px] sm:text-[16px]">
                 <li>
                   Contact our customer care team at{" "}
-                  <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">aqaihealth@gmail.com</a> or call{" "}
+                  <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">hello@yuvaya.in</a> or call{" "}
                   <a href="tel:+919011390116" className="text-[#34803c] font-medium hover:underline">+91 9011390116</a> immediately.
                 </li>
                 <li>Provide your order number and clear photos/videos showing the damaged product and packaging.</li>

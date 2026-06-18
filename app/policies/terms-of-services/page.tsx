@@ -178,7 +178,7 @@ const TermsOfService = () => {
                 Store the product in a cool, dry place, away from direct sunlight and moisture. Keep out of reach of children.
               </p>
             </div>
-            
+
             {/* Medical Disclaimer Box */}
             <div className="border border-[#26312d]/10 bg-[#26312d]/5 rounded-2xl p-6 md:p-8 mt-6 mb-6">
               <h3 className="font-cormorant text-lg sm:text-xl font-semibold text-[#26312d] mb-3 uppercase tracking-wider">
@@ -277,12 +277,12 @@ const TermsOfService = () => {
           </p>
           <p className="mb-6 font-light">
             All amounts are payable and charged for monthly or fortnightly Subscriptions or as per our payment cycle, at the beginning of the Subscription. Each such Subscription renews automatically for an additional period equal in length to the expiring Subscription term until you cancel it, using the Payment Information you have provided. You must cancel your monthly or fortnightly Subscription before it renews to avoid the billing of the fees for the next Subscription period. You can cancel the renewal of your subscription at any time by contacting us by email at{" "}
-            <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">
-              aqaihealth@gmail.com
+            <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">
+              hello@yuvaya.in
             </a>
             . You will not receive a refund for the fees you already paid for your current Subscription period and you will continue to receive the services ordered until the end of your current Subscription period. We have no obligation to keep you informed prior to the billing of the fees based on your Subscription. You may see your Subscription related information in “My Account” on the Website. In case of any request in relation to product customization, you are required to inform us at{" "}
-            <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">
-              aqaihealth@gmail.com
+            <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">
+              hello@yuvaya.in
             </a>{" "}
             at least 3 (three) business days in advance of the next billing cycle. The billing amount may change subject to the change in product plan.
           </p>
@@ -311,8 +311,8 @@ const TermsOfService = () => {
             </ul>
             <p className="mt-4 font-light text-red-950">
               We strongly encourage customers to contact our support team at{" "}
-              <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">
-                aqaihealth@gmail.com
+              <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">
+                hello@yuvaya.in
               </a>{" "}
               with any questions regarding ingredients, allergens, dosage, or product suitability before completing your purchase.
             </p>
@@ -377,8 +377,8 @@ const TermsOfService = () => {
               </p>
               <p>
                 If you require our assistance with a marketplace order, please contact us at{" "}
-                <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">
-                  aqaihealth@gmail.com
+                <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">
+                  hello@yuvaya.in
                 </a>{" "}
                 with your marketplace order details, and we will attempt to coordinate with the platform on your behalf, though we cannot guarantee any specific outcome.
               </p>
@@ -401,8 +401,8 @@ const TermsOfService = () => {
               </p>
               <p className="mt-2">
                 To the extent that the Company does create the content, such content is protected by intellectual property laws of India. Any unauthorized use of the material may violate copyright, trademark, and/or other laws. You acknowledge that your use of the content on this Website is for personal and non-commercial use. We respect the intellectual property of others. If you feel your work has been copied in a way that constitutes copyright infringement, you can write to us at{" "}
-                <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">
-                  aqaihealth@gmail.com
+                <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">
+                  hello@yuvaya.in
                 </a>.
               </p>
             </div>
@@ -450,7 +450,7 @@ const TermsOfService = () => {
               <h3 className="font-cormorant text-lg sm:text-xl font-semibold text-[#26312d] mb-3">
                 Customer Service Desk
               </h3>
-              <p className="mb-1"><strong>Email:</strong> <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">aqaihealth@gmail.com</a></p>
+              <p className="mb-1"><strong>Email:</strong> <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">hello@yuvaya.in</a></p>
               <p className="mb-1"><strong>Phone:</strong> <a href="tel:+919011390116" className="text-[#34803c] font-medium hover:underline">+91 9011390116</a></p>
               <p><strong>Hours:</strong> Monday–Friday (10 am to 7 pm)</p>
             </div>
@@ -459,7 +459,7 @@ const TermsOfService = () => {
                 Grievance Officer
               </h3>
               <p className="mb-1"><strong>Officer:</strong> Palak Agarwal</p>
-              <p className="mb-1"><strong>Email:</strong> <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">aqaihealth@gmail.com</a></p>
+              <p className="mb-1"><strong>Email:</strong> <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">hello@yuvaya.in</a></p>
               <p className="mb-1"><strong>Phone:</strong> <a href="tel:+919011390116" className="text-[#34803c] font-medium hover:underline">+91 9011390116</a></p>
               <p className="mb-2"><strong>Address:</strong> G-236, B-wing, Ground floor, Express Zone mall, Western Express Highway, Goregaon East, Mumbai 400063</p>
               <p><strong>Hours:</strong> Monday–Friday (10 am to 6:30 pm)</p>
@@ -476,7 +476,7 @@ const TermsOfService = () => {
             It has recently come to our attention that a scam is circulating within our industry, targeting B2B customers with fraudulent offers of substantial discounts and enticing freebies, such as free laptops against minimum purchase orders. These offers are often accompanied by forged documents that appear genuine but have fraudulent bank account details.
           </p>
           <p className="mb-4 font-light text-red-900 leading-relaxed">
-            To protect yourself, please verify the authenticity of any offer for Yuvaya products before making a purchase. For verification, you can contact our support team at <a href="tel:+919011390116" className="text-[#34803c] font-medium hover:underline">+91 9011390116</a> or write to us at <a href="mailto:aqaihealth@gmail.com" className="text-[#34803c] font-medium hover:underline">aqaihealth@gmail.com</a> before placing your order. Our team will confirm whether the offer you have received for Yuvaya products is genuine.
+            To protect yourself, please verify the authenticity of any offer for Yuvaya products before making a purchase. For verification, you can contact our support team at <a href="tel:+919011390116" className="text-[#34803c] font-medium hover:underline">+91 9011390116</a> or write to us at <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">hello@yuvaya.in</a> before placing your order. Our team will confirm whether the offer you have received for Yuvaya products is genuine.
           </p>
           <p className="font-light text-red-950 leading-relaxed font-medium">
             We care about the safety of your business and urge you to be cautious to prevent falling victim to these scams.

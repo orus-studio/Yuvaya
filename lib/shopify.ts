@@ -17,9 +17,13 @@ interface ShopifyGraphQLResponse<T> {
 export async function shopifyFetch<T>({
   query,
   variables = {},
+  cache = "default",
+  revalidate = 60,
 }: {
   query: string;
   variables?: Record<string, any>;
+  cache?: RequestCache;
+  revalidate?: number;
 }): Promise<ShopifyGraphQLResponse<T>> {
   if (!SHOPIFY_STORE || !SHOPIFY_STOREFRONT_TOKEN) {
     throw new Error("Missing Shopify environment variables: SHOPIFY_STORE or SHOPIFY_STOREFRONT_TOKEN");
@@ -35,7 +39,8 @@ export async function shopifyFetch<T>({
         "X-Shopify-Storefront-Access-Token": SHOPIFY_STOREFRONT_TOKEN,
       },
       body: JSON.stringify({ query, variables }),
-      next: { revalidate: 60 }, // Cache for 1 minute
+      cache,
+      ...(cache !== "no-store" ? { next: { revalidate } } : {}),
     });
 
     if (!response.ok) {
@@ -346,4 +351,89 @@ export async function getArticleByHandle(handle: string): Promise<ShopifyArticle
   }
 }
 
+export interface SurveyQuestion {
+  id: number;
+  question: string;
+  options: string[];
+  order: number;
+}
 
+export async function getSurveyQuestions(): Promise<SurveyQuestion[]> {
+  const query = `
+    query getSurveyQuestions {
+      metaobjects(type: "survey_question", first: 20) {
+        edges {
+          node {
+            fields {
+              key
+              value
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  interface ShopifySurveyResponse {
+    metaobjects: {
+      edges: Array<{
+        node: {
+          fields: Array<{
+            key: string;
+            value: string;
+          }>;
+        };
+      }>;
+    };
+  }
+
+  try {
+    console.log("shopifyFetch: Querying survey_question metaobjects from Shopify...");
+    const response = await shopifyFetch<ShopifySurveyResponse>({ 
+      query,
+      cache: "no-store"
+    });
+    const questions: SurveyQuestion[] = [];
+
+    if (!response.data?.metaobjects?.edges) {
+      console.warn("shopifyFetch: No data or metaobjects returned from Shopify storefront API.");
+      return [];
+    }
+
+    response.data.metaobjects.edges.forEach(({ node }, index) => {
+      let questionText = "";
+      let optionsList: string[] = [];
+      let orderVal = index;
+
+      node.fields.forEach((field) => {
+        if (field.key === "question") {
+          questionText = field.value;
+        } else if (field.key === "options") {
+          try {
+            optionsList = JSON.parse(field.value) as string[];
+          } catch (e) {
+            console.error("shopifyFetch: Failed to parse options JSON:", field.value);
+          }
+        } else if (field.key === "order") {
+          orderVal = parseInt(field.value) ?? index;
+        }
+      });
+
+      if (questionText) {
+        questions.push({
+          id: orderVal + 1,
+          question: questionText,
+          options: optionsList,
+          order: orderVal,
+        });
+      }
+    });
+
+    const sortedQuestions = questions.sort((a, b) => a.order - b.order);
+    console.log(`shopifyFetch: Successfully retrieved ${sortedQuestions.length} survey questions from Shopify:`, JSON.stringify(sortedQuestions, null, 2));
+    return sortedQuestions;
+  } catch (error) {
+    console.error("shopifyFetch: Failed to fetch survey questions from Shopify:", error);
+    return [];
+  }
+}

@@ -10,14 +10,14 @@ import { useState } from "react";
 const page = () => {
   return (
     <div className="pt-12 sm:pt-16 md:pt-20 lg:pt-24 bg-white">
-      {/* <ProductsPart />
+      <ProductsPart />
       <ProductTransparency />
       <HowToUseSection />
       <FAQsForShopPage />
       <MiddleBanner />
       <StillDoubts />
-      <NewsLetter /> */}
-      <div className="flex items-center justify-center h-[60vh] text-center px-4 text-black">
+      <NewsLetter />
+      {/* <div className="flex items-center justify-center h-[60vh] text-center px-4 text-black">
         <div className="max-w-3xl mx-auto bg-white/90 backdrop-blur-sm border border-[#e6e6e6] rounded-2xl p-8 shadow-lg">
           <div className="flex flex-col items-center gap-4">
             <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#34a853] to-[#11731b] flex items-center justify-center text-white text-2xl sm:text-3xl animate-bounce">
@@ -47,7 +47,7 @@ const page = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -340,8 +340,8 @@ export const ProductsPart = () => {
                   {/* Each variant */}
                   <div
                     className={`relative box-border h-[60px] w-[60px] xs:h-[65px] xs:w-[65px] sm:h-[75px] sm:w-[75px] md:h-[85px] md:w-[85px] lg:h-[100px] lg:w-[100px] overflow-clip rounded-full border-2 bg-[#fffdf2] transition-all hover:scale-105 ${selectedVariant === i
-                        ? "border-[#34803c] shadow-md"
-                        : "border-[#c9c9c9]"
+                      ? "border-[#34803c] shadow-md"
+                      : "border-[#c9c9c9]"
                       }`}
                   >
                     <Image
@@ -354,8 +354,8 @@ export const ProductsPart = () => {
                   </div>
                   <span
                     className={`font-poppins text-[10px] xs:text-[11px] sm:text-[12px] lg:text-[14px] text-center ${selectedVariant === i
-                        ? "font-semibold text-black"
-                        : "font-normal text-gray-500"
+                      ? "font-semibold text-black"
+                      : "font-normal text-gray-500"
                       }`}
                   >
                     {v.label}
