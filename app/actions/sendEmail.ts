@@ -143,11 +143,11 @@ export async function sendQuizSubmission(data: QuizSubmissionData) {
   // 2. Send Email using nodemailer
   if (!user || !pass) {
     console.error('SMTP credentials are not configured in environment variables for Quiz.')
-    return { 
-      success: webhookSent, 
-      emailSuccess: false, 
-      webhookSuccess: webhookSent, 
-      error: webhookSent ? undefined : 'Mail server credentials are not configured in .env' 
+    return {
+      success: webhookSent,
+      emailSuccess: false,
+      webhookSuccess: webhookSent,
+      error: webhookSent ? undefined : 'Mail server credentials are not configured in .env'
     }
   }
 
@@ -199,10 +199,10 @@ export async function sendQuizSubmission(data: QuizSubmissionData) {
            <tr>
              <td style="padding: 8px 0; font-weight: bold; color: #26312d; font-size: 14px;">${data.email.includes('@') ? 'Email' : 'Contact Number'}:</td>
              <td style="padding: 8px 0; font-size: 14px;">
-               ${data.email.includes('@') 
-                 ? `<a href="mailto:${data.email}" style="color: #11731b; text-decoration: underline;">${data.email}</a>` 
-                 : `<span style="color: #26312d;">${data.email}</span>`
-               }
+               ${data.email.includes('@')
+        ? `<a href="mailto:${data.email}" style="color: #11731b; text-decoration: underline;">${data.email}</a>`
+        : `<span style="color: #26312d;">${data.email}</span>`
+      }
              </td>
            </tr>
          </table>
