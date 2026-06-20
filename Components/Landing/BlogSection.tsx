@@ -36,17 +36,17 @@ const BlogSection = ({ initialPosts }: BlogSectionProps) => {
             title: post.title,
             src: post.image?.url || "/Blog/Blog_1.jpg",
             alt: post.image?.altText || post.title,
-            link: `http://localhost:3000/blogs/${post.handle}`,
+            link: `${process.env.BLOG_BASE_URL}/blogs/${post.handle}`,
         }))
         : BLOG_POSTS.map((post) => ({
             ...post,
             id: String(post.id),
-            link: "http://localhost:3000/blogs/how-can-you-increase-absorption-of-your-collagen-supplements",
+            link: `${process.env.BLOG_BASE_URL}/blogs/how-can-you-increase-absorption-of-your-collagen-supplements`,
         }));
 
     const blogUrl = (initialPosts && initialPosts[0]?.blog?.handle)
-        ? `https://yuvaya.in/blogs/${initialPosts[0].blog.handle}`
-        : "https://yuvaya.in/blogs/how-can-you-increase-absorption-of-your-collagen-supplements";
+        ? `${process.env.BLOG_BASE_URL}/blogs/${initialPosts[0].blog.handle}`
+        : `${process.env.BLOG_BASE_URL}/blogs/how-can-you-increase-absorption-of-your-collagen-supplements`;
 
     return (
         <section className="w-full bg-[#fffff7] px-4 sm:px-6 md:px-8 py-12 md:py-20">
