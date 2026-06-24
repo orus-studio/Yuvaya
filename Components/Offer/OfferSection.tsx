@@ -616,21 +616,41 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
                   All Set!
                 </h2>
                 
-                <div className="my-4 font-switzer">
+                <div className="my-4 font-switzer flex flex-col items-center w-full">
                   <p className="text-[17px] font-medium text-white mb-2">
                     Thank you, {name}!
                   </p>
-                  <p className="text-sm font-light text-white/95 leading-relaxed max-w-[300px]">
-                    We have successfully curated your response. We will shortly {email.includes('@') ? 'email' : 'send'} your custom 10% discount code to:
+                  <p className="text-sm font-light text-white/95 leading-relaxed max-w-[300px] mb-4">
+                    Here is your 10% discount code. Copy it below to use at checkout:
                   </p>
-                  <p className="text-[15px] font-semibold text-white/90 underline decoration-white/30 underline-offset-4 mt-2">
-                    {email}
-                  </p>
+                  
+                  {/* Coupon Code copy box */}
+                  <button
+                    onClick={handleCopyCode}
+                    className="flex items-center justify-between gap-4 px-6 py-4 bg-white text-[#3b5e47] rounded-2xl w-full max-w-[280px] shadow-lg hover:bg-white/95 active:scale-[0.98] transition-all border border-white/20 cursor-pointer"
+                  >
+                    <span className="text-xl font-bold tracking-widest font-mono text-[#3b5e47]">
+                      YUVAYA10
+                    </span>
+                    <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#3b5e47]/80">
+                      {copied ? (
+                        <>
+                          <CopySuccessIcon />
+                          <span className="text-[#3b5e47]">Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <CopyIcon />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </span>
+                  </button>
                 </div>
 
                 <button
                   onClick={handleClose}
-                  className="w-full max-w-[260px] py-4 bg-white text-[#3b5e47] font-semibold rounded-full tracking-wide hover:bg-white/95 active:scale-95 transition-all shadow-lg cursor-pointer mt-6"
+                  className="w-full max-w-[260px] py-3.5 border border-white/30 bg-white/10 backdrop-blur-md text-white font-medium text-[17px] rounded-full tracking-wide hover:bg-white/20 active:scale-95 transition-all shadow-sm cursor-pointer mt-4"
                 >
                   Start Exploring
                 </button>
