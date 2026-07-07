@@ -622,7 +622,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                         {/* CTA Buttons */}
                         <div className="flex w-full flex-col gap-3">
                             <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
-                                <Link href='/shop' className="box-border rounded-full border border-gray-400 bg-white px-12 py-2.5 sm:px-8 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
+                                <Link href='/' className="box-border rounded-full border border-gray-400 bg-white px-12 py-2.5 sm:px-8 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
                                     View Details
                                 </Link>
                                 <div className="flex justify-center items-center flex-1 md:justify-normal gap-3 sm:flex-1 w-full">
