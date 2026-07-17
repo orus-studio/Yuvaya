@@ -1,7 +1,6 @@
 import HeroSection from "@/Components/Landing/HeroSection";
 import ScrollingSection from "@/Components/Landing/ScrollingSection";
 import MiddleBanner from "@/Components/Landing/MiddleBanner";
-import SachetSection from "@/Components/Landing/sachetSection";
 import Navbar from "@/Components/Navbar";
 import ShopFromUs from "@/Components/Landing/ShopFromUs";
 import LowerBanner from "@/Components/Landing/LowerBanner";
@@ -39,7 +38,7 @@ export default async function Home({ searchParams }: PageProps) {
       <main className="w-full  pt-20 bg-white relative flex flex-col">
         <HeroSection />
         <ScrollingSection />
-        <SachetSection />
+        {/* <SachetSection /> */}
         <MiddleBanner />
         <ShopFromUs initialProducts={products} initialVariantParam={variantParam} />
         <LowerBanner />
