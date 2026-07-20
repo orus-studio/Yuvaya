@@ -1,23 +1,19 @@
 "use server";
 
-import { shopifyFetch } from "@/lib/shopify";
-
-interface CartCreateResponse {
-  cartCreate: {
-    cart: {
-      id: string;
-      checkoutUrl: string;
-    } | null;
-    userErrors: Array<{
-      field: string[];
-      message: string;
-    }>;
-  };
-}
-
 export interface CartLineItem {
   merchandiseId: string;
   quantity: number;
+}
+
+/**
+ * Helper to extract numeric variant ID from Shopify GraphQL GID or numeric string.
+ * e.g., "gid://shopify/ProductVariant/58221348290641" -> "58221348290641"
+ */
+function extractNumericVariantId(id: string): string {
+  if (!id) return "";
+  const parts = id.split("/");
+  const lastPart = parts[parts.length - 1];
+  return lastPart.replace(/\D/g, "");
 }
 
 export async function createCheckout(
@@ -38,68 +34,43 @@ export async function createCheckout(
     lines = lineItems;
   }
 
-  const mutation = `
-    mutation cartCreate($input: CartInput!) {
-      cartCreate(input: $input) {
-        cart {
-          id
-          checkoutUrl
-        }
-        userErrors {
-          field
-          message
-        }
-      }
-    }
-  `;
+  // Target Shopify Store domain (shop.yuvaya.in) where GoKwik integration is installed
+  const storeDomain = process.env.SHOPIFY_PUBLIC_DOMAIN || "shop.yuvaya.in";
 
-  try {
-    const result = await shopifyFetch<CartCreateResponse>({
-      query: mutation,
-      variables: {
-        input: {
-          lines: lines.map(line => ({
-            merchandiseId: line.merchandiseId,
-            quantity: line.quantity,
-          })),
-        },
-      },
-    });
+  const validLines = lines
+    .map((line) => ({
+      id: extractNumericVariantId(line.merchandiseId),
+      quantity: line.quantity,
+    }))
+    .filter((line) => line.id.length > 0);
 
-    const { cart, userErrors } = result.data.cartCreate;
-
-    if (userErrors && userErrors.length > 0) {
-      const errorMsg = userErrors.map((err) => err.message).join(", ");
-      return { error: `Shopify Cart Error: ${errorMsg}` };
-    }
-
-    if (!cart || !cart.checkoutUrl) {
-      return { error: "Failed to generate a checkout URL from Shopify." };
-    }
-
-    // Force checkoutUrl to go to the native Shopify store domain to avoid custom domain routing issues
-    let finalCheckoutUrl = cart.checkoutUrl;
-    console.log("=== CHECKOUT REDIRECT DEBUG ===");
-    console.log("Original Shopify Checkout URL:", cart.checkoutUrl);
-    console.log("SHOPIFY_STORE environment variable:", process.env.SHOPIFY_STORE);
-    
-    if (process.env.SHOPIFY_STORE) {
-      try {
-        const urlObj = new URL(finalCheckoutUrl);
-        urlObj.hostname = process.env.SHOPIFY_STORE;
-        finalCheckoutUrl = urlObj.toString();
-        console.log("Rewritten Checkout URL:", finalCheckoutUrl);
-      } catch (e) {
-        console.error("Failed to parse checkout URL:", e);
-      }
-    } else {
-      console.warn("SHOPIFY_STORE environment variable is NOT set!");
-    }
-    console.log("===============================");
-
-    return { webUrl: finalCheckoutUrl };
-  } catch (error: any) {
-    console.error("Error creating checkout session:", error);
-    return { error: error.message || "An unexpected error occurred. Please try again." };
+  if (validLines.length === 0) {
+    return { error: "Invalid product variant ID." };
   }
+
+  // Construct URL using Shopify's /cart/add endpoint with return_to=/cart
+  // This adds the item(s) to the Shopify store cart and forces Shopify to land on the /cart page
+  // (instead of bypassing to /checkout), enabling GoKwik's script on shop.yuvaya.in/cart to execute.
+  let cartUrl: string;
+
+  if (validLines.length === 1) {
+    const item = validLines[0];
+    cartUrl = `https://${storeDomain}/cart/add?id=${item.id}&quantity=${item.quantity}&return_to=/cart`;
+  } else {
+    const queryParams = validLines
+      .map(
+        (item, index) =>
+          `items[${index}][id]=${item.id}&items[${index}][quantity]=${item.quantity}`
+      )
+      .join("&");
+    cartUrl = `https://${storeDomain}/cart/add?${queryParams}&return_to=/cart`;
+  }
+
+  console.log("=== GOKWIK / SHOPIFY CART REDIRECT DEBUG ===");
+  console.log("Target Store Domain:", storeDomain);
+  console.log("Generated Shopify Cart URL:", cartUrl);
+  console.log("=============================================");
+
+  return { webUrl: cartUrl };
 }
+

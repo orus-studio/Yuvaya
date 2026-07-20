@@ -3,9 +3,11 @@
 import MiddleBanner from "@/Components/Landing/MiddleBanner";
 import NewsLetter from "@/Components/Landing/NewsLetter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star } from "lucide-react";
+import { Star, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
+import { createCheckout } from "@/app/actions/createCheckout";
 
 const page = () => {
   return (
@@ -127,6 +129,9 @@ export const HowToUseSection = () => {
 };
 
 export const ProductsPart = () => {
+  const { addToCart } = useCart();
+  const [isBuying, setIsBuying] = useState(false);
+
   const features = [
     "Refreshing taste and no fishy smell",
     "Quick absorbing",
@@ -137,18 +142,24 @@ export const ProductsPart = () => {
 
   const variants = [
     {
+      id: "gid://shopify/ProductVariant/58221348290641",
       label: "30 days pack",
       price: "₹ 3,100",
+      numericPrice: 3100,
       img: "/Landing/Stand Up Pouch Front latest mockup.png",
     },
     {
+      id: "gid://shopify/ProductVariant/58395879473233",
       label: "60 days pack",
       price: "₹ 5,800",
+      numericPrice: 5800,
       img: "/Landing/Stand Up Pouch Front latest mockup.png",
     },
     {
+      id: "gid://shopify/ProductVariant/59057234608209",
       label: "6 days trial",
       price: "₹ 699",
+      numericPrice: 699,
       img: "/Landing/Stand Up Pouch Front latest mockup.png",
     },
   ];
@@ -163,6 +174,34 @@ export const ProductsPart = () => {
   ];
   const [activeThumbnail, setActiveThumbnail] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(0);
+
+  const handleAddToCart = () => {
+    const v = variants[selectedVariant];
+    addToCart({
+      id: v.id,
+      title: "Collagreens",
+      variantLabel: v.label,
+      price: v.price,
+      image: v.img,
+      quantity: 1,
+    });
+  };
+
+  const handleBuyNow = async () => {
+    const v = variants[selectedVariant];
+    setIsBuying(true);
+    try {
+      const res = await createCheckout(v.id, 1);
+      if ("webUrl" in res && res.webUrl) {
+        window.location.href = res.webUrl;
+      } else {
+        setIsBuying(false);
+      }
+    } catch (e) {
+      console.error(e);
+      setIsBuying(false);
+    }
+  };
 
   return (
     <section id="products" className="bg-white min-h-screen w-full">
@@ -180,14 +219,17 @@ export const ProductsPart = () => {
                 <button
                   key={i}
                   onClick={() => setActiveThumbnail(i)}
-                  className={`relative box-border flex w-full flex-1 cursor-pointer items-center justify-center overflow-clip hover:scale-105 transition-transform ${i === 0 ? "rounded-t-lg sm:rounded-t-2xl" : ""} ${i === 2 ? "rounded-b-lg sm:rounded-b-2xl" : ""} border border-[#34803c] sm:border-2 lg:border-[3px] bg-[#fffdf2] transition-all`}
+                  className={`relative box-border flex-1 w-full overflow-hidden rounded-lg sm:rounded-xl md:rounded-2xl border-2 bg-white transition-all hover:scale-105 ${activeThumbnail === i
+                    ? "border-[#34803c] shadow-md"
+                    : "border-[#e0e0e0]"
+                    }`}
                 >
                   <Image
                     src={t.src}
                     alt={t.alt}
                     fill
-                    sizes="(max-width: 480px) 20vw, (max-width: 768px) 25vw, 12vw"
-                    className="object-contain p-1 sm:p-2 md:p-3"
+                    sizes="(max-width: 480px) 15vw, (max-width: 768px) 12vw, 10vw"
+                    className="object-contain p-1 sm:p-1.5 md:p-2"
                   />
                 </button>
               ))}
@@ -198,13 +240,6 @@ export const ProductsPart = () => {
               className="relative box-border flex flex-col overflow-clip rounded-lg sm:rounded-xl lg:rounded-[14px] border border-[#34803c] sm:border-2 lg:border-[4px] bg-[#fffdf2]"
               style={{ width: "75%", height: "100%" }}
             >
-              {/* Limited Time Offer banner */}
-              {/* <div className="absolute top-2 sm:top-4 lg:top-10 z-50 flex h-6 sm:h-8 lg:h-11 w-full shrink-0 items-center justify-center border-y-2 sm:border-y-4 border-[#11731b] bg-[#fffc60]">
-                <span className="font-cormorant text-[11px] sm:text-[14px] md:text-[16px] lg:text-[20px] font-normal italic text-[#11731b]">
-                  Limited Time Offer
-                </span>
-              </div> */}
-
               {/* Product image — changes based on selected thumbnail */}
               <div className="absolute inset-0 z-30 flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
                 <div className="relative h-full w-full max-h-full max-w-full">
@@ -335,7 +370,7 @@ export const ProductsPart = () => {
                 <button
                   key={i}
                   onClick={() => setSelectedVariant(i)}
-                  className="flex flex-col items-center gap-1.5 shrink-0"
+                  className="flex flex-col items-center gap-1.5 shrink-0 cursor-pointer"
                 >
                   {/* Each variant */}
                   <div
@@ -377,18 +412,26 @@ export const ProductsPart = () => {
             </div>
             {/* CTA Buttons */}
             <div className="flex w-full flex-col gap-2 sm:gap-3 md:gap-4 sm:flex-row">
-              <a
-                href="/cart"
-                className="box-border rounded-full border border-gray-400 bg-white px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 font-poppins text-[12px] xs:text-[13px] sm:text-[14px] md:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center flex-1 sm:flex-auto"
+              <button
+                onClick={handleAddToCart}
+                className="box-border rounded-full border border-gray-400 bg-white px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 font-poppins text-[12px] xs:text-[13px] sm:text-[14px] md:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center flex-1 sm:flex-auto cursor-pointer"
               >
                 Add to Cart
-              </a>
-              <a
-                href="/checkout"
-                className="box-border rounded-full border border-gray-300 bg-[#fffc60] px-4 sm:px-8 md:px-10 py-2 sm:py-2.5 md:py-3 font-poppins text-[12px] xs:text-[13px] sm:text-[14px] md:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] text-center flex-1 sm:flex-auto"
+              </button>
+              <button
+                onClick={handleBuyNow}
+                disabled={isBuying}
+                className="box-border rounded-full border border-gray-300 bg-[#fffc60] px-4 sm:px-8 md:px-10 py-2 sm:py-2.5 md:py-3 font-poppins text-[12px] xs:text-[13px] sm:text-[14px] md:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] text-center flex-1 sm:flex-auto cursor-pointer flex items-center justify-center gap-2 disabled:opacity-80"
               >
-                Buy Now
-              </a>
+                {isBuying ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Preparing Cart...</span>
+                  </>
+                ) : (
+                  <span>Buy Now</span>
+                )}
+              </button>
             </div>
           </div>
         </div>
