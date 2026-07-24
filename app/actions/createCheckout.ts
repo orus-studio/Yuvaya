@@ -48,14 +48,15 @@ export async function createCheckout(
     return { error: "Invalid product variant ID." };
   }
 
-  // Construct URL using Shopify's /cart/add endpoint with return_to=/cart
-  // This adds the item(s) to the Shopify store cart and forces Shopify to land on the /cart page
-  // (instead of bypassing to /checkout), enabling GoKwik's script on shop.yuvaya.in/cart to execute.
+  // Chain Shopify's /cart/clear endpoint with return_to=/cart/add...
+  // This clears any leftover/abandoned items from the Shopify cart session FIRST,
+  // then adds the fresh selection and redirects to /cart?gokwik=true for auto-checkout.
   let cartUrl: string;
 
   if (validLines.length === 1) {
     const item = validLines[0];
-    cartUrl = `https://${storeDomain}/cart/add?id=${item.id}&quantity=${item.quantity}&return_to=/cart`;
+    const addToCartPath = `/cart/add?id=${item.id}&quantity=${item.quantity}&return_to=/cart?gokwik=true`;
+    cartUrl = `https://${storeDomain}/cart/clear?return_to=${encodeURIComponent(addToCartPath)}`;
   } else {
     const queryParams = validLines
       .map(
@@ -63,7 +64,8 @@ export async function createCheckout(
           `items[${index}][id]=${item.id}&items[${index}][quantity]=${item.quantity}`
       )
       .join("&");
-    cartUrl = `https://${storeDomain}/cart/add?${queryParams}&return_to=/cart`;
+    const addToCartPath = `/cart/add?${queryParams}&return_to=/cart?gokwik=true`;
+    cartUrl = `https://${storeDomain}/cart/clear?return_to=${encodeURIComponent(addToCartPath)}`;
   }
 
   console.log("=== GOKWIK / SHOPIFY CART REDIRECT DEBUG ===");

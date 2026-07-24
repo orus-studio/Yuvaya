@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import { ShopifyArticle } from '@/lib/shopify'
+import Link from 'next/link'
 
 const BLOG_POSTS = [
     {
@@ -50,7 +51,7 @@ const BlogSection = ({ initialPosts }: BlogSectionProps) => {
 
     return (
         <section className="w-full bg-[#fffff7] px-4 sm:px-6 md:px-8 py-12 md:py-20">
-            <div className="max-w-[1400px] mx-auto bg-[#26312d] rounded-[24px] sm:rounded-[32px] p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row gap-12 lg:gap-16 justify-between items-stretch shadow-xl">
+            <div className="max-w-[1400px] mx-auto bg-[#26312d] rounded-[24px] sm:rounded-[32px] p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row gap-12 lg:gap-16 justify-between items-stretch shadow-xl" id='blogs'>
 
                 {/* Left Column - Intro and Button */}
                 <div className="w-full lg:w-[35%] flex flex-col justify-between">
@@ -68,9 +69,8 @@ const BlogSection = ({ initialPosts }: BlogSectionProps) => {
                     </div>
 
                     {/* Action Button */}
-                    <a
+                    <Link
                         href={blogUrl}
-                        target="_blank"
                         rel="noopener noreferrer"
                         className="mt-8 lg:mt-auto w-fit block"
                     >
@@ -78,7 +78,7 @@ const BlogSection = ({ initialPosts }: BlogSectionProps) => {
                             <span>See What Goes In</span>
                             <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                         </button>
-                    </a>
+                    </Link>
                 </div>
 
                 {/* Right Column - Blog Posts */}

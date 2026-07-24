@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createCheckout } from "@/app/actions/createCheckout";
-import { Loader2, ShoppingCart, Plus, ChevronUp, ChevronDown } from "lucide-react";
+import { Loader2, ShoppingCart, Plus, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { ShopifyLandingProductNode } from "@/lib/shopify";
 
@@ -288,10 +288,18 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
     const updateScrollButtons = React.useCallback(() => {
         const container = scrollContainerRef.current;
         if (container) {
-            const { scrollTop, scrollHeight, clientHeight } = container;
-            setIsScrollable(scrollHeight > clientHeight);
-            setCanScrollUp(scrollTop > 1.5);
-            setCanScrollDown(scrollTop + clientHeight < scrollHeight - 1.5);
+            const isMobileRow = window.innerWidth < 640;
+            if (isMobileRow) {
+                const { scrollLeft, scrollWidth, clientWidth } = container;
+                setIsScrollable(scrollWidth > clientWidth);
+                setCanScrollUp(scrollLeft > 1.5);
+                setCanScrollDown(scrollLeft + clientWidth < scrollWidth - 1.5);
+            } else {
+                const { scrollTop, scrollHeight, clientHeight } = container;
+                setIsScrollable(scrollHeight > clientHeight);
+                setCanScrollUp(scrollTop > 1.5);
+                setCanScrollDown(scrollTop + clientHeight < scrollHeight - 1.5);
+            }
         } else {
             setIsScrollable(false);
             setCanScrollUp(false);
@@ -302,27 +310,40 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
     const scrollUp = () => {
         const container = scrollContainerRef.current;
         if (container) {
+            const isMobileRow = window.innerWidth < 640;
             const firstChild = container.firstElementChild as HTMLElement;
-            const itemHeight = firstChild ? firstChild.clientHeight : 100;
             const gap = parseFloat(window.getComputedStyle(container).gap) || 8;
-            container.scrollBy({ top: -(itemHeight + gap), behavior: "smooth" });
+            if (isMobileRow) {
+                const itemWidth = firstChild ? firstChild.clientWidth : 64;
+                container.scrollBy({ left: -(itemWidth + gap), behavior: "smooth" });
+            } else {
+                const itemHeight = firstChild ? firstChild.clientHeight : 100;
+                container.scrollBy({ top: -(itemHeight + gap), behavior: "smooth" });
+            }
         }
     };
 
     const scrollDown = () => {
         const container = scrollContainerRef.current;
         if (container) {
+            const isMobileRow = window.innerWidth < 640;
             const firstChild = container.firstElementChild as HTMLElement;
-            const itemHeight = firstChild ? firstChild.clientHeight : 100;
             const gap = parseFloat(window.getComputedStyle(container).gap) || 8;
-            container.scrollBy({ top: itemHeight + gap, behavior: "smooth" });
+            if (isMobileRow) {
+                const itemWidth = firstChild ? firstChild.clientWidth : 64;
+                container.scrollBy({ left: (itemWidth + gap), behavior: "smooth" });
+            } else {
+                const itemHeight = firstChild ? firstChild.clientHeight : 100;
+                container.scrollBy({ top: (itemHeight + gap), behavior: "smooth" });
+            }
         }
     };
 
     React.useEffect(() => {
-        // Reset scroll position to top when variant changes
+        // Reset scroll position to top/left when variant changes
         if (scrollContainerRef.current) {
             scrollContainerRef.current.scrollTop = 0;
+            scrollContainerRef.current.scrollLeft = 0;
         }
         const timer = setTimeout(updateScrollButtons, 100);
         return () => clearTimeout(timer);
@@ -347,6 +368,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
             activeElement.scrollIntoView({
                 behavior: "smooth",
                 block: "nearest",
+                inline: "nearest",
             });
         }
     }, [activeThumbnail]);
@@ -419,90 +441,24 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                 </p>
             </div>
 
-            <div className="box-border flex w-full flex-col items-start gap-8 overflow-visible px-4 lg:flex-row lg:justify-evenly lg:gap-0 lg:px-[50px]">
+            <div className="box-border flex w-full flex-col items-start gap-8 overflow-visible px-2 sm:px-6 lg:flex-row lg:justify-evenly lg:gap-0 lg:px-[50px]">
                 {/* ── LEFT PANEL (sticky image block) ─────────────────────────── */}
                 <div className="h-fit w-full shrink-0 lg:sticky lg:top-24 lg:w-[55%]">
                     {/* Outer container: responsive height and styling */}
-                    <div className="box-border flex h-[350px] w-full flex-row items-center justify-center gap-3 overflow-clip rounded-2xl border-[4px] border-[#fff6b3] bg-[#faf6de] p-3 sm:h-[450px] sm:gap-4 sm:p-4 lg:h-[650px] lg:gap-5 lg:p-5">
-                        {/* Thumbnails column — vertical scrolling carousel */}
-                        <div className="relative flex h-full shrink-0 flex-col items-center justify-between py-1" style={{ width: "27%" }}>
-                            {/* Up Scroll Button */}
-                            {isScrollable && (
-                                <button
-                                    type="button"
-                                    onClick={scrollUp}
-                                    disabled={!canScrollUp}
-                                    className="z-10 flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none mb-1 shadow-sm active:scale-95 cursor-pointer"
-                                    aria-label="Scroll Up"
-                                >
-                                    <ChevronUp className="w-5 h-5" />
-                                </button>
-                            )}
-
-                            {/* Scrollable Thumbnails Container */}
-                            <div
-                                ref={scrollContainerRef}
-                                onScroll={updateScrollButtons}
-                                className={`w-full flex-1 overflow-y-auto no-scrollbar scroll-smooth flex flex-col gap-2 sm:gap-2.5 py-1 ${isScrollable ? "justify-start" : "justify-center"
-                                    }`}
-                            >
-                                {thumbnails.map((t, i) => (
-                                    <button
-                                        key={i}
-                                        type="button"
-                                        onClick={() => setActiveThumbnail(i)}
-                                        className={`relative box-border w-full aspect-square shrink-0 cursor-pointer items-center justify-center overflow-clip rounded-xl sm:rounded-2xl border-2 sm:border-[3px] lg:border-[4px] transition-all ${activeThumbnail === i
-                                            ? "border-[#34803c] bg-[#fffdf2] opacity-100 shadow-md scale-[0.98]"
-                                            : "border-[#e5e7eb] bg-[#fffdf2] opacity-60 hover:opacity-100 hover:border-[#34803c]/40"
-                                            }`}
-                                    >
-                                        <div className="relative w-full h-full p-2 sm:p-3">
-                                            <Image
-                                                src={t.src}
-                                                alt={t.alt}
-                                                fill
-                                                sizes="(max-width: 768px) 30vw, 10vw"
-                                                className="object-contain p-1"
-                                            />
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* Down Scroll Button */}
-                            {isScrollable && (
-                                <button
-                                    type="button"
-                                    onClick={scrollDown}
-                                    disabled={!canScrollDown}
-                                    className="z-10 flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none mt-1 shadow-sm active:scale-95 cursor-pointer"
-                                    aria-label="Scroll Down"
-                                >
-                                    <ChevronDown className="w-5 h-5" />
-                                </button>
-                            )}
-                        </div>
-
+                    <div className="box-border flex h-[380px] min-[400px]:h-[440px] sm:h-[460px] lg:h-[620px] xl:h-[660px] w-full flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 lg:gap-5 overflow-clip rounded-2xl border-[3px] sm:border-[4px] border-[#fff6b3] bg-[#faf6de] p-2.5 sm:p-4 lg:p-5">
                         {/* Main product image — responsive height */}
-                        <div className="relative box-border flex flex-col overflow-clip rounded-xl lg:rounded-[14px] border-2 sm:border-[3px] lg:border-[4px] border-[#34803c] bg-[#fffdf2]" style={{ width: "73%", height: "100%" }}>
-                            {/* Limited Time Offer banner */}
-                            {/* <div className="absolute top-4 sm:top-6 lg:top-10 z-50 flex h-8 sm:h-10 lg:h-11 w-full shrink-0 items-center justify-center border-y-2 sm:border-y-4 border-[#11731b] bg-[#fffc60]">
-                                <span className="font-cormorant text-[14px] sm:text-[18px] lg:text-[20px] font-normal italic text-[#11731b]">
-                                    Limited Time Offer
-                                </span>
-                            </div> */}
-
+                        <div className="relative box-border flex-1 w-full sm:w-auto h-[270px] min-[400px]:h-[320px] sm:h-full flex flex-col overflow-clip rounded-xl lg:rounded-[14px] border-2 sm:border-[3px] lg:border-[4px] border-[#34803c] bg-[#fffdf2] order-1 sm:order-2">
                             {/* Product image — changes based on selected thumbnail */}
-                            <div className="absolute inset-0 z-30 flex items-center justify-center p-8 sm:p-10 lg:p-12">
-                                <div className="relative h-full w-full max-h-full max-w-full">
+                            <div className="absolute inset-0 z-30 flex items-center justify-center p-3 sm:p-6 lg:p-10">
+                                <div className="relative h-full w-full max-h-full max-w-full flex items-center justify-center">
                                     {thumbnails[activeThumbnail] && (
                                         <Image
                                             src={thumbnails[activeThumbnail].src}
                                             alt={thumbnails[activeThumbnail].alt}
                                             key={`${selectedVariant}-${activeThumbnail}`}
                                             fill
-                                            sizes="(max-width: 768px) 100vw, 50vw"
-                                            className="object-contain object-center"
+                                            sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 600px"
+                                            className="object-contain object-center transition-all duration-300 drop-shadow-md"
                                             priority
                                         />
                                     )}
@@ -510,13 +466,74 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                             </div>
 
                             {/* Pack label badge at bottom right */}
-                            <div className="absolute bottom-4 right-4 z-10 rounded-full bg-[#26312d] px-5 py-2">
-                                <span className="font-poppins text-[14px] font-medium text-white">
+                            <div className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-40 rounded-full bg-[#26312d] px-3 py-1 sm:px-5 sm:py-2 shadow-md">
+                                <span className="font-poppins text-[10.5px] sm:text-[14px] font-medium text-white">
                                     {variants[selectedVariant].label === "30 days pack" ? "30 Day Pack"
                                         : variants[selectedVariant].label === "60 days pack" ? "60 Day Pack"
                                             : "6 Day Trial"}
                                 </span>
                             </div>
+                        </div>
+
+                        {/* Thumbnails container — row on mobile, column on desktop */}
+                        <div className="relative flex w-full sm:w-[24%] h-auto sm:h-full shrink-0 flex-row sm:flex-col items-center justify-between px-0.5 sm:px-0 py-0.5 sm:py-1 order-2 sm:order-1">
+                            {/* Previous Scroll Button (Left on mobile, Up on desktop) */}
+                            {isScrollable && (
+                                <button
+                                    type="button"
+                                    onClick={scrollUp}
+                                    disabled={!canScrollUp}
+                                    className="z-10 flex h-6 w-6 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none mr-1 sm:mr-0 sm:mb-1 shadow-sm active:scale-95 cursor-pointer"
+                                    aria-label="Scroll Previous"
+                                >
+                                    <ChevronLeft className="w-4 h-4 sm:hidden" />
+                                    <ChevronUp className="hidden sm:block w-5 h-5" />
+                                </button>
+                            )}
+
+                            {/* Scrollable Thumbnails Container */}
+                            <div
+                                ref={scrollContainerRef}
+                                onScroll={updateScrollButtons}
+                                className={`w-full flex-1 overflow-x-auto sm:overflow-x-hidden sm:overflow-y-auto no-scrollbar scroll-smooth flex flex-row sm:flex-col gap-1.5 sm:gap-2.5 py-0.5 sm:py-1 ${isScrollable ? "justify-start" : "justify-center"
+                                    }`}
+                            >
+                                {thumbnails.map((t, i) => (
+                                    <button
+                                        key={i}
+                                        type="button"
+                                        onClick={() => setActiveThumbnail(i)}
+                                        className={`relative box-border h-14 w-14 min-[400px]:h-16 min-[400px]:w-16 sm:h-auto sm:w-full aspect-square shrink-0 cursor-pointer items-center justify-center overflow-clip rounded-lg sm:rounded-xl lg:rounded-2xl border-2 sm:border-[3px] lg:border-[4px] transition-all ${activeThumbnail === i
+                                            ? "border-[#34803c] bg-[#fffdf2] opacity-100 shadow-md scale-[0.98]"
+                                            : "border-[#e5e7eb] bg-[#fffdf2] opacity-60 hover:opacity-100 hover:border-[#34803c]/40"
+                                            }`}
+                                    >
+                                        <div className="relative w-full h-full p-1 sm:p-2 lg:p-3">
+                                            <Image
+                                                src={t.src}
+                                                alt={t.alt}
+                                                fill
+                                                sizes="(max-width: 640px) 20vw, 10vw"
+                                                className="object-contain"
+                                            />
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Next Scroll Button (Right on mobile, Down on desktop) */}
+                            {isScrollable && (
+                                <button
+                                    type="button"
+                                    onClick={scrollDown}
+                                    disabled={!canScrollDown}
+                                    className="z-10 flex h-6 w-6 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none ml-1 sm:ml-0 sm:mt-1 shadow-sm active:scale-95 cursor-pointer"
+                                    aria-label="Scroll Next"
+                                >
+                                    <ChevronRight className="w-4 h-4 sm:hidden" />
+                                    <ChevronDown className="hidden sm:block w-5 h-5" />
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -622,7 +639,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                         {/* CTA Buttons */}
                         <div className="flex w-full flex-col gap-3">
                             <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
-                                <Link href='/' className="box-border rounded-full border border-gray-400 bg-white px-12 py-2.5 sm:px-8 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
+                                <Link href='/' className="box-border rounded-full border border-gray-400 bg-white px-6 sm:px-8 py-2.5 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
                                     View Details
                                 </Link>
                                 <div className="flex justify-center items-center flex-1 md:justify-normal gap-3 sm:flex-1 w-full">
@@ -630,7 +647,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                                         onClick={handleBuyNow}
                                         type="button"
                                         disabled={isBuying}
-                                        className="box-border flex-1 sm:flex-none rounded-full border border-gray-300 bg-[#fffc60] px-12 py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                                        className="box-border flex-1 sm:flex-none rounded-full border border-gray-300 bg-[#fffc60] px-6 sm:px-10 py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
                                     >
                                         {isBuying ? (
                                             <>
@@ -707,11 +724,11 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                             Testing parameters
                         </h3>
 
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 xl:grid-cols-4">
                             {testingParameters.map((test, i) => (
                                 <div key={i} className="h-full">
-                                    <div className="flex h-full flex-col items-center justify-start rounded-xl border-2 border-[#34803c] bg-white p-4 text-center sm:p-5">
-                                        <div className="relative mx-auto mb-3 h-10 w-10 sm:h-11 sm:w-11 lg:h-12 lg:w-12">
+                                    <div className="flex h-full flex-col items-center justify-start rounded-xl border-2 border-[#34803c] bg-white p-3.5 text-center sm:p-5">
+                                        <div className="relative mx-auto mb-2.5 h-9 w-9 sm:h-11 sm:w-11 lg:h-12 lg:w-12">
                                             <Image
                                                 src={test.src}
                                                 alt={test.label}
@@ -720,7 +737,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                                                 className="object-contain"
                                             />
                                         </div>
-                                        <p className="font-switzer text-[13px] sm:text-[14px] lg:text-[15px] leading-[1.35] text-[#333] wrap-break-word text-balance">
+                                        <p className="font-switzer text-[12px] sm:text-[14px] lg:text-[15px] leading-[1.35] text-[#333] wrap-break-word text-balance">
                                             {test.label}
                                         </p>
                                     </div>
