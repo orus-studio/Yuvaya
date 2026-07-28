@@ -239,7 +239,7 @@ const MiddleBanner = () => {
             </div>
 
             {/* ═══════════ SECTION 2: BANNER ═══════════ */}
-            <div className="relative w-full min-h-[280px] min-[360px]:min-h-[320px] sm:min-h-[480px] lg:min-h-[550px] xl:min-h-[700px] overflow-hidden">
+            <div className="relative w-full min-h-[440px] sm:min-h-[480px] lg:min-h-[550px] xl:min-h-[700px] overflow-hidden">
                 {/* Banner Background Image — full bleed */}
                 <div className="absolute inset-0 z-0">
                     <Image
@@ -255,10 +255,10 @@ const MiddleBanner = () => {
                 <div className="absolute top-0 left-0 right-0 h-[50px] sm:h-[80px] bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
                 <div className="absolute top-[-20px] left-1/2 -translate-x-1/2 w-[85%] h-[70px] sm:h-[80px] bg-white opacity-90 blur-3xl rounded-full z-10 pointer-events-none" />
 
-                {/* Sachet (Union) overlay + Text container */}
-                <div className="relative z-20 w-full h-full flex items-center justify-center  min-[360px] pt-28 sm:pt-28 md:pt-36 lg:pt-44">
+                {/* ── DESKTOP BANNER (hidden sm:flex) ── */}
+                <div className="hidden sm:flex relative z-20 w-full h-full items-center justify-center pt-28 md:pt-36 lg:pt-44">
                     <motion.div
-                        className="relative w-[95%] sm:w-[98%] md:w-[95%] lg:w-[92%] max-w-[1650px] mx-auto"
+                        className="relative w-[98%] md:w-[95%] lg:w-[92%] max-w-[1650px] mx-auto"
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, margin: "-80px" }}
@@ -271,18 +271,18 @@ const MiddleBanner = () => {
                                 src="/Union.png"
                                 alt="Daily Greens Sachet"
                                 fill
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 95vw, 1500px"
+                                sizes="(max-width: 1024px) 95vw, 1500px"
                                 className="object-contain z-10 relative opacity-85"
                                 priority
                             />
                         </div>
 
                         {/* Text overlay positioned on sachet */}
-                        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center translate-y-[2%] px-2 sm:px-6 md:px-8 text-center pointer-events-none">
+                        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center translate-y-[2%] px-6 md:px-8 text-center pointer-events-none">
                             <div className="pointer-events-auto flex flex-col items-center justify-center">
                                 {/* Title */}
                                 <h2
-                                    className="text-[11px] min-[360px]:text-[13px] min-[420px]:text-[16px] sm:text-[24px] md:text-[34px] lg:text-[46px] xl:text-[54px] font-bold italic text-[#FFFDF2] text-center leading-[1.15] tracking-[-0.04em] mb-0.5 sm:mb-1.5 lg:mb-3 drop-shadow-[0_1.5px_4px_rgba(0,0,0,0.4)]"
+                                    className="text-[24px] md:text-[34px] lg:text-[46px] xl:text-[54px] font-bold italic text-[#FFFDF2] text-center leading-[1.15] tracking-[-0.04em] mb-1.5 lg:mb-3 drop-shadow-[0_1.5px_4px_rgba(0,0,0,0.4)]"
                                     style={{
                                         fontFamily:
                                             "var(--font-tt-ramillas), serif",
@@ -293,7 +293,7 @@ const MiddleBanner = () => {
 
                                 {/* Subtitle */}
                                 <p
-                                    className="text-[7.5px] min-[360px]:text-[8.5px] min-[420px]:text-[10px] sm:text-[13px] md:text-[17px] lg:text-[21px] xl:text-[24px] font-medium text-[#FFFDF2] text-center tracking-[-0.03em] leading-[1.2] mb-0.5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
+                                    className="text-[13px] md:text-[17px] lg:text-[21px] xl:text-[24px] font-medium text-[#FFFDF2] text-center tracking-[-0.03em] leading-[1.2] mb-0.5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
                                     style={{
                                         fontFamily: "var(--font-switzer)",
                                     }}
@@ -303,7 +303,7 @@ const MiddleBanner = () => {
 
                                 {/* Highlighted subtitle */}
                                 <p
-                                    className="text-[7.5px] min-[360px]:text-[8.5px] min-[420px]:text-[10px] sm:text-[13px] md:text-[17px] lg:text-[21px] xl:text-[24px] font-bold text-[#FFFB26] text-center tracking-[-0.03em] leading-[1.2] mb-1 sm:mb-2.5 lg:mb-4 drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
+                                    className="text-[13px] md:text-[17px] lg:text-[21px] xl:text-[24px] font-bold text-[#FFFB26] text-center tracking-[-0.03em] leading-[1.2] mb-2.5 lg:mb-4 drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
                                     style={{
                                         fontFamily: "var(--font-switzer)",
                                     }}
@@ -314,7 +314,7 @@ const MiddleBanner = () => {
                                 {/* Shop Now Button */}
                                 <Link href="/#shop">
                                     <motion.div
-                                        className="flex items-center gap-1 sm:gap-2.5 bg-[#FFFDF2] text-[#34803C] rounded-full px-2.5 min-[360px]:px-3 sm:px-5 lg:px-7 py-0.5 min-[360px]:py-1 sm:py-2 lg:py-2.5 cursor-pointer"
+                                        className="flex items-center gap-2.5 bg-[#FFFDF2] text-[#34803C] rounded-full px-5 lg:px-7 py-2 lg:py-2.5 cursor-pointer"
                                         style={{
                                             boxShadow:
                                                 "0px 0px 30px 10px rgba(255, 255, 255, 0.25)",
@@ -332,7 +332,7 @@ const MiddleBanner = () => {
                                             damping: 20,
                                         }}
                                     >
-                                        <span className="text-[7.5px] min-[360px]:text-[8.5px] min-[420px]:text-[10px] sm:text-[13px] lg:text-[17px] xl:text-[20px] font-bold tracking-[-0.03em]">
+                                        <span className="text-[13px] lg:text-[17px] xl:text-[20px] font-bold tracking-[-0.03em]">
                                             Shop Now
                                         </span>
                                         <svg
@@ -341,7 +341,7 @@ const MiddleBanner = () => {
                                             viewBox="0 0 27 12"
                                             fill="none"
                                             xmlns="http://www.w3.org/2000/svg"
-                                            className="w-2.5 min-[360px]:w-3 sm:w-4.5 lg:w-5.5"
+                                            className="w-4.5 lg:w-5.5"
                                         >
                                             <path
                                                 d="M1 6H25M25 6L20 1M25 6L20 11"
@@ -355,6 +355,30 @@ const MiddleBanner = () => {
                                 </Link>
                             </div>
                         </div>
+                    </motion.div>
+                </div>
+
+                {/* ── MOBILE BANNER (flex sm:hidden) ── */}
+                <div className="flex sm:hidden relative z-20 w-full h-full items-center justify-center pt-24 pb-20 px-8">
+                    <motion.div
+                        className="relative w-[85%] max-w-[320px] mx-auto"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                    >
+                        <Link href="/#shop" className="block w-full p-2">
+                            <div className="relative w-full aspect-[350/500] overflow-visible">
+                                <Image
+                                    src="/Union_mobile.png"
+                                    alt="Daily Greens Sachet Mobile Banner"
+                                    fill
+                                    sizes="(max-width: 640px) 105vw, 420px"
+                                    className="object-contain drop-shadow-xl"
+                                    priority
+                                />
+                            </div>
+                        </Link>
                     </motion.div>
                 </div>
             </div>
