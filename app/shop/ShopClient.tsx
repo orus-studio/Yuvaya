@@ -81,6 +81,17 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
   const [isBuying, setIsBuying] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
+  // Reset isBuying state on browser back navigation (bfcache restoration)
+  useEffect(() => {
+    const handlePageShow = () => {
+      setIsBuying(false);
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, []);
+
   // Collagen Formula Option State (Marine Collagen vs Vegan Collagen)
   const [collagenType, setCollagenType] = useState<"marine" | "vegan">("marine");
 
