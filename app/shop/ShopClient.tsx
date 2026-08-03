@@ -42,6 +42,7 @@ export interface ProductVariant {
   numericPrice: number;
   originalPrice?: string;
   img: string;
+  images?: ProductThumbnail[];
 }
 
 export interface ProductThumbnail {
@@ -55,7 +56,6 @@ export interface ProductsPartProps {
     subtitle?: string;
     description?: string;
     variants?: ProductVariant[];
-    images?: ProductThumbnail[];
   };
 }
 
@@ -114,6 +114,11 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
       numericPrice: 3100,
       originalPrice: undefined,
       img: "/Landing/Stand Up Pouch Front latest mockup.png",
+      images: [
+        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
+        { src: "/Landing/Stand Up Pouch Back latest mockup.png", alt: "Pouch Back" },
+        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+      ],
     },
     {
       id: "gid://shopify/ProductVariant/58395879473233",
@@ -122,42 +127,39 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
       price: "₹ 5,600",
       numericPrice: 5600,
       originalPrice: "₹ 5,800",
-      img: "/Landing/Stand Up Pouch Back latest mockup.png",
+      img: "/Landing/Stand Up Pouch Front latest mockup.png",
+      images: [
+        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
+        { src: "/Landing/Stand Up Pouch Back latest mockup.png", alt: "Pouch Back" },
+        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+      ],
     },
     {
       id: "gid://shopify/ProductVariant/59057234608209",
       label: "6 days trial",
       badge: "Starter Pack",
-      price: "₹ 699",
-      numericPrice: 699,
+      price: "₹ 1,100",
+      numericPrice: 1100,
       originalPrice: undefined,
       img: "/Landing/Sachet Front latest mockup.png",
+      images: [
+        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+        { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
+      ],
     },
   ];
 
-  const productThumbnails: ProductThumbnail[] = productData?.images || [
-    { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "30 Days Stand Up Pouch Front View" },
-    { src: "/Landing/Stand Up Pouch Back latest mockup.png", alt: "60 Days Stand Up Pouch Back View" },
-    { src: "/Landing/Sachet Front latest mockup.png", alt: "6 Days Trial Sachet Front View" },
-    { src: "/Landing/Sachet Back latest mockup.png", alt: "Collagreens Sachet Back View" },
-  ];
-
-  const [activeThumbnail, setActiveThumbnail] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(0);
+  const [activeThumbnail, setActiveThumbnail] = useState(0);
 
+  // Thumbnails come from the SELECTED variant's own images — just like the landing page
+  const productThumbnails: ProductThumbnail[] = variants[selectedVariant]?.images || [];
+
+  // Exactly like handleVariantChange in ShopFromUs: switch variant + reset thumbnail to 0
   const handleSelectVariant = (index: number) => {
     setSelectedVariant(index);
-    const targetImg = variants[index]?.img;
-    if (targetImg) {
-      const matchIndex = productThumbnails.findIndex((t) => t.src === targetImg);
-      if (matchIndex !== -1) {
-        setActiveThumbnail(matchIndex);
-      } else {
-        setActiveThumbnail(Math.min(index, productThumbnails.length - 1));
-      }
-    } else {
-      setActiveThumbnail(Math.min(index, productThumbnails.length - 1));
-    }
+    setActiveThumbnail(0);
   };
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -301,9 +303,9 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
                 <div className="absolute inset-0 z-20 flex items-center justify-center p-4 sm:p-8">
                   <div className="relative h-full w-full max-h-full max-w-full flex items-center justify-center">
                     <Image
-                      src={productThumbnails[activeThumbnail]?.src || variants[selectedVariant]?.img}
-                      alt={productThumbnails[activeThumbnail]?.alt || "Product Image View"}
-                      key={activeThumbnail}
+                      src={productThumbnails[activeThumbnail]?.src || variants[selectedVariant]?.img || ""}
+                      alt={productThumbnails[activeThumbnail]?.alt || variants[selectedVariant]?.label || "Product Image View"}
+                      key={`variant-${selectedVariant}-thumb-${activeThumbnail}`}
                       fill
                       sizes="(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 650px"
                       className="object-contain object-center transition-all duration-300 drop-shadow-md"
