@@ -29,10 +29,13 @@ import {
   Upload,
   Store,
   FingerprintPattern,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { createCheckout } from "@/app/actions/createCheckout";
 import NewsLetter from "@/Components/Landing/NewsLetter";
+import Link from "next/link";
 
 export interface ProductVariant {
   id: string;
@@ -137,7 +140,7 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
       badge: "Best Value",
       price: "₹ 5,600",
       numericPrice: 5600,
-      originalPrice: "₹ 5,800",
+      originalPrice: "₹ 6,200",
       img: "/Landing/Stand Up Pouch Front latest mockup.png",
       images: [
         { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
@@ -264,45 +267,44 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
   const heroAccordions = [
     {
       title: "Description",
-      content:
-        productData?.description ||
-        "Greens aid your gut. Collagen helps your skin. Collagreens is the one sachet that does even more with 6 clinically studied complexes against every major cause of collagen loss.",
+      content: (
+        <div className="flex flex-col gap-2">
+          <p>
+            Running a pharmacy with 15+ supplements on your shelf? Thinking of having that green juice every morning but the taste is scary? Thinking of starting collagen that isn’t fishy? We got you! Collagreens is a multi-functional formulation that solves more than 1 problem. 1 daily sachet and your mangoeyy drink (not bitter) replaces more than 6 supplements daily with 7.47 g protein per sachet.
+          </p>
+          <p className="font-bold text-[#34803c]">
+            Supports Gut, Skin, Hair, Nails and Joints
+          </p>
+        </div>
+      ),
     },
     {
       title: "Ingredient breakdown",
-      content:
-        "Key active ingredients per sachet include: Hydrolyzed Marine Collagen Peptides (Type I & III, 5000mg), Organic Supergreens Blend (Spirulina, Wheatgrass, Moringa, Chlorella), Antioxidant & Vitamin C Complex (Amla, Acerola Berry), Hyaluronic Acid & Biotin (100% RDA), Probiotic Gut Support Matrix.",
+      content: (
+        <div className="flex flex-col gap-2.5">
+          <p><strong>1. Peptide blend complex</strong>- Hydrolysed Marine Collagen Peptides, Hyaluronic acid, Biotin, Chondroitin Sulphate, and Glutathione. This blend is studied together to enhance supplementation of collagen and enhance collagen signaling inside the body.</p>
+          <p><strong>2. Vitamin C complex</strong>- Acerola Cherries, Amla, Oranges. The quantities are balanced to naturally deliver appropriate amount of Vitamin C to naturally build collagen inside.</p>
+          <p><strong>3. Super greens</strong>- Barley leaf, Wheatgrass, Alfalfa, Spinach, Coriander, Ginger, Oat grass, Cucumbers, Amaranth, natural fiber and vitamins reduce bloating and promote healthy digestion. This in turn enhances absorption of peptides and your daily protein, acting as a great adjunct to your daily supplements routine.</p>
+          <p><strong>4. Vitamin A complex</strong>- Amaranth and Moringa. They aid in collagen supplementation and signaling.</p>
+          <p><strong>5. Antioxidants</strong>- Grapeseed, Beetroot, Apple, Purple Carrot, Carrot, Blueberry, Pomegranate, and Milk Thistle seed are powerful antioxidants that can neutralise oxidative radicals that may cause collagen depletion.</p>
+          <p><strong>6. Anti-inflammatories</strong>- A whole Curcumin complex with Ginger, Fenugreek, Pineapple and Black pepper for turmeric absorption and reduce inflammation inside the body.</p>
+        </div>
+      ),
     },
     {
       title: "How to use",
       content:
-        "Tear open 1 sachet daily. Pour into 200ml of cold water or your favorite smoothie. Stir or shake for 10-15 seconds until fully dissolved. Best taken every morning on an empty stomach or 2 hours after breakfast for maximum cellular absorption.",
+        "Tear sachet. Pour it in glass or shaker. Add 200-300 ml cold/normal water. Shake. Enjoy! Collagreens is recommended to be consumed empty stomach or 2 hours post easting. It can also be enjoyed before sleeping for a reparative effect on skin",
     },
     {
       title: "Shipping & other information",
       content:
-        "We offer 100% Free Shipping on all orders across India. Orders are processed within 24 hours and delivered in 2–5 business days. Both Prepaid & Cash on Delivery (COD) options are available.",
+        "100% free shipping on prepaid orders across India. Partial COD options available with Rs. 100 COD fee. Orders are processed within 24 hours and delivered in 2-5 business days, depending on location.",
     },
   ];
 
   return (
     <section id="products" className="w-full pb-16 sm:pb-20 lg:pb-24">
-      {/* Top Header */}
-      <div className="mb-8 sm:mb-12 flex flex-col items-center gap-3 text-center px-4">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#26312d] text-white shadow-sm">
-          <Store className="w-3.5 h-3.5 text-[#e5c97b]" />
-          <span className="font-poppins text-[10.5px] sm:text-[11.5px] font-semibold uppercase tracking-widest text-[#fffdf2]">
-            Our Store
-          </span>
-        </div>
-        <h1 className="font-tt-ramillas font-bold text-[36px] sm:text-[52px] lg:text-[64px] leading-[1.08] text-[#111827]">
-          {productData?.title || "Shop Collagreens"}
-        </h1>
-        <p className="font-poppins text-[14px] sm:text-[18px] font-medium text-[#4b5563] max-w-xl">
-          {productData?.subtitle || "Daily Supergreens + Hydrolyzed Marine Collagen formulated for Indian routines."}
-        </p>
-      </div>
-
       <div className="box-border flex w-full flex-col items-start gap-10 lg:flex-row lg:justify-between lg:gap-12 px-4 sm:px-6 lg:px-[50px] max-w-7xl mx-auto">
         {/* ── LEFT PANEL (Image Gallery) ── */}
         <div className="h-fit w-full shrink-0 lg:sticky lg:top-24 lg:w-[48%] xl:w-[50%]">
@@ -421,7 +423,7 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
 
           {/* Star Rating & View Lab Tests Header */}
           <div className="flex w-full flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-gray-200">
-            <div className="flex items-center gap-1.5">
+            <Link href={"/shop#reviews"} className="flex items-center gap-1.5">
               <div className="flex items-center gap-0.5 text-[#34803c]">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-[#34803c] text-[#34803c]" />
@@ -430,9 +432,8 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
               <span className="font-poppins text-[13px] sm:text-[15px] font-bold text-[#34803c]">
                 4.9/5.0
               </span>
-              <span className="font-poppins text-[12px] text-gray-500">(80,000+ happy users)</span>
-            </div>
-            <a
+            </Link>
+            <Link
               href="https://www.notion.so/TEST-RESULTS-Yuvaya-3683ae035ffc80e39898d3dff170d830"
               target="_blank"
               rel="noopener noreferrer"
@@ -440,7 +441,7 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
             >
               <ShieldCheck className="w-4 h-4" />
               View Lab Tests
-            </a>
+            </Link>
           </div>
 
           {/* Product Title & Subtitle */}
@@ -456,7 +457,10 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
           {/* Detailed Product Description */}
           <div className="flex flex-col gap-2 text-[#4b5563] font-poppins text-[13px] sm:text-[14.5px] leading-[1.6]">
             <p>
-              Greens aid your gut. Collagen helps your skin. Collagreens is the one sachet that does even more with 6 clinically studied complexes against every major cause of collagen loss.
+              Running a pharmacy with 15+ supplements on your shelf? Thinking of having that green juice every morning but the taste is scary? Thinking of starting collagen that isn’t fishy? We got you! Collagreens is a multi-functional formulation that solves more than 1 problem. 1 daily sachet and your mangoeyy drink (not bitter) replaces more than 6 supplements daily with 7.47 g protein per sachet.
+            </p>
+            <p className="font-bold text-[#34803c]">
+              Supports Gut, Skin, Hair, Nails and Joints
             </p>
           </div>
 
@@ -592,9 +596,16 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
                 <span className="font-poppins text-[11px] uppercase tracking-wider text-gray-600 font-semibold block">
                   Total Selected Price
                 </span>
-                <span className="font-antic-didone text-[26px] sm:text-[32px] font-bold text-[#26312d]">
-                  {variants[selectedVariant]?.price}
-                </span>
+                <div className="flex items-baseline gap-2">
+                  {variants[selectedVariant]?.originalPrice && (
+                    <span className="font-antic-didone text-[18px] sm:text-[22px] text-gray-400 line-through font-medium">
+                      {variants[selectedVariant]?.originalPrice}
+                    </span>
+                  )}
+                  <span className="font-antic-didone text-[26px] sm:text-[32px] font-bold text-[#26312d]">
+                    {variants[selectedVariant]?.price}
+                  </span>
+                </div>
               </div>
               <span className="font-poppins text-[12px] font-medium text-[#34803c] bg-[#e8f5e9] px-2.5 py-1 rounded-md border border-[#34803c]/20">
                 Taxes Included
@@ -858,57 +869,73 @@ export const ProductTransparency = () => {
    3. CLINICAL STUDIES & SCIENTIFIC RESULTS
    ───────────────────────────────────────────────────────────── */
 export const ClinicalStudiesSection = () => {
-  const stats = [
-    { value: "28%", label: "Decrease in skin roughness from baseline", detail: "Significant smoothing of skin texture" },
-    { value: "18%", label: "Increase in skin elasticity", detail: "Measurable rebound & firmness" },
-    { value: "25%", label: "Increase in overall skin hydration", detail: "Deeper moisture retention" },
+  const studyMetrics = [
+    { value: "~57.34%", label: "- crow's feet wrinkles" },
+    { value: "~54.62%", label: "- skin scaliness over 60 day use" },
+    { value: "~22.94%", label: "+ skin hydration" },
+    { value: "~46.57%", label: "- hair fall over 60 day use" },
+    { value: "~10.06%", label: "+ hair density over 60 day use" },
+    { value: "~25.16%", label: "+ hair thickness over 60 day use" },
   ];
 
   return (
-    <section className="w-full bg-[#fffff7] py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-[50px] border-b border-gray-200">
-      <div className="max-w-6xl mx-auto flex flex-col items-center">
+    <section className="w-full bg-[#243d1a] py-14 sm:py-20 lg:py-24 px-5 sm:px-8 lg:px-[60px] text-white">
+      <div className="max-w-4xl mx-auto flex flex-col">
 
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="font-switzer text-[28px] sm:text-[36px] lg:text-[44px] font-bold text-[#111827] mb-3">
-            Clinical Studies & Proven Results
-          </h2>
-          <p className="font-switzer text-[14px] sm:text-[17px] text-[#4b5563] max-w-2xl mx-auto">
-            Based on a 12-week randomized double-blind placebo-controlled trial evaluating daily collagen peptide supplementation.
-          </p>
-        </div>
+        {/* Category Badge */}
+        <span className="font-tt-ramillas italic text-[20px] sm:text-[24px] text-[#d5ea77] font-semibold block mb-2">
+          The Science
+        </span>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-8">
-          {stats.map((s, i) => (
-            <div key={i} className="bg-[#26312d] text-white p-6 sm:p-8 rounded-2xl flex flex-col justify-between border border-[#34803c]/40 shadow-sm">
-              <span className="font-tt-ramillas text-[42px] sm:text-[50px] font-bold text-white leading-none mb-2">
-                {s.value}
+        {/* Section Heading */}
+        <h2 className="font-switzer text-[32px] sm:text-[44px] lg:text-[54px] font-extrabold text-white leading-[1.08] tracking-tight mb-5">
+          What a 60-day clinical study of our marine collagen found?
+        </h2>
+
+        {/* Subtitle / Patient Description */}
+        <p className="font-poppins text-[14.5px] sm:text-[17px] text-[#e0e7d5] font-normal leading-relaxed mb-10 max-w-3xl">
+          66 adult patients. Healthy adult males and females aged 30-50 years with atleast mild skin aging. Additionally, they also experienced mild-to-moderate joint pain and decreased range of motion.
+        </p>
+
+        {/* Metrics List */}
+        <div className="flex flex-col border-t border-[#3b542c]">
+          {studyMetrics.map((item, idx) => (
+            <div
+              key={idx}
+              className="flex flex-row items-center justify-start gap-4 sm:gap-8 py-4 sm:py-5 border-b border-[#3b542c]"
+            >
+              <span className="font-switzer text-[32px] sm:text-[44px] lg:text-[48px] font-extrabold text-[#d9ea7c] shrink-0 tracking-tight min-w-[150px] sm:min-w-[210px]">
+                {item.value}
               </span>
-              <div>
-                <h4 className="font-switzer text-[16px] sm:text-[18px] font-semibold text-white mb-1">
-                  {s.label}
-                </h4>
-                <p className="font-switzer text-[12px] sm:text-[13px] text-gray-300">
-                  {s.detail}
-                </p>
-              </div>
+              <span className="font-poppins text-[15px] sm:text-[19px] lg:text-[21px] font-medium text-white">
+                {item.label}
+              </span>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-col items-center gap-2 text-center">
+        {/* Read Published Peer-Reviewed Clinical Study CTA */}
+        <div className="mt-8 flex flex-col items-start gap-3">
           <a
-            href="https://www.mdpi.com/2072-6643/10/7/826"
+            href="https://drive.google.com/file/d/19fDye2tFPt_r1BdVCvvIiNdAaKwoN2t6/view"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-switzer text-[13px] sm:text-[15px] font-semibold text-[#34803c] hover:underline flex items-center gap-1.5"
+            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#d5ea77] text-[#1c3014] font-poppins text-[13.5px] sm:text-[15px] font-bold hover:bg-[#c4dc62] transition-all shadow-md active:scale-98 group"
           >
+            <FileText className="w-4 h-4 text-[#1c3014]" />
             <span>Read Published Peer-Reviewed Clinical Study</span>
-            <ArrowRight className="w-4 h-4" />
+            <ExternalLink className="w-4 h-4 text-[#1c3014] group-hover:translate-x-0.5 transition-transform" />
           </a>
-          <p className="font-switzer text-[11px] sm:text-[12px] text-gray-500 max-w-xl">
+
+          <p className="font-poppins text-[12px] sm:text-[13.5px] text-[#c7d9bc] italic leading-relaxed">
             *Note: Clinical study outcomes measured for daily collagen peptides. Enhanced vitality results supported by supergreens complex.
           </p>
         </div>
+
+        {/* Citation Footnote */}
+        <p className="font-poppins text-[11px] sm:text-[12.5px] text-[#8fa882] mt-6 pt-4 border-t border-[#3b542c]/50 leading-relaxed">
+          Patel M. Comprehensive clinical evaluations of the aesthetic enhancements on skin, hair, and nails through the administration of marine collagen. J Biochem Biotech. 2023; 6(4):152
+        </p>
 
       </div>
     </section>
@@ -1006,7 +1033,7 @@ export const FAQsForShopPage = () => {
     {
       question: "Are there any shipping charges?",
       answer:
-        "We offer 100% Free Shipping on all orders across India, including Prepaid and Cash on Delivery options.",
+        "100% free shipping on prepaid orders across India. Partial COD options available with Rs. 100 COD fee. Orders are processed within 24 hours and delivered in 2-5 business days, depending on location.",
     },
   ];
 
@@ -1083,6 +1110,15 @@ export const FAQsForShopPage = () => {
   );
 };
 
+const AmazonVerifiedBadge = () => (
+  <div className="inline-flex items-center gap-1.5 bg-[#131921] text-white px-2.5 py-1 rounded-full text-[10.5px] font-bold shadow-md border border-[#FF9900]/70">
+
+    <span className="text-[#FF9900] font-black tracking-tighter text-[11px]">amazon</span>
+    <CheckCircle2 className="w-3.5 h-3.5 text-[#00a8e8] shrink-0" />
+    <span className="text-gray-100 text-[9.5px] font-semibold uppercase tracking-wider">Verified</span>
+  </div>
+);
+
 /* ─────────────────────────────────────────────────────────────
    6. CUSTOMER REVIEWS & REAL IMAGE SHOWCASE
    ───────────────────────────────────────────────────────────── */
@@ -1092,134 +1128,145 @@ export const StillDoubts = () => {
     {
       id: 1,
       src: "/reviews/reviews_image (1).png",
-      alt: "Customer Review - Skin Radiance & Hydration",
-      author: "Priya Sharma",
-      location: "Mumbai, MH",
+      alt: "Customer Review - Sakshi Agarwal",
+      author: "Sakshi Agarwal",
+      location: "Delhi, NCR",
       rating: 5,
-      date: "Verified Buyer • July 2026",
+      date: "Verified Amazon Buyer • July 2026",
       title: "Noticeable Skin Radiance & Zero Bloating",
       category: "skin",
       tag: "Skin & Glow",
+      isAmazon: true,
     },
     {
       id: 2,
       src: "/reviews/reviews_image (2).png",
-      alt: "Customer Review - Gut Health & Digestibility",
-      author: "Ananya Reddy",
-      location: "Bengaluru, KA",
+      alt: "Customer Review - Kushagra Kedia",
+      author: "Kushagra Kedia",
+      location: "Mumbai, MH",
       rating: 5,
-      date: "Verified Buyer • July 2026",
+      date: "Verified Amazon Buyer • July 2026",
       title: "Cleanest Collagen + Greens Combo",
       category: "gut",
       tag: "Gut & Digestion",
+      isAmazon: true,
     },
     {
       id: 3,
       src: "/reviews/reviews_image (3).png",
-      alt: "Customer Review - Hair Thickness & Nail Strength",
-      author: "Meera Kapoor",
-      location: "Delhi NCR",
+      alt: "Customer Review - Akshay Kedia",
+      author: "Akshay Kedia",
+      location: "Mumbai, MH",
       rating: 5,
-      date: "Verified Buyer • June 2026",
+      date: "Verified Amazon Buyer • June 2026",
       title: "Stronger Nails & Hair Fall Reduced",
       category: "hair",
       tag: "Hair & Nails",
+      isAmazon: true,
     },
     {
       id: 4,
       src: "/reviews/reviews_image (4).png",
-      alt: "Customer Review - Delicious Refreshing Taste",
-      author: "Rohan Mehta",
-      location: "Pune, MH",
+      alt: "Customer Review - Mariam Sheikh",
+      author: "Mariam Sheikh",
+      location: "Mumbai, MH",
       rating: 5,
-      date: "Verified Buyer • June 2026",
+      date: "Verified Amazon Buyer • June 2026",
       title: "Zero Fishy Smell, Tastes Refreshing!",
       category: "taste",
       tag: "Taste & Odorless",
+      isAmazon: true,
     },
     {
       id: 5,
       src: "/reviews/reviews_image (5).png",
-      alt: "Customer Review - Daily Energy & Vitality",
-      author: "Kavya Nair",
-      location: "Kochi, KL",
+      alt: "Customer Review - Shikha Khan",
+      author: "Shikha Khan",
+      location: "Mumbai, MH",
       rating: 5,
-      date: "Verified Buyer • May 2026",
+      date: "Verified Amazon Buyer • May 2026",
       title: "Essential Morning Wellness Ritual",
       category: "gut",
       tag: "Gut & Digestion",
+      isAmazon: true,
     },
     {
       id: 6,
       src: "/reviews/reviews_image (6).png",
-      alt: "Customer Review - Post-Workout Recovery",
-      author: "Shweta Verma",
-      location: "Hyderabad, TS",
+      alt: "Customer Review - Aditya Nayal",
+      author: "Aditya Nayal",
+      location: "Mumbai, MH",
       rating: 5,
-      date: "Verified Buyer • May 2026",
+      date: "Verified Amazon Buyer • May 2026",
       title: "Perfect Recovery Drink after Gym",
       category: "verified",
       tag: "Verified Purchase",
+      isAmazon: true,
     },
     {
       id: 7,
       src: "/reviews/reviews_image (7).png",
-      alt: "Customer Review - 12-Week Transformation",
-      author: "Aarti Patel",
-      location: "Ahmedabad, GJ",
+      alt: "Customer Review - Bhavna Harchandani",
+      author: "Bhavna Harchandani",
+      location: "Mumbai, MH",
       rating: 5,
-      date: "Verified Buyer • April 2026",
+      date: "Verified Amazon Buyer • April 2026",
       title: "12-Week Glow & Hydration Transformation",
       category: "skin",
       tag: "Skin & Glow",
+      isAmazon: true,
     },
     {
       id: 8,
       src: "/reviews/reviews_image (8).png",
-      alt: "Customer Review - Gut Comfort & Light Stomach",
-      author: "Simran Gill",
-      location: "Chandigarh",
+      alt: "Customer Review - Aastha Joshi",
+      author: "Aastha Joshi",
+      location: "Delhi, NCR",
       rating: 5,
-      date: "Verified Buyer • April 2026",
+      date: "Verified Amazon Buyer • April 2026",
       title: "Stomach Feels Light All Day",
       category: "gut",
       tag: "Gut & Digestion",
+      isAmazon: true,
     },
     {
       id: 9,
       src: "/reviews/reviews_image (9).png",
-      alt: "Customer Review - Instant Dissolution",
-      author: "Divya Chandran",
-      location: "Chennai, TN",
+      alt: "Customer Review - Dharte House",
+      author: "Dharte House",
+      location: "Mumbai, MH",
       rating: 5,
-      date: "Verified Buyer • March 2026",
+      date: "Verified Amazon Buyer • March 2026",
       title: "Dissolves Instantly in Cold Water",
       category: "taste",
       tag: "Taste & Odorless",
+      isAmazon: true,
     },
     {
       id: 10,
       src: "/reviews/reviews_image (10).png",
-      alt: "Customer Review - Anti-Aging & Joint Comfort",
-      author: "Neelam Bajaj",
-      location: "Jaipur, RJ",
+      alt: "Customer Review - Harshit Agarwal",
+      author: "Harshit Agarwal",
+      location: "Mumbai, MH",
       rating: 5,
-      date: "Verified Buyer • March 2026",
+      date: "Verified Amazon Buyer • March 2026",
       title: "Improved Joint Flexibility & Smooth Skin",
       category: "verified",
       tag: "Verified Purchase",
+      isAmazon: true,
     },
     {
       id: 11,
       src: "/reviews/reviews_image (11).png",
-      alt: "Customer Review - Unboxing & Quality Verification",
-      author: "Pooja Trivedi",
-      location: "Kolkata, WB",
+      alt: "Customer Review - Neelam Bajaj",
+      author: "Neelam Bajaj",
+      location: "Jaipur, RJ",
       rating: 5,
       date: "Verified Buyer • February 2026",
       title: "Premium Packaging & Authentic Product",
       category: "verified",
       tag: "Verified Purchase",
+      isAmazon: false,
     },
   ];
 
@@ -1287,7 +1334,7 @@ export const StillDoubts = () => {
   };
 
   return (
-    <section className="w-full bg-[#fffdf2] py-14 sm:py-18 md:py-24 px-3 sm:px-6 lg:px-[50px] border-t border-gray-200 overflow-hidden relative">
+    <section id="reviews" className="w-full bg-[#fffdf2] py-14 sm:py-18 md:py-24 px-3 sm:px-6 lg:px-[50px] border-t border-gray-200 overflow-hidden relative">
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-8 sm:gap-12">
 
         {/* Header Container */}
@@ -1432,6 +1479,13 @@ export const StillDoubts = () => {
                     <div className="absolute top-3 left-3 bg-[#34803c] text-white px-3 py-1 rounded-full font-poppins text-[10px] sm:text-[11px] font-bold shadow-xs">
                       {rev.tag}
                     </div>
+
+                    {/* Amazon Verified Badge */}
+                    {rev.isAmazon && (
+                      <div className="absolute bottom-3 left-3 z-20">
+                        <AmazonVerifiedBadge />
+                      </div>
+                    )}
                   </div>
 
                   {/* Review Info Card Footer */}
@@ -1489,6 +1543,11 @@ export const StillDoubts = () => {
                   <div className="absolute top-3 left-3 bg-[#34803c] text-white px-3 py-1 rounded-full font-poppins text-[10px] font-bold shadow-xs">
                     {rev.tag}
                   </div>
+                  {rev.isAmazon && (
+                    <div className="absolute bottom-3 left-3 z-20">
+                      <AmazonVerifiedBadge />
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-4 sm:p-5 bg-white border-t border-gray-100 flex flex-col gap-2">
@@ -1592,7 +1651,12 @@ export const StillDoubts = () => {
                     <span className="bg-[#34803c] text-white text-[11px] font-bold px-3 py-1 rounded-full">
                       {filteredReviews[selectedImageIndex].tag}
                     </span>
-                    <span className="text-gray-400 text-xs font-poppins">
+                    {filteredReviews[selectedImageIndex].isAmazon && (
+                      <span className="bg-[#26312d] text-[#ff9900] text-[11px] font-black px-2.5 py-1 rounded-full border border-[#ff9900]/50 flex items-center gap-1">
+                        amazon <span className="text-white font-normal text-[10px]">Verified</span>
+                      </span>
+                    )}
+                    <span className="text-gray-400 text-xs font-poppins ml-auto">
                       {selectedImageIndex + 1} of {filteredReviews.length}
                     </span>
                   </div>

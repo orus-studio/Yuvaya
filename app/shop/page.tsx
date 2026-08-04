@@ -57,6 +57,11 @@ export default async function ShopPage() {
           badge = "Starter Pack";
         }
 
+        let originalPrice: string | undefined = undefined;
+        if (lowerLabel.includes("60") || index === 1) {
+          originalPrice = "₹ 6,200";
+        }
+
         // Build this variant's OWN images array from Shopify product images
         const images = prod.images?.edges?.map((edge) => ({
           src: edge.node.url,
@@ -75,7 +80,7 @@ export default async function ShopPage() {
           badge,
           price: priceFormatted,
           numericPrice: amount,
-          originalPrice: undefined,
+          originalPrice,
           img: displayImages[0]?.src || "",
           images: displayImages,
         };

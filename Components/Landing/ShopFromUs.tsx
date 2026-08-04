@@ -708,7 +708,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                             </div>
                         </div>
 
-                        <Link href="https://www.mdpi.com/2072-6643/10/7/826" target="_blank" className="font-switzer text-[12px] font-medium sm:text-[16px] leading-[1.4] text-[#666] mb-4 underline">
+                        <Link href="https://drive.google.com/file/d/19fDye2tFPt_r1BdVCvvIiNdAaKwoN2t6/view" target="_blank" className="font-switzer text-[12px] font-medium sm:text-[16px] leading-[1.4] text-[#666] mb-4 underline">
                             Clinical Study Source
                         </Link>
                         <p className="font-switzer pt-2 text-[13px] sm:text-[15px] leading-[1.4] text-[#666] mb-6">
