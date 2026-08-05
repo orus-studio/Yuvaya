@@ -303,7 +303,7 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/Landing/InstaPost_1.jpg')",
+            backgroundImage: "url('https://ik.imagekit.io/orus/Horizontal_Insta_Post/InstaPost_1.webp')",
             filter: "blur(20px) ",
             transform: "scale(1.22)"
           }}

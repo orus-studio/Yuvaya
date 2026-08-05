@@ -9,48 +9,48 @@ const complexes = [
     {
         title: "Peptide Blend\nComplex",
         description: "Hydrolyzed collagen peptides for better absorption.",
-        image: "/Sachet_Complex/Peptide_Blend_Complex_image.png",
-        bgImage: "/Sachet_Complex/Peptide_Blend_Complex_bg.png",
+        image: "https://ik.imagekit.io/orus/Green_Sachet/Peptide_Blend_Complex_image.webp",
+        bgImage: "https://ik.imagekit.io/orus/Green_Sachet/Peptide_Blend_Complex_bg.webp",
         cardBg: "rgba(255, 252, 252, 0.25)",
         boxShadow: "inset 83px 220px 70px rgba(82, 82, 82, 0.15)",
     },
     {
         title: "Supergreens",
         description: "It builds gut health, support digestion, act as a powerful prebiotic.",
-        image: "/Sachet_Complex/Supergreens_image.png",
-        bgImage: "/Sachet_Complex/Supergreens_bg.png",
+        image: "https://ik.imagekit.io/orus/Green_Sachet/Supergreens_image.webp",
+        bgImage: "https://ik.imagekit.io/orus/Green_Sachet/Supergreens_bg.webp",
         cardBg: "rgba(242, 242, 242, 0.25)",
         boxShadow: "inset 83px 220px 70px rgba(242, 241, 241, 0.04)",
     },
     {
         title: "Vitamin A\nComplex",
         description: "Moringa, Amaranth, and apples are great sources for skin and hair health.",
-        image: "/Sachet_Complex/Vitamin_A_complex.png",
-        bgImage: "/Sachet_Complex/Vitamin_A_Complex_bg.png",
+        image: "https://ik.imagekit.io/orus/Green_Sachet/Vitamin_A_complex.webp",
+        bgImage: "https://ik.imagekit.io/orus/Green_Sachet/Vitamin_A_Complex_bg.webp",
         cardBg: "rgba(255, 255, 255, 0.25)",
         boxShadow: "inset 83px 220px 70px rgba(188, 68, 68, 0.2)",
     },
     {
         title: "Vitamin C\nComplex",
         description: "Amla, acerola cherries, and mangoes added to supplement collagen.",
-        image: "/Sachet_Complex/Vitamin_C_Complex.png",
-        bgImage: "/Sachet_Complex/Vitamin_C_Complex_bg.png",
+        image: "https://ik.imagekit.io/orus/Green_Sachet/Vitamin_C_Complex.webp",
+        bgImage: "https://ik.imagekit.io/orus/Green_Sachet/Vitamin_C_Complex_bg.webp",
         cardBg: "rgba(231, 231, 231, 0.25)",
         boxShadow: "inset 83px 220px 70px rgba(66, 66, 66, 0.2)",
     },
     {
         title: "Antioxidant\nBlend",
         description: "Beetroots, carrots, blueberries, grapeseed and others are present.",
-        image: "/Sachet_Complex/Antioxidant_blend.png",
-        bgImage: "/Sachet_Complex/Antioxidant_Blend_bg.png",
+        image: "https://ik.imagekit.io/orus/Green_Sachet/Antioxidant_blend.webp",
+        bgImage: "https://ik.imagekit.io/orus/Green_Sachet/Antioxidant_Blend_bg.webp",
         cardBg: "rgba(255, 249, 233, 0.25)",
         boxShadow: "inset 83px 220px 70px rgba(188, 68, 68, 0.2)",
     },
     {
         title: "Anti Inflammatory\nBlend",
         description: "Ginger, turmeric, fenugreek, pineapple, and black pepper.",
-        image: "/Sachet_Complex/Antiinflammatory_blend.png",
-        bgImage: "/Sachet_Complex/antiinflammatory_blend_bg.png",
+        image: "https://ik.imagekit.io/orus/Green_Sachet/Antiinflammatory_blend.webp",
+        bgImage: "https://ik.imagekit.io/orus/Green_Sachet/antiinflammatory_blend_bg.webp",
         cardBg: "rgba(227, 227, 227, 0.25)",
         boxShadow: "inset 83px 220px 70px rgba(255, 142, 0, 0.2)",
     },
@@ -136,6 +136,7 @@ const MiddleBanner = () => {
                                     alt=""
                                     fill
                                     sizes="(max-width: 640px) 180px, (max-width: 1024px) 250px, 280px"
+                                    loading="lazy"
                                     className="object-cover rounded-[24px] sm:rounded-[30px] lg:rounded-[35px] z-0 pointer-events-none select-none"
                                 />
 
@@ -170,7 +171,7 @@ const MiddleBanner = () => {
                                                 fill
                                                 sizes="(max-width: 640px) 120px, 180px"
                                                 className="object-cover rounded-full select-none w-full h-full"
-                                                priority
+                                                loading="lazy"
                                             />
 
                                             {/* Inner glass bubble shadow */}
@@ -243,11 +244,12 @@ const MiddleBanner = () => {
                 {/* Banner Background Image — full bleed */}
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/banner_bg.png"
+                        src="https://ik.imagekit.io/orus/Green_Sachet/banner_bg.webp"
                         alt="Greens Bubbly Background"
                         fill
+                        sizes="100vw"
                         className="object-cover object-center"
-                        priority
+                        loading="lazy"
                     />
                 </div>
 
@@ -268,12 +270,12 @@ const MiddleBanner = () => {
                         <div className="relative w-full aspect-[1448/486] overflow-visible">
                             {/* The Union.png sachet image */}
                             <Image
-                                src="/Union.png"
+                                src="https://ik.imagekit.io/orus/Green_Sachet/Union.webp"
                                 alt="Daily Greens Sachet"
                                 fill
                                 sizes="(max-width: 1024px) 95vw, 1500px"
                                 className="object-contain z-10 relative opacity-85"
-                                priority
+                                loading="lazy"
                             />
                         </div>
 
@@ -370,12 +372,12 @@ const MiddleBanner = () => {
                         <Link href="/#shop" className="block w-full p-2">
                             <div className="relative w-full aspect-[350/500] overflow-visible">
                                 <Image
-                                    src="/Union_mobile.png"
+                                    src="https://ik.imagekit.io/orus/Green_Sachet/Union_mobile.webp"
                                     alt="Daily Greens Sachet Mobile Banner"
                                     fill
                                     sizes="(max-width: 640px) 105vw, 420px"
                                     className="object-contain drop-shadow-xl"
-                                    priority
+                                    loading="lazy"
                                 />
                             </div>
                         </Link>

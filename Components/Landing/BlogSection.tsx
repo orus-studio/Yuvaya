@@ -111,6 +111,7 @@ const BlogSection = ({ initialPosts }: BlogSectionProps) => {
                                     fill
                                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 30vw, 400px"
+                                    loading="lazy"
                                 />
 
                                 {/* Floating Action Arrow */}

@@ -4,27 +4,27 @@ import Image from 'next/image'
 const items = [
     {
         label: "FDA Certified",
-        src: "/FDALogo.png",
+        src: "https://ik.imagekit.io/orus/Logo/FDALogo.webp",
     },
     {
         label: "HACCP Certified",
-        src: "/HACCPLogo.png",
+        src: "https://ik.imagekit.io/orus/Logo/HACCPLogo.webp",
     },
     {
         label: "Heavy-metal tested",
-        src: "/MetalTested.png",
+        src: "https://ik.imagekit.io/orus/Logo/MetalTested.webp",
     },
     {
         label: "No Added Sugar",
-        src: "/NoAddedSugar.png",
+        src: "https://ik.imagekit.io/orus/Logo/NoAddedSugar.webp",
     },
     {
         label: "100% Natural",
-        src: "/Natural.png",
+        src: "https://ik.imagekit.io/orus/Logo/Natural.webp",
     },
     {
         label: "No Preservatives",
-        src: "/noPreservatives.png",
+        src: "https://ik.imagekit.io/orus/Logo/noPreservatives.webp",
     },
 ]
 
@@ -38,6 +38,8 @@ const LowerBanner = () => {
                             src={item.src}
                             alt={item.label}
                             fill
+                            sizes="(max-width: 640px) 32px, 80px"
+                            loading="lazy"
                             className="object-contain"
                         />
                     </div>

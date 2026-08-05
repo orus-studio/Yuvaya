@@ -64,7 +64,7 @@ const HeroSection = () => {
             <div className="relative w-[min(84vw,500px)] sm:w-[min(66vw,560px)] md:w-[min(50vw,420px)] lg:w-[380px]">
               <div className="relative aspect-[3/5] w-full overflow-visible">
                 <Image
-                  src="/Landing/Stand Up Pouch Front latest mockup.png"
+                  src="https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp"
                   alt="Yuvaya Daily Greens + Collagen Pouch"
                   fill
                   sizes="(max-width: 639px) 84vw, (max-width: 767px) 66vw, (max-width: 1023px) 50vw, 380px"

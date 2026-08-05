@@ -22,31 +22,31 @@ const features = [
 
 const testingParameters = [
     {
-        src: "/Landing/Microbial_infection.webp",
+        src: "https://ik.imagekit.io/orus/Logo/Microbial_infection.webp",
         label: "Microbial contamination",
     },
     {
-        src: "/Landing/Amino_acid.png",
+        src: "https://ik.imagekit.io/orus/Logo/Amino_acid.webp",
         label: "Amino acid profiling",
     },
     {
-        src: "/Landing/Heavy_metal.png",
+        src: "https://ik.imagekit.io/orus/Logo/Heavy_metal.webp",
         label: "Heavy metal test",
     },
     {
-        src: "/Landing/pesticide_testing.avif",
+        src: "https://ik.imagekit.io/orus/Logo/pesticide_testing.webp",
         label: "Pesticide testing",
     },
     {
-        src: "/Landing/Aflatoxin_testing.png",
+        src: "https://ik.imagekit.io/orus/Logo/Aflatoxin_testing.webp",
         label: "Aflatoxin testing",
     },
     {
-        src: "/Landing/Stability_testing.avif",
+        src: "https://ik.imagekit.io/orus/Logo/Stability_testing.webp",
         label: "Stability testing",
     },
     {
-        src: "/Landing/Organoleptic_testing.png",
+        src: "https://ik.imagekit.io/orus/Logo/Organoleptic_testing.webp",
         label: "Organoleptic testing",
     },
 ];
@@ -96,13 +96,13 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                     label: "30 days pack",
                     price: "₹ 3,100",
                     originalPrice: undefined,
-                    img: "/Landing/Stand Up Pouch Front latest mockup.png",
+                    img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
                     title: "Collagreens",
                     descriptionHtml: "",
                     images: [
-                        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
-                        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
-                        { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
                     ]
                 },
                 {
@@ -111,13 +111,13 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                     label: "60 days pack",
                     price: "₹ 5,600",
                     originalPrice: "₹ 5,800",
-                    img: "/Landing/Stand Up Pouch Front latest mockup.png",
+                    img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
                     title: "Collagreens",
                     descriptionHtml: "",
                     images: [
-                        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
-                        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
-                        { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
                     ]
                 },
                 {
@@ -126,13 +126,13 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                     label: "6 days trial",
                     price: "₹ 1,100",
                     originalPrice: undefined,
-                    img: "/Landing/Stand Up Pouch Front latest mockup.png",
+                    img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
                     title: "Collagreens",
                     descriptionHtml: "",
                     images: [
-                        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
-                        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
-                        { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
+                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
                     ]
                 }
             ];
@@ -171,9 +171,9 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
             }));
 
             const displayImages = images.length > 0 ? images : [
-                { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
-                { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
-                { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
+                { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
+                { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
+                { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
             ];
 
             return {
@@ -182,7 +182,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                 label,
                 price: priceFormatted,
                 originalPrice,
-                img: displayImages[0]?.src || "/Landing/Stand Up Pouch Front latest mockup.png",
+                img: displayImages[0]?.src || "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
                 title: prod.title,
                 descriptionHtml: prod.descriptionHtml ? prod.descriptionHtml.replace(/<meta[^>]*>/gi, "") : "",
                 images: displayImages

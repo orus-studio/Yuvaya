@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 const instaPosts = [
-    { src: "/Landing/InstaPost_3.jpg", alt: "Yuvaya Collagreens with tropical backdrop" },
-    { src: "/Landing/InstaPost_4.jpg", alt: "Model holding Yuvaya sachet" },
-    { src: "/Landing/InstaPost_2.jpg", alt: "Yuvaya pouch in a luxury handbag" },
-    { src: "/Landing/InstaPost_5.jpg", alt: "Model drinking Yuvaya greens drink" },
-    { src: "/Landing/InstaPost_1.jpg", alt: "Yuvaya sachets flat lay" },
+    { src: "https://ik.imagekit.io/orus/Horizontal_Insta_Post/InstaPost_3.webp", alt: "Yuvaya Collagreens with tropical backdrop" },
+    { src: "https://ik.imagekit.io/orus/Horizontal_Insta_Post/InstaPost_4.webp", alt: "Model holding Yuvaya sachet" },
+    { src: "https://ik.imagekit.io/orus/Horizontal_Insta_Post/InstaPost_2.webp", alt: "Yuvaya pouch in a luxury handbag" },
+    { src: "https://ik.imagekit.io/orus/Horizontal_Insta_Post/InstaPost_5.webp", alt: "Model drinking Yuvaya greens drink" },
+    { src: "https://ik.imagekit.io/orus/Horizontal_Insta_Post/InstaPost_1.webp", alt: "Yuvaya sachets flat lay" },
 ];
 
 const instagramUrl = "https://www.instagram.com/yuvayaindia";
@@ -63,10 +64,13 @@ const VerticalInstaPost = () => {
                             rel="noopener noreferrer"
                             className="group relative block shrink-0 overflow-hidden rounded-lg w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96"
                         >
-                            <div
-                                aria-hidden="true"
-                                className="absolute inset-0 bg-center bg-cover bg-no-repeat transition-transform duration-500 ease-out group-hover:scale-105"
-                                style={{ backgroundImage: `url(${post.src})` }}
+                            <Image
+                                src={post.src}
+                                alt={post.alt}
+                                fill
+                                sizes="(max-width: 640px) 256px, (max-width: 768px) 320px, 384px"
+                                loading="lazy"
+                                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                             />
                             <div
                                 className="absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"

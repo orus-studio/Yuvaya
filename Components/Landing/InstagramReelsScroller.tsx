@@ -1,16 +1,17 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 const coverImages = [
-  "/Landing/Insta_Post_Cover/IMG_8752.PNG",
-  "/Landing/Insta_Post_Cover/IMG_8753.PNG",
-  "/Landing/Insta_Post_Cover/IMG_8755.PNG",
-  "/Landing/Insta_Post_Cover/IMG_8756.PNG",
-  "/Landing/Insta_Post_Cover/IMG_8757.PNG",
-  "/Landing/Insta_Post_Cover/IMG_8758.PNG",
-  "/Landing/Insta_Post_Cover/IMG_8760.PNG",
+  "https://ik.imagekit.io/orus/Insta_Post_Cover/IMG_8752.webp",
+  "https://ik.imagekit.io/orus/Insta_Post_Cover/IMG_8753.webp",
+  "https://ik.imagekit.io/orus/Insta_Post_Cover/IMG_8755.webp",
+  "https://ik.imagekit.io/orus/Insta_Post_Cover/IMG_8756.webp",
+  "https://ik.imagekit.io/orus/Insta_Post_Cover/IMG_8757.webp",
+  "https://ik.imagekit.io/orus/Insta_Post_Cover/IMG_8758.webp",
+  "https://ik.imagekit.io/orus/Insta_Post_Cover/IMG_8760.webp",
 ];
 
 const reels = [
@@ -41,10 +42,13 @@ const ReelCard = ({ reel }: { reel: (typeof reels)[number] }) => {
       }}
     >
       {/* Cover image */}
-      <img
+      <Image
         src={reel.coverImage}
         alt={reel.id}
-        className="relative z-0 h-full w-full object-cover"
+        fill
+        sizes="200px"
+        loading="lazy"
+        className="relative z-0 object-cover"
       />
     </a>
   );

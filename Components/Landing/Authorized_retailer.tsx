@@ -4,12 +4,12 @@ import Image from 'next/image'
 const RETAILERS = [
   {
     name: "Amazon",
-    src: "/Authorized_Retailers/Amazon_logo.svg.webp",
+    src: "https://ik.imagekit.io/orus/Logo/Amazon_logo.svg.webp",
     alt: "Amazon Logo",
   },
   {
     name: "Nature's Basket",
-    src: "/Authorized_Retailers/Natures_Basket.png",
+    src: "https://ik.imagekit.io/orus/Logo/Natures_Basket.webp",
     alt: "Nature's Basket Logo",
   }
 ]
@@ -44,7 +44,7 @@ const Authorized_retailer = () => {
                   fill
                   className="object-contain"
                   sizes="(max-width: 640px) 160px, (max-width: 768px) 180px, 220px"
-                  priority
+                  loading="lazy"
                 />
               </div>
             </div>

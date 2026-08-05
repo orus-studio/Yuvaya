@@ -164,7 +164,7 @@ const Footer = () => {
                 aria-label="X"
                 className="flex text-inherit"
               >
-                <Image src="/threadsLogo.webp" alt="X" width={30} height={30} />
+                <Image src="https://ik.imagekit.io/orus/Logo/threadsLogo.webp" alt="X" width={30} height={30} />
               </Link>
               <Link
                 href="https://www.facebook.com/yuvayaindia"

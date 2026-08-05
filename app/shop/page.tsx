@@ -70,8 +70,8 @@ export default async function ShopPage() {
 
         // Fallback images if Shopify returns none
         const displayImages = images.length > 0 ? images : [
-          { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
-          { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+          { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
+          { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
         ];
 
         return {

@@ -183,11 +183,11 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
       price: "₹ 3,100",
       numericPrice: 3100,
       originalPrice: undefined,
-      img: "/Landing/Stand Up Pouch Front latest mockup.png",
+      img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
       images: [
-        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
-        { src: "/Landing/Stand Up Pouch Back latest mockup.png", alt: "Pouch Back" },
-        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Back%20latest%20mockup.webp", alt: "Pouch Back" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
       ],
     },
     {
@@ -197,11 +197,11 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
       price: "₹ 5,600",
       numericPrice: 5600,
       originalPrice: "₹ 6,200",
-      img: "/Landing/Stand Up Pouch Front latest mockup.png",
+      img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
       images: [
-        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
-        { src: "/Landing/Stand Up Pouch Back latest mockup.png", alt: "Pouch Back" },
-        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Back%20latest%20mockup.webp", alt: "Pouch Back" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
       ],
     },
     {
@@ -211,11 +211,11 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
       price: "₹ 1,100",
       numericPrice: 1100,
       originalPrice: undefined,
-      img: "/Landing/Sachet Front latest mockup.png",
+      img: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp",
       images: [
-        { src: "/Landing/Sachet Front latest mockup.png", alt: "Sachet Front" },
-        { src: "/Landing/Sachet Back latest mockup.png", alt: "Sachet Back" },
-        { src: "/Landing/Stand Up Pouch Front latest mockup.png", alt: "Pouch Front" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
+        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
       ],
     },
   ];

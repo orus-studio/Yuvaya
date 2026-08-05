@@ -94,7 +94,7 @@ const Navbar = () => {
         {/* Left: Logo */}
         <Link href="/" className="ml-1 flex items-center">
           <Image
-            src="/WhiteLogo.png"
+            src="https://ik.imagekit.io/orus/Logo/WhiteLogo.webp"
             alt="Yuvaya Logo"
             width={26}
             height={26}
