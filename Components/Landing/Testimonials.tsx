@@ -121,7 +121,7 @@ const testimonials = [
         greeting: "Dear Yuvaya,",
         body: `I tried your drink at the Way Well event and absolutely loved it. That's the reason I reached out to you here 🙂. Looking forward to getting my monthly supply!`,
         signoff: "Gratefully,",
-        name: "Verified Attendee",
+        name: "Verified Customer",
         title: "Tried at Way Well event & loved it!",
         image: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(8).webp",
         imageAlt: "Customer Review from Way Well Event",
@@ -485,8 +485,8 @@ const Testimonials = () => {
                                         animateToNext(i);
                                     }}
                                     className={`h-2.5 rounded-full transition-all cursor-pointer ${i === index
-                                            ? "w-7 bg-[#11731b]"
-                                            : "w-2.5 bg-gray-300 hover:bg-gray-400"
+                                        ? "w-7 bg-[#11731b]"
+                                        : "w-2.5 bg-gray-300 hover:bg-gray-400"
                                         }`}
                                     aria-label={`Go to slide ${i + 1}`}
                                 />
@@ -520,8 +520,8 @@ const Testimonials = () => {
                                             animateToNext(i);
                                         }}
                                         className={`relative shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${isActive
-                                                ? "border-[#11731b] scale-105 shadow-md ring-2 ring-[#11731b]/30"
-                                                : "border-gray-200 opacity-60 hover:opacity-100 hover:border-gray-400"
+                                            ? "border-[#11731b] scale-105 shadow-md ring-2 ring-[#11731b]/30"
+                                            : "border-gray-200 opacity-60 hover:opacity-100 hover:border-gray-400"
                                             }`}
                                         title={`View review by ${item.name}`}
                                     >
