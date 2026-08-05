@@ -9,7 +9,7 @@ const HeroSection = () => {
       <div className="relative w-full overflow-hidden rounded-t-[28px] bg-[linear-gradient(180deg,#fffc60_0%,rgb(255,253,242)_100%)] px-4 pb-8 pt-10 sm:rounded-t-[32px] sm:px-6 sm:pb-10 md:px-6 md:pb-10 md:pt-8 lg:min-h-[726px] lg:rounded-t-[40px] lg:px-16 lg:pt-12">
         <div className="mx-auto w-full max-w-[1320px] md:flex md:flex-col md:items-center md:justify-center lg:relative lg:min-h-[660px]">
           {/* Left Text Content */}
-          <div className="z-10 flex w-full max-w-[640px] flex-col items-center gap-4 text-center sm:gap-5 md:items-center md:text-center md:max-w-[600px] md:mb-4 lg:absolute lg:left-8 lg:top-[40%] lg:w-[56%] lg:max-w-[680px] lg:items-start lg:text-left lg:-translate-y-1/2">
+          <div className="relative z-30 flex w-full max-w-[640px] flex-col items-center gap-4 text-center sm:gap-5 md:items-center md:text-center md:max-w-[600px] md:mb-4 lg:absolute lg:left-8 lg:top-[40%] lg:w-[56%] lg:max-w-[680px] lg:items-start lg:text-left lg:-translate-y-1/2">
             <span className="font-poppins text-[13px] font-bold uppercase leading-[1.25] tracking-[0.04em] text-[#11731b] sm:text-[16px] md:text-[15px] lg:text-[18px]">
               Clean. Functional. Studied
             </span>
@@ -28,7 +28,7 @@ const HeroSection = () => {
               stick routine.
             </p>
 
-            <Link href="/#shop" className="mt-4 box-border flex h-[52px] w-[170px] cursor-pointer flex-row items-center justify-end gap-3 overflow-hidden rounded-[100px] border-none bg-[#11731b] px-1 py-0 font-poppins sm:mt-6 sm:h-[56px] sm:w-[194px] sm:gap-4 md:mt-6 md:h-[54px] md:w-[200px]">
+            <Link href="/shop" className="relative z-30 mt-4 box-border flex h-[52px] w-[170px] cursor-pointer flex-row items-center justify-end gap-3 overflow-hidden rounded-[100px] border-none bg-[#11731b] px-1 py-0 font-poppins sm:mt-6 sm:h-[56px] sm:w-[194px] sm:gap-4 md:mt-6 md:h-[54px] md:w-[200px]">
               <span className="whitespace-pre text-[18px] font-medium leading-[1.2] tracking-normal text-[#fffdf2] sm:text-[21px] md:text-[20px]">
                 Shop Now
               </span>

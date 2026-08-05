@@ -308,12 +308,12 @@ export default function ContactUs() {
             {/* Base Image */}
             <div className="absolute inset-0 z-0">
               <Image
-                src="/Landing/Insta_Post_Cover/IMG_8760.PNG"
+                src="https://ik.imagekit.io/orus/Insta_Post_Cover/IMG_8760.webp"
                 alt="Yuvaya Lifestyle Nutrition"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-[4000ms] hover:scale-105"
-                priority
+                loading="lazy"
               />
               {/* Blur backdrop & gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#26312d]/90 via-[#26312d]/30 to-transparent" />

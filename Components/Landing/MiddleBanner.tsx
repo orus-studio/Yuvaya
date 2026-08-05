@@ -270,7 +270,7 @@ const MiddleBanner = () => {
                         <div className="relative w-full aspect-[1448/486] overflow-visible">
                             {/* The Union.png sachet image */}
                             <Image
-                                src="https://ik.imagekit.io/orus/Green_Sachet/Union.webp"
+                                src="/Union.png"
                                 alt="Daily Greens Sachet"
                                 fill
                                 sizes="(max-width: 1024px) 95vw, 1500px"
@@ -314,7 +314,7 @@ const MiddleBanner = () => {
                                 </p>
 
                                 {/* Shop Now Button */}
-                                <Link href="/#shop">
+                                <Link href="/shop">
                                     <motion.div
                                         className="flex items-center gap-2.5 bg-[#FFFDF2] text-[#34803C] rounded-full px-5 lg:px-7 py-2 lg:py-2.5 cursor-pointer"
                                         style={{
@@ -369,10 +369,10 @@ const MiddleBanner = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-                        <Link href="/#shop" className="block w-full p-2">
+                        <Link href="/shop" className="block w-full p-2">
                             <div className="relative w-full aspect-[350/500] overflow-visible">
                                 <Image
-                                    src="https://ik.imagekit.io/orus/Green_Sachet/Union_mobile.webp"
+                                    src="/Union_mobile.png"
                                     alt="Daily Greens Sachet Mobile Banner"
                                     fill
                                     sizes="(max-width: 640px) 105vw, 420px"

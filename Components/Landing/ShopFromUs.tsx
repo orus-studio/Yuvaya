@@ -639,7 +639,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                         {/* CTA Buttons */}
                         <div className="flex w-full flex-col gap-3">
                             <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
-                                <Link href='/' className="box-border rounded-full border border-gray-400 bg-white px-6 sm:px-8 py-2.5 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
+                                <Link href='/shop' className="box-border rounded-full border border-gray-400 bg-white px-6 sm:px-8 py-2.5 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
                                     View Details
                                 </Link>
                                 <div className="flex justify-center items-center flex-1 md:justify-normal gap-3 sm:flex-1 w-full">
@@ -687,23 +687,23 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
                             Clinical studies and results
                         </h3>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            <div className="bg-[#26312d]  p-6 rounded-2xl">
-                                <p className="font-tt-ramillas text-[32px] font-bold text-[#47b852] mb-2">28%</p>
-                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#fcfafa]">
-                                    Decrease in skin roughness from baseline levels
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
+                            <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
+                                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">22.94%</p>
+                                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
+                                    + skin hydration
                                 </p>
                             </div>
-                            <div className="bg-[#26312d] p-6 rounded-2xl">
-                                <p className="font-tt-ramillas text-[32px] font-bold text-[#47b852] mb-2">18%</p>
-                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#fefefe]">
-                                    Increase in skin elasticity from baseline levels
+                            <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
+                                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">~46.57%</p>
+                                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
+                                    - hair fall over 60 day use
                                 </p>
                             </div>
-                            <div className="bg-[#26312d] p-6 rounded-2xl">
-                                <p className="font-tt-ramillas text-[32px] font-bold text-[#47b852] mb-2">25%</p>
-                                <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.3] text-[#f8f8f8]">
-                                    Increase in skin hydration
+                            <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
+                                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">~57.34%</p>
+                                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
+                                    - crow&apos;s feet wrinkles
                                 </p>
                             </div>
                         </div>

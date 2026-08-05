@@ -755,7 +755,7 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
    ───────────────────────────────────────────────────────────── */
 const transparencyRows = [
   {
-    img: "/SwipeableContent/Card1.png",
+    img: "https://ik.imagekit.io/orus/SwipeableContent/Card1.webp",
     alt: "Third-Party Lab Tested",
     title: "Third-Party Lab Tested",
     subtitle: "7 critical safety parameters tested and published.",
@@ -763,7 +763,7 @@ const transparencyRows = [
     badge: "01 / 04 Lab Safety",
   },
   {
-    img: "/SwipeableContent/Card2.jpeg",
+    img: "https://ik.imagekit.io/orus/SwipeableContent/Card2.webp",
     alt: "Refreshing taste and Zero fishy smell/afterburps",
     title: "Refreshing taste and Zero fishy smell/afterburps",
     subtitle: "How we make nutrition functional?",
@@ -771,7 +771,7 @@ const transparencyRows = [
     badge: "02 / 04 Functional Nutrition",
   },
   {
-    img: "/SwipeableContent/Card3.png",
+    img: "https://ik.imagekit.io/orus/SwipeableContent/Card3.webp",
     alt: "Our science behind Collagreens",
     title: "Our science behind Collagreens",
     subtitle: "Did you just dump everything in one?",
@@ -779,7 +779,7 @@ const transparencyRows = [
     badge: "03 / 04 Smart Science",
   },
   {
-    img: "/SwipeableContent/Card4.png",
+    img: "https://ik.imagekit.io/orus/SwipeableContent/Card4.webp",
     alt: "The Non-Negotiables",
     title: "The Non-Negotiables",
     subtitle: "No Nasty formulation",
@@ -1003,13 +1003,13 @@ export const ClinicalStudiesSection = () => {
    ───────────────────────────────────────────────────────────── */
 export const TestingParametersSection = () => {
   const tests = [
-    { src: "/Landing/Microbial_infection.webp", label: "Microbial Contamination" },
-    { src: "/Landing/Amino_acid.png", label: "Amino Acid Profiling" },
-    { src: "/Landing/Heavy_metal.png", label: "Heavy Metal Screen" },
-    { src: "/Landing/pesticide_testing.avif", label: "Pesticide Testing" },
-    { src: "/Landing/Aflatoxin_testing.png", label: "Aflatoxin Screening" },
-    { src: "/Landing/Stability_testing.avif", label: "Stability Testing" },
-    { src: "/Landing/Organoleptic_testing.png", label: "Organoleptic Review" },
+    { src: "https://ik.imagekit.io/orus/Logo/Microbial_infection.webp", label: "Microbial Contamination" },
+    { src: "https://ik.imagekit.io/orus/Logo/Amino_acid.webp", label: "Amino Acid Profiling" },
+    { src: "https://ik.imagekit.io/orus/Logo/Heavy_metal.webp", label: "Heavy Metal Screen" },
+    { src: "https://ik.imagekit.io/orus/Logo/pesticide_testing.webp", label: "Pesticide Testing" },
+    { src: "https://ik.imagekit.io/orus/Logo/Aflatoxin_testing.webp", label: "Aflatoxin Screening" },
+    { src: "https://ik.imagekit.io/orus/Logo/Stability_testing.webp", label: "Stability Testing" },
+    { src: "https://ik.imagekit.io/orus/Logo/Organoleptic_testing.webp", label: "Organoleptic Review" },
   ];
 
   return (
@@ -1189,7 +1189,7 @@ export const StillDoubts = () => {
   const reviewImages = [
     {
       id: 1,
-      src: "/reviews/reviews_image (1).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(1).webp",
       alt: "Customer Review - Kushagra",
       author: "Kushagra",
       location: "Reviewed on Amazon",
@@ -1202,7 +1202,7 @@ export const StillDoubts = () => {
     },
     {
       id: 2,
-      src: "/reviews/reviews_image (2).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(2).webp",
       alt: "Customer Review - akshay kedia",
       author: "akshay kedia",
       location: "Reviewed on Amazon",
@@ -1215,7 +1215,7 @@ export const StillDoubts = () => {
     },
     {
       id: 3,
-      src: "/reviews/reviews_image (3).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(3).webp",
       alt: "Customer Review - Verified Buyer",
       author: "Verified Buyer",
       location: "Direct Website Purchase",
@@ -1228,7 +1228,7 @@ export const StillDoubts = () => {
     },
     {
       id: 4,
-      src: "/reviews/reviews_image (4).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(4).webp",
       alt: "Customer Review - Verified Buyer",
       author: "Verified Buyer",
       location: "Direct Website Purchase",
@@ -1241,7 +1241,7 @@ export const StillDoubts = () => {
     },
     {
       id: 5,
-      src: "/reviews/reviews_image (5).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(5).webp",
       alt: "Customer Review - Verified Buyer",
       author: "Verified Buyer",
       location: "Direct Website Purchase",
@@ -1254,7 +1254,7 @@ export const StillDoubts = () => {
     },
     {
       id: 6,
-      src: "/reviews/reviews_image (6).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(6).webp",
       alt: "Customer Review - Bhavna Harchandrai",
       author: "Bhavna Harchandrai",
       location: "Instagram (@bhavnaharchandrai)",
@@ -1267,7 +1267,7 @@ export const StillDoubts = () => {
     },
     {
       id: 7,
-      src: "/reviews/reviews_image (7).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(7).webp",
       alt: "Customer Review - Aastha Joshi",
       author: "Aastha Joshi",
       location: "Instagram (@aasthajoshii)",
@@ -1280,7 +1280,7 @@ export const StillDoubts = () => {
     },
     {
       id: 8,
-      src: "/reviews/reviews_image (8).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(8).webp",
       alt: "Customer Review",
       author: "Verified Customer",
       location: "Instagram DM",
@@ -1293,7 +1293,7 @@ export const StillDoubts = () => {
     },
     {
       id: 9,
-      src: "/reviews/reviews_image (9).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(9).webp",
       alt: "Customer Review - Verified Buyer",
       author: "Verified Buyer",
       location: "Direct Website Purchase",
@@ -1306,7 +1306,7 @@ export const StillDoubts = () => {
     },
     {
       id: 10,
-      src: "/reviews/reviews_image (10).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(10).webp",
       alt: "Customer Review - Verified Buyer",
       author: "Verified Buyer",
       location: "Direct Website Purchase",
@@ -1319,7 +1319,7 @@ export const StillDoubts = () => {
     },
     {
       id: 11,
-      src: "/reviews/reviews_image (11).png",
+      src: "https://ik.imagekit.io/orus/Reviews/reviews_image%20(11).webp",
       alt: "Customer Review - Sakshi Agarwal",
       author: "Sakshi Agarwal",
       location: "Reviewed on Amazon",
