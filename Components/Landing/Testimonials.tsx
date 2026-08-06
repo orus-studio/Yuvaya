@@ -287,7 +287,7 @@ const Testimonials = () => {
                     Here&apos;s what our customers wrote & shared
                 </h2>
                 <p className="font-poppins mb-6 sm:mb-8 text-center text-[13px] sm:text-[15px] text-[#4b5563] max-w-xl">
-                    Real letters and verified review screenshots from 80,000+ happy customers across India.
+                    Real letters and verified review screenshots from our happy customers across India.
                 </p>
 
                 {/* ── Card area ──────────────────────────────────── */}
