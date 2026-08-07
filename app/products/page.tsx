@@ -7,7 +7,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Products | Yuvaya Store",
-  description: "Browse Yuvaya products and complete your purchase instantly with our secure one-click checkout.",
+  description:
+    "Browse Yuvaya products and complete your purchase instantly with our secure one-click checkout.",
 };
 
 export const revalidate = 60; // Revalidate every minute
@@ -18,9 +19,9 @@ export default async function ProductsPage() {
 
   try {
     products = await getProducts();
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Failed to load products:", err);
-    error = err.message || "Unable to load products. Please try again later.";
+    error = err instanceof Error ? err.message : "Unable to load products. Please try again later.";
   }
 
   return (
@@ -32,7 +33,8 @@ export default async function ProductsPage() {
             Our Collection
           </h1>
           <p className="font-switzer text-base text-stone-600 font-light">
-            Discover our curated list of premium essentials. Tap "Buy Now" to checkout directly and securely.
+            Discover our curated list of premium essentials. Tap &quot;Buy Now&quot; to checkout
+            directly and securely.
           </p>
         </div>
 
@@ -41,12 +43,17 @@ export default async function ProductsPage() {
           <div className="w-full max-w-md mx-auto p-6 bg-red-50 border border-red-200 rounded-2xl text-center">
             <h3 className="font-semibold text-red-800 text-lg mb-2">Error Loading Products</h3>
             <p className="text-red-600 text-sm mb-4">{error}</p>
-            <p className="text-stone-500 text-xs">Ensure SHOPIFY_STOREFRONT_TOKEN and SHOPIFY_STORE are correct in your environment variables.</p>
+            <p className="text-stone-500 text-xs">
+              Ensure SHOPIFY_STOREFRONT_TOKEN and SHOPIFY_STORE are correct in your environment
+              variables.
+            </p>
           </div>
         ) : products.length === 0 ? (
           <div className="w-full max-w-md mx-auto p-6 bg-stone-100 border border-stone-200 rounded-2xl text-center">
             <h3 className="font-semibold text-stone-800 text-lg mb-2">No Products Found</h3>
-            <p className="text-stone-600 text-sm">We couldn't retrieve any products from your Shopify Storefront.</p>
+            <p className="text-stone-600 text-sm">
+              We couldn&apos;t retrieve any products from your Shopify Storefront.
+            </p>
           </div>
         ) : (
           /* Products Grid */

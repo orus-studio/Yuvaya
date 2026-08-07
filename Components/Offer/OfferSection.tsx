@@ -2,39 +2,84 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { sendQuizSubmission } from "@/app/actions/sendEmail";
 
 // Custom SVG Icons to avoid Lucide React name mismatch and ensure bulletproof rendering
 const CloseIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <line x1="18" y1="6" x2="6" y2="18" />
     <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 
 const ArrowLeftIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <line x1="19" y1="12" x2="5" y2="12" />
     <polyline points="12 19 5 12 12 5" />
   </svg>
 );
 
 const CheckIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <polyline points="20 6 9 17 4 12" />
   </svg>
 );
 
 const CopyIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
   </svg>
 );
 
 const CopySuccessIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-[#3b5e47]">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="text-[#3b5e47]"
+  >
     <polyline points="20 6 9 17 4 12" />
   </svg>
 );
@@ -46,6 +91,7 @@ const YuvayaLogo = ({ className = "h-8 w-auto" }: { className?: string }) => (
     height="45"
     fill="none"
     overflow="visible"
+    className={className}
   >
     <g>
       <path
@@ -74,12 +120,12 @@ const QUESTIONS: Question[] = [
   {
     id: 1,
     question: "To Claim let us know: What's your age group?",
-    options: ["A. 18-25", "B. 25-35", "C. 35-50", "D. 50+"]
+    options: ["A. 18-25", "B. 25-35", "C. 35-50", "D. 50+"],
   },
   {
     id: 2,
     question: "How do you identify yourself?",
-    options: ["Male", "Female", "Prefer not to say"]
+    options: ["Male", "Female", "Prefer not to say"],
   },
   {
     id: 3,
@@ -88,8 +134,8 @@ const QUESTIONS: Question[] = [
       "A. Mango-flavoured drinks",
       "B. Chocolatey milkshakes",
       "C. Tropical cocktails",
-      "D. A matcha ube latte"
-    ]
+      "D. A matcha ube latte",
+    ],
   },
   {
     id: 4,
@@ -98,28 +144,19 @@ const QUESTIONS: Question[] = [
       "Overall health maintenance",
       "Improve joint flexibility and mobility",
       "Recovery faster after workouts",
-      "Stay active and energetic throughout the day"
-    ]
+      "Stay active and energetic throughout the day",
+    ],
   },
   {
     id: 5,
     question: "What matters most to you in a snack?",
-    options: [
-      "Gluten free",
-      "No refined sugar",
-      "Vegan",
-      "All of the above"
-    ]
+    options: ["Gluten free", "No refined sugar", "Vegan", "All of the above"],
   },
   {
     id: 6,
     question: "What is your sweet spot for snacks?",
-    options: [
-      "Under five hundred rupees (Under ₹500)",
-      "₹500 to ₹1000",
-      "₹1000 +"
-    ]
-  }
+    options: ["Under five hundred rupees (Under ₹500)", "₹500 to ₹1000", "₹1000 +"],
+  },
 ];
 
 interface OfferSectionProps {
@@ -134,7 +171,8 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Use dynamically loaded questions if provided, otherwise fallback to hardcoded list
-  const questionsList = initialQuestions && initialQuestions.length > 0 ? initialQuestions : QUESTIONS;
+  const questionsList =
+    initialQuestions && initialQuestions.length > 0 ? initialQuestions : QUESTIONS;
   const totalQuestions = questionsList.length;
 
   const [currentStep, setCurrentStep] = useState(0); // 0: Welcome, 1..totalQuestions: Quiz, totalQuestions+1: Lead Form, totalQuestions+2: Loading, totalQuestions+3: Reward
@@ -163,9 +201,15 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
   // Log active questions source for verification
   useEffect(() => {
     if (initialQuestions && initialQuestions.length > 0) {
-      console.log(`🎉 [OfferSection] Loaded ${initialQuestions.length} questions dynamically from Shopify backend:`, initialQuestions);
+      console.log(
+        `🎉 [OfferSection] Loaded ${initialQuestions.length} questions dynamically from Shopify backend:`,
+        initialQuestions
+      );
     } else {
-      console.warn("⚠️ [OfferSection] No questions received from Shopify storefront API (or list empty). Falling back to local hardcoded data:", QUESTIONS);
+      console.warn(
+        "⚠️ [OfferSection] No questions received from Shopify storefront API (or list empty). Falling back to local hardcoded data:",
+        QUESTIONS
+      );
     }
   }, [initialQuestions]);
 
@@ -298,21 +342,19 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
       {/* Modal Card */}
       <div className="relative w-full max-w-[430px] h-[680px] max-h-[90vh] bg-[#9cc1ab] rounded-[32px] overflow-hidden shadow-2xl flex flex-col justify-between p-6 sm:p-8 font-poppins text-white select-none border border-white/20">
-
         {/* Background Image Blurred with Custom Tints */}
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://ik.imagekit.io/orus/Horizontal_Insta_Post/InstaPost_1.webp')",
+            backgroundImage:
+              "url('https://ik.imagekit.io/orus/Horizontal_Insta_Post/InstaPost_1.webp')",
             filter: "blur(20px) ",
-            transform: "scale(1.22)"
+            transform: "scale(1.22)",
           }}
         />
 
         {/* Clean Sage Green Overlay matching pixel-to-pixel (#9cc1ab) */}
-        <div
-          className="absolute inset-0 z-0 bg-[#459162]/40"
-        />
+        <div className="absolute inset-0 z-0 bg-[#459162]/40" />
 
         {/* --- Card Header (Only show for Step > 0) --- */}
         {currentStep > 0 && (
@@ -350,9 +392,10 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
         )}
 
         {/* --- Card Body / Screen Content --- */}
-        <div className={`relative z-10 flex-1 flex flex-col justify-center ${currentStep > 0 ? "mt-4" : ""} overflow-hidden`}>
+        <div
+          className={`relative z-10 flex-1 flex flex-col justify-center ${currentStep > 0 ? "mt-4" : ""} overflow-hidden`}
+        >
           <AnimatePresence mode="wait" custom={direction}>
-
             {/* Step 0: Welcome Screen */}
             {currentStep === 0 && (
               <motion.div
@@ -381,7 +424,9 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
                 {/* Main text area centered */}
                 <div className="flex-1 flex flex-col items-center justify-center my-auto">
                   <h1 className="font-cormorant text-center text-[42px] sm:text-[48px] font-medium leading-[1.15] tracking-wide text-white drop-shadow-sm">
-                    Unlock Your<br />Discount
+                    Unlock Your
+                    <br />
+                    Discount
                   </h1>
                   <p className="font-switzer text-[17px] sm:text-[19px] font-normal tracking-wide text-white/95 mt-5 max-w-[290px] drop-shadow-sm">
                     Take a quick quiz, enjoy 10% off
@@ -444,20 +489,24 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
                       <button
                         key={index}
                         onClick={() => handleSelectOption(currentStep, option)}
-                        className={`w-full text-left px-5 py-4 rounded-2xl transition-all duration-200 flex items-center justify-between group cursor-pointer border ${isSelected
-                          ? "bg-white text-[#3b5e47] border-white font-medium shadow-lg scale-[1.02]"
-                          : "bg-white/10 hover:bg-white/20 text-white border-white/20 active:scale-[0.99]"
-                          }`}
+                        className={`w-full text-left px-5 py-4 rounded-2xl transition-all duration-200 flex items-center justify-between group cursor-pointer border ${
+                          isSelected
+                            ? "bg-white text-[#3b5e47] border-white font-medium shadow-lg scale-[1.02]"
+                            : "bg-white/10 hover:bg-white/20 text-white border-white/20 active:scale-[0.99]"
+                        }`}
                       >
                         <span className="text-[15px] sm:text-base tracking-wide pr-2">
                           {option}
                         </span>
 
                         {/* Selector indicator */}
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all ${isSelected
-                          ? "bg-[#3b5e47] border-[#3b5e47] text-white"
-                          : "border-white/40 group-hover:border-white"
-                          }`}>
+                        <div
+                          className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all ${
+                            isSelected
+                              ? "bg-[#3b5e47] border-[#3b5e47] text-white"
+                              : "border-white/40 group-hover:border-white"
+                          }`}
+                        >
                           {isSelected && <CheckIcon />}
                         </div>
                       </button>
@@ -587,7 +636,17 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
               >
                 {/* Confetti Micro-icon */}
                 <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-5 border border-white/20 animate-bounce">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-white"
+                  >
                     <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
                     <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
                     <path d="M4 22h16" />
@@ -601,9 +660,7 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
                 </h2>
 
                 <div className="my-4 font-switzer flex flex-col items-center w-full">
-                  <p className="text-[17px] font-medium text-white mb-2">
-                    Thank you, {name}!
-                  </p>
+                  <p className="text-[17px] font-medium text-white mb-2">Thank you, {name}!</p>
                   <p className="text-sm font-light text-white/95 leading-relaxed max-w-[300px] mb-4">
                     Here is your 10% discount code. Copy it below to use at checkout:
                   </p>
@@ -644,7 +701,6 @@ const OfferSection: React.FC<OfferSectionProps> = ({ initialQuestions }) => {
                 </p>
               </motion.div>
             )}
-
           </AnimatePresence>
         </div>
       </div>

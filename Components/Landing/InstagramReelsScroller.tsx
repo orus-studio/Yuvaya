@@ -15,16 +15,56 @@ const coverImages = [
 ];
 
 const reels = [
-  { url: "https://www.instagram.com/reel/DXBYh0UPBF5/", id: "DXBYh0UPBF5", coverImage: coverImages[0] },
-  { url: "https://www.instagram.com/reel/DVG8WERAuJj/", id: "DVG8WERAuJj", coverImage: coverImages[1] },
-  { url: "https://www.instagram.com/reel/DVYlhIqAtnZ/", id: "DVYlhIqAtnZ", coverImage: coverImages[2] },
-  { url: "https://www.instagram.com/reel/DU7KmA5AtB-/", id: "DU7KmA5AtB-", coverImage: coverImages[3] },
-  { url: "https://www.instagram.com/reel/DUCz2Logm9i/", id: "DUCz2Logm9i", coverImage: coverImages[4] },
-  { url: "https://www.instagram.com/reel/DUFyM3Fgi7T/", id: "DUFyM3Fgi7T", coverImage: coverImages[5] },
-  { url: "https://www.instagram.com/reel/DU4jlITgo-j/", id: "DU4jlITgo-j", coverImage: coverImages[6] },
-  { url: "https://www.instagram.com/reel/DUanJECAuhA/", id: "DUanJECAuhA", coverImage: coverImages[0] },
-  { url: "https://www.instagram.com/reel/DXWmp-Fgl4N/", id: "DXWmp-Fgl4N", coverImage: coverImages[1] },
-  { url: "https://www.instagram.com/reel/DU23jLxApzv/", id: "DU23jLxApzv", coverImage: coverImages[2] },
+  {
+    url: "https://www.instagram.com/reel/DXBYh0UPBF5/",
+    id: "DXBYh0UPBF5",
+    coverImage: coverImages[0],
+  },
+  {
+    url: "https://www.instagram.com/reel/DVG8WERAuJj/",
+    id: "DVG8WERAuJj",
+    coverImage: coverImages[1],
+  },
+  {
+    url: "https://www.instagram.com/reel/DVYlhIqAtnZ/",
+    id: "DVYlhIqAtnZ",
+    coverImage: coverImages[2],
+  },
+  {
+    url: "https://www.instagram.com/reel/DU7KmA5AtB-/",
+    id: "DU7KmA5AtB-",
+    coverImage: coverImages[3],
+  },
+  {
+    url: "https://www.instagram.com/reel/DUCz2Logm9i/",
+    id: "DUCz2Logm9i",
+    coverImage: coverImages[4],
+  },
+  {
+    url: "https://www.instagram.com/reel/DUFyM3Fgi7T/",
+    id: "DUFyM3Fgi7T",
+    coverImage: coverImages[5],
+  },
+  {
+    url: "https://www.instagram.com/reel/DU4jlITgo-j/",
+    id: "DU4jlITgo-j",
+    coverImage: coverImages[6],
+  },
+  {
+    url: "https://www.instagram.com/reel/DUanJECAuhA/",
+    id: "DUanJECAuhA",
+    coverImage: coverImages[0],
+  },
+  {
+    url: "https://www.instagram.com/reel/DXWmp-Fgl4N/",
+    id: "DXWmp-Fgl4N",
+    coverImage: coverImages[1],
+  },
+  {
+    url: "https://www.instagram.com/reel/DU23jLxApzv/",
+    id: "DU23jLxApzv",
+    coverImage: coverImages[2],
+  },
 ];
 
 /* ── 200×200px placeholder card ── */
@@ -100,19 +140,40 @@ const ScrollingColumn = ({ items, direction, duration }: ColumnProps) => {
 const InstagramReelsScroller = () => {
   /* 6 columns with alternating directions */
   const columns = [
-    { items: [reels[0], reels[5], reels[2], reels[7], reels[4]], direction: "up" as const, duration: 30 },
-    { items: [reels[1], reels[6], reels[3], reels[8], reels[9]], direction: "down" as const, duration: 35 },
-    { items: [reels[2], reels[7], reels[0], reels[5], reels[3]], direction: "up" as const, duration: 28 },
-    { items: [reels[3], reels[8], reels[1], reels[6], reels[0]], direction: "down" as const, duration: 32 },
-    { items: [reels[4], reels[9], reels[2], reels[7], reels[5]], direction: "up" as const, duration: 26 },
-    { items: [reels[5], reels[0], reels[4], reels[9], reels[1]], direction: "down" as const, duration: 38 },
+    {
+      items: [reels[0], reels[5], reels[2], reels[7], reels[4]],
+      direction: "up" as const,
+      duration: 30,
+    },
+    {
+      items: [reels[1], reels[6], reels[3], reels[8], reels[9]],
+      direction: "down" as const,
+      duration: 35,
+    },
+    {
+      items: [reels[2], reels[7], reels[0], reels[5], reels[3]],
+      direction: "up" as const,
+      duration: 28,
+    },
+    {
+      items: [reels[3], reels[8], reels[1], reels[6], reels[0]],
+      direction: "down" as const,
+      duration: 32,
+    },
+    {
+      items: [reels[4], reels[9], reels[2], reels[7], reels[5]],
+      direction: "up" as const,
+      duration: 26,
+    },
+    {
+      items: [reels[5], reels[0], reels[4], reels[9], reels[1]],
+      direction: "down" as const,
+      duration: 38,
+    },
   ];
 
   return (
-    <section
-      className="relative w-full overflow-hidden"
-      style={{ backgroundColor: "#fffdf2" }}
-    >
+    <section className="relative w-full overflow-hidden" style={{ backgroundColor: "#fffdf2" }}>
       {/* ── Columns grid ── */}
       <div
         className="relative mx-auto flex flex-row items-start justify-center"
@@ -126,11 +187,7 @@ const InstagramReelsScroller = () => {
             key={i}
             className={`${i >= 3 ? "hidden lg:block" : i >= 2 ? "hidden md:block" : i >= 1 ? "hidden sm:block" : ""}`}
           >
-            <ScrollingColumn
-              items={col.items}
-              direction={col.direction}
-              duration={col.duration}
-            />
+            <ScrollingColumn items={col.items} direction={col.direction} duration={col.duration} />
           </div>
         ))}
       </div>

@@ -7,7 +7,6 @@ import Footer from "@/Components/Footer";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/Components/CartDrawer";
 
-
 const cormorant_garamond = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],

@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import React from 'react'
-import Link from 'next/link'
-import { ArrowRight, Truck, MessageSquare, ShoppingBag } from 'lucide-react'
-import { motion } from 'framer-motion'
+import React from "react";
+import Link from "next/link";
+import { ArrowRight, Truck, MessageSquare, ShoppingBag } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function NotFound() {
   return (
@@ -17,7 +17,7 @@ export default function NotFound() {
         <motion.div
           initial={{ opacity: 0, y: -25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="relative select-none"
         >
           <h1 className="font-tt-ramillas text-[clamp(6rem,15vw,12rem)] font-light leading-none tracking-tight text-[#11731b]/20">
@@ -41,7 +41,8 @@ export default function NotFound() {
             Page Not Found
           </h2>
           <p className="font-switzer max-w-[45ch] text-[15px] sm:text-[18px] font-light leading-relaxed text-[#26312d]/75">
-            The page you are looking for might have been removed, had its name changed, or is temporarily unavailable. Let&apos;s get you back on track.
+            The page you are looking for might have been removed, had its name changed, or is
+            temporarily unavailable. Let&apos;s get you back on track.
           </p>
         </motion.div>
 
@@ -82,5 +83,5 @@ export default function NotFound() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

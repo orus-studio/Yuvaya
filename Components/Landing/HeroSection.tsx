@@ -24,11 +24,13 @@ const HeroSection = () => {
             </div>
 
             <p className="font-poppins m-0 w-full max-w-[42ch] break-words text-[15px] font-normal leading-[1.45] tracking-[-0.01em] text-[#11731b] sm:text-[18px] md:max-w-[85%] md:text-[15px] lg:text-[20px]">
-              A comprehensive blend with 25+ bioactives for a convenient and easy to
-              stick routine.
+              A comprehensive blend with 25+ bioactives for a convenient and easy to stick routine.
             </p>
 
-            <Link href="/shop" className="relative z-30 mt-4 box-border flex h-[52px] w-[170px] cursor-pointer flex-row items-center justify-end gap-3 overflow-hidden rounded-[100px] border-none bg-[#11731b] px-1 py-0 font-poppins sm:mt-6 sm:h-[56px] sm:w-[194px] sm:gap-4 md:mt-6 md:h-[54px] md:w-[200px]">
+            <Link
+              href="/shop"
+              className="relative z-30 mt-4 box-border flex h-[52px] w-[170px] cursor-pointer flex-row items-center justify-end gap-3 overflow-hidden rounded-[100px] border-none bg-[#11731b] px-1 py-0 font-poppins sm:mt-6 sm:h-[56px] sm:w-[194px] sm:gap-4 md:mt-6 md:h-[54px] md:w-[200px]"
+            >
               <span className="whitespace-pre text-[18px] font-medium leading-[1.2] tracking-normal text-[#fffdf2] sm:text-[21px] md:text-[20px]">
                 Shop Now
               </span>

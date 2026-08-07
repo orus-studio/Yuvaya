@@ -87,8 +87,8 @@ body {
 }
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* Custom premium styling for Shopify blog article HTML content rendering */
@@ -139,10 +139,18 @@ body {
 }
 
 @media (min-width: 768px) {
-  .prose-yuvaya h1 { font-size: 40px; }
-  .prose-yuvaya h2 { font-size: 34px; }
-  .prose-yuvaya h3 { font-size: 28px; }
-  .prose-yuvaya h4 { font-size: 24px; }
+  .prose-yuvaya h1 {
+    font-size: 40px;
+  }
+  .prose-yuvaya h2 {
+    font-size: 34px;
+  }
+  .prose-yuvaya h3 {
+    font-size: 28px;
+  }
+  .prose-yuvaya h4 {
+    font-size: 24px;
+  }
 }
 
 .prose-yuvaya a {
@@ -199,4 +207,4 @@ body {
   border: 0;
   border-top: 1px solid rgba(38, 49, 45, 0.1);
   margin: 2.5rem 0;
-}
+}

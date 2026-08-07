@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-
 const faqs = [
   {
     question: "Is Yuvaya collagen chemical free?",

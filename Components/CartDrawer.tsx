@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import { useCart } from "@/context/CartContext";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Loader2, Trash2, Plus, Minus, X, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { createCheckout } from "@/app/actions/createCheckout";
+
+const emptySubscribe = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 export default function CartDrawer() {
   const {
@@ -18,14 +22,9 @@ export default function CartDrawer() {
     cartTotal,
   } = useCart();
 
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
-
-  // Avoid hydration mismatch
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     const handlePageShow = () => {
@@ -152,7 +151,8 @@ export default function CartDrawer() {
                     Your cart is empty
                   </h3>
                   <p className="font-poppins text-sm text-[#555] max-w-xs mb-6">
-                    Add our premium Collagreens packs to your cart and kickstart your wellness journey.
+                    Add our premium Collagreens packs to your cart and kickstart your wellness
+                    journey.
                   </p>
                   <button
                     onClick={() => {
@@ -247,9 +247,7 @@ export default function CartDrawer() {
               <div className="border-t-2 border-[#34803c]/20 px-6 py-5 bg-[#faf6de]">
                 {/* Total */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-tt-ramillas text-lg font-bold text-black">
-                    Subtotal
-                  </span>
+                  <span className="font-tt-ramillas text-lg font-bold text-black">Subtotal</span>
                   <span className="font-poppins text-xl font-bold text-[#34803c]">
                     ₹ {cartTotal.toLocaleString("en-IN")}
                   </span>

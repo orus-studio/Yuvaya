@@ -1,25 +1,25 @@
-'use server'
+"use server";
 
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
 
 interface EmailData {
-  name: string
-  email: string
-  phone?: string
-  message: string
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
 }
 
 export async function sendContactEmail(data: EmailData) {
-  const host = process.env.SMTP_HOST || 'smtp.resend.com' // SMTP Server Host
-  const port = parseInt(process.env.SMTP_PORT || '465') // SMTP Server Port
-  const user = process.env.SMTP_USER // Authenticated email or username (e.g., 'resend')
-  const pass = process.env.SMTP_PASSWORD // API Key or Password
-  const receiver = process.env.CONTACT_RECEIVER || 'hello@yuvaya.in' // Where you receive emails
-  const sender = process.env.SMTP_FROM || 'hello@yuvaya.in' // Verified domain email to send from
+  const host = process.env.SMTP_HOST || "smtp.resend.com"; // SMTP Server Host
+  const port = parseInt(process.env.SMTP_PORT || "465"); // SMTP Server Port
+  const user = process.env.SMTP_USER; // Authenticated email or username (e.g., 'resend')
+  const pass = process.env.SMTP_PASSWORD; // API Key or Password
+  const receiver = process.env.CONTACT_RECEIVER || "hello@yuvaya.in"; // Where you receive emails
+  const sender = process.env.SMTP_FROM || "hello@yuvaya.in"; // Verified domain email to send from
 
   if (!user || !pass) {
-    console.error('SMTP credentials are not configured in environment variables.')
-    return { success: false, error: 'Mail server credentials are not configured in .env' }
+    console.error("SMTP credentials are not configured in environment variables.");
+    return { success: false, error: "Mail server credentials are not configured in .env" };
   }
 
   // Create SMTP transporter
@@ -32,10 +32,10 @@ export async function sendContactEmail(data: EmailData) {
       pass,
     },
     tls: {
-      ciphers: 'SSLv3',
+      ciphers: "SSLv3",
       rejectUnauthorized: false, // Prevents certificate verification issues on custom domains
-    }
-  })
+    },
+  });
 
   // Format email
   const mailOptions = {
@@ -43,10 +43,11 @@ export async function sendContactEmail(data: EmailData) {
     to: receiver,
     replyTo: data.email, // Allows replying directly to the customer when hitting 'Reply'
     subject: `New Contact Submission from ${data.name}`,
-    text: `You have received a new contact message:\n\n` +
+    text:
+      `You have received a new contact message:\n\n` +
       `Name: ${data.name}\n` +
       `Email: ${data.email}\n` +
-      `Phone: ${data.phone || 'N/A'}\n\n` +
+      `Phone: ${data.phone || "N/A"}\n\n` +
       `Message:\n${data.message}\n\n` +
       `---\nSent from Yuvaya website contact form.`,
     html: `
@@ -63,7 +64,7 @@ export async function sendContactEmail(data: EmailData) {
           </tr>
           <tr>
             <td style="padding: 8px 0; font-weight: bold; color: #26312d;">Phone:</td>
-            <td style="padding: 8px 0; color: #26312d;">${data.phone || 'N/A'}</td>
+            <td style="padding: 8px 0; color: #26312d;">${data.phone || "N/A"}</td>
           </tr>
         </table>
         <div style="margin-top: 20px; padding: 15px; background-color: #ffffff; border-radius: 8px; border-left: 4px solid #11731b; white-space: pre-wrap; color: #26312d; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
@@ -73,50 +74,51 @@ export async function sendContactEmail(data: EmailData) {
         <hr style="border: 0; border-top: 1px solid rgba(38,49,45,0.1); margin-top: 25px; margin-bottom: 15px;" />
         <p style="font-size: 11px; color: #5a5a5a; text-align: center; margin: 0;">This email was sent automatically from the Yuvaya Contact Form.</p>
       </div>
-    `
-  }
+    `,
+  };
 
   try {
-    await transporter.sendMail(mailOptions)
-    return { success: true }
-  } catch (error: any) {
-    console.error('SMTP sending error:', error)
-    return { success: false, error: error.message || 'Error occurred while sending email.' }
+    await transporter.sendMail(mailOptions);
+    return { success: true };
+  } catch (error: unknown) {
+    console.error("SMTP sending error:", error);
+    const message = error instanceof Error ? error.message : "Error occurred while sending email.";
+    return { success: false, error: message };
   }
 }
 
 export interface QuizSubmissionData {
-  name: string
-  email: string
-  answers: { question: string; answer: string }[]
-  ageGroup: string
-  identifyAs: string
-  drinkType: string
-  wellnessGoal: string
-  snackMatters: string
-  sweetSpot: string
+  name: string;
+  email: string;
+  answers: { question: string; answer: string }[];
+  ageGroup: string;
+  identifyAs: string;
+  drinkType: string;
+  wellnessGoal: string;
+  snackMatters: string;
+  sweetSpot: string;
 }
 
 export async function sendQuizSubmission(data: QuizSubmissionData) {
-  const host = process.env.SMTP_HOST || 'smtp.resend.com'
-  const port = parseInt(process.env.SMTP_PORT || '465')
-  const user = process.env.SMTP_USER
-  const pass = process.env.SMTP_PASSWORD
-  const receiver = process.env.CONTACT_RECEIVER || 'hello@yuvaya.in'
-  const sender = process.env.SMTP_FROM || 'hello@yuvaya.in'
+  const host = process.env.SMTP_HOST || "smtp.resend.com";
+  const port = parseInt(process.env.SMTP_PORT || "465");
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASSWORD;
+  const receiver = process.env.CONTACT_RECEIVER || "hello@yuvaya.in";
+  const sender = process.env.SMTP_FROM || "hello@yuvaya.in";
 
-  let emailSent = false
-  let webhookSent = false
-  let errorMsg = ''
+  let emailSent = false;
+  let webhookSent = false;
+  let errorMsg = "";
 
   // 1. Post to Google Sheet webhook if configured
-  const webhookUrl = process.env.QUIZ_WEBHOOK_URL
+  const webhookUrl = process.env.QUIZ_WEBHOOK_URL;
   if (webhookUrl) {
     try {
       const response = await fetch(webhookUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: data.name,
@@ -129,26 +131,26 @@ export async function sendQuizSubmission(data: QuizSubmissionData) {
           snackMatters: data.snackMatters,
           sweetSpot: data.sweetSpot,
         }),
-      })
+      });
       if (response.ok) {
-        webhookSent = true
+        webhookSent = true;
       } else {
-        console.error('Quiz Webhook failed response status:', response.status)
+        console.error("Quiz Webhook failed response status:", response.status);
       }
-    } catch (webhookErr: any) {
-      console.error('Quiz Webhook connection error:', webhookErr)
+    } catch (webhookErr: unknown) {
+      console.error("Quiz Webhook connection error:", webhookErr);
     }
   }
 
   // 2. Send Email using nodemailer
   if (!user || !pass) {
-    console.error('SMTP credentials are not configured in environment variables for Quiz.')
+    console.error("SMTP credentials are not configured in environment variables for Quiz.");
     return {
       success: webhookSent,
       emailSuccess: false,
       webhookSuccess: webhookSent,
-      error: webhookSent ? undefined : 'Mail server credentials are not configured in .env'
-    }
+      error: webhookSent ? undefined : "SMTP environment variables are missing.",
+    };
   }
 
   const transporter = nodemailer.createTransport({
@@ -160,10 +162,10 @@ export async function sendQuizSubmission(data: QuizSubmissionData) {
       pass,
     },
     tls: {
-      ciphers: 'SSLv3',
+      ciphers: "SSLv3",
       rejectUnauthorized: false,
-    }
-  })
+    },
+  });
 
   // Format Answers for Email
   const answersHtml = data.answers
@@ -175,18 +177,19 @@ export async function sendQuizSubmission(data: QuizSubmissionData) {
       </tr>
     `
     )
-    .join('')
+    .join("");
 
   const mailOptions = {
     from: `"${data.name} via Yuvaya Quiz" <${sender}>`,
     to: receiver,
-    replyTo: data.email.includes('@') ? data.email : undefined,
+    replyTo: data.email.includes("@") ? data.email : undefined,
     subject: `New Offer Quiz Lead from ${data.name}`,
-    text: `New Quiz Lead Details:\n\n` +
+    text:
+      `New Quiz Lead Details:\n\n` +
       `Name: ${data.name}\n` +
-      `${data.email.includes('@') ? 'Email' : 'Contact Number'}: ${data.email}\n\n` +
+      `${data.email.includes("@") ? "Email" : "Contact Number"}: ${data.email}\n\n` +
       `Answers:\n` +
-      data.answers.map((a) => `- ${a.question}: ${a.answer}`).join('\n') +
+      data.answers.map((a) => `- ${a.question}: ${a.answer}`).join("\n") +
       `\n\n---\nSent from Yuvaya offer quiz popup.`,
     html: `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #26312d; background-color: #fffdf2; padding: 25px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid rgba(17,115,27,0.2);">
@@ -197,12 +200,13 @@ export async function sendQuizSubmission(data: QuizSubmissionData) {
              <td style="padding: 8px 0; color: #26312d; font-size: 14px;">${data.name}</td>
            </tr>
            <tr>
-             <td style="padding: 8px 0; font-weight: bold; color: #26312d; font-size: 14px;">${data.email.includes('@') ? 'Email' : 'Contact Number'}:</td>
+             <td style="padding: 8px 0; font-weight: bold; color: #26312d; font-size: 14px;">${data.email.includes("@") ? "Email" : "Contact Number"}:</td>
              <td style="padding: 8px 0; font-size: 14px;">
-               ${data.email.includes('@')
-        ? `<a href="mailto:${data.email}" style="color: #11731b; text-decoration: underline;">${data.email}</a>`
-        : `<span style="color: #26312d;">${data.email}</span>`
-      }
+               ${
+                 data.email.includes("@")
+                   ? `<a href="mailto:${data.email}" style="color: #11731b; text-decoration: underline;">${data.email}</a>`
+                   : `<span style="color: #26312d;">${data.email}</span>`
+               }
              </td>
            </tr>
          </table>
@@ -215,21 +219,21 @@ export async function sendQuizSubmission(data: QuizSubmissionData) {
         <hr style="border: 0; border-top: 1px solid rgba(38,49,45,0.1); margin-top: 25px; margin-bottom: 15px;" />
         <p style="font-size: 11px; color: #5a5a5a; text-align: center; margin: 0;">This email was sent automatically from the Yuvaya Offer Quiz Form.</p>
       </div>
-    `
-  }
+    `,
+  };
 
   try {
-    await transporter.sendMail(mailOptions)
-    emailSent = true
-  } catch (error: any) {
-    console.error('Quiz SMTP sending error:', error)
-    errorMsg = error.message || 'Error occurred while sending quiz email.'
+    await transporter.sendMail(mailOptions);
+    emailSent = true;
+  } catch (error: unknown) {
+    console.error("Quiz SMTP sending error:", error);
+    errorMsg = error instanceof Error ? error.message : "Error occurred while sending quiz email.";
   }
 
   return {
     success: emailSent || webhookSent,
     emailSuccess: emailSent,
     webhookSuccess: webhookSent,
-    error: emailSent || webhookSent ? undefined : errorMsg
-  }
+    error: emailSent || webhookSent ? undefined : errorMsg,
+  };
 }

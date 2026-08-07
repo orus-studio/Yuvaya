@@ -1,79 +1,77 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, Phone, Send, CheckCircle, User, MessageSquare, PhoneCall } from 'lucide-react'
-import { sendContactEmail } from '@/app/actions/sendEmail'
+import React, { useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Phone, Send, CheckCircle, User, MessageSquare, PhoneCall } from "lucide-react";
+import { sendContactEmail } from "@/app/actions/sendEmail";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  })
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
 
-  const [formState, setFormState] = useState<'idle' | 'redirecting' | 'success'>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
+  const [formState, setFormState] = useState<"idle" | "redirecting" | "success">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    if (errorMsg) setErrorMsg('')
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errorMsg) setErrorMsg("");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // Validation
     if (!formData.name.trim()) {
-      setErrorMsg('Please enter your name.')
-      return
+      setErrorMsg("Please enter your name.");
+      return;
     }
     if (!formData.email.trim()) {
-      setErrorMsg('Please enter your email address.')
-      return
+      setErrorMsg("Please enter your email address.");
+      return;
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email.trim())) {
-      setErrorMsg('Please enter a valid email address.')
-      return
+      setErrorMsg("Please enter a valid email address.");
+      return;
     }
     if (!formData.message.trim()) {
-      setErrorMsg('Please enter your message.')
-      return
+      setErrorMsg("Please enter your message.");
+      return;
     }
 
-    setFormState('redirecting')
+    setFormState("redirecting");
 
     try {
-      const response = await sendContactEmail(formData)
+      const response = await sendContactEmail(formData);
       if (response.success) {
-        setFormState('success')
+        setFormState("success");
       } else {
-        setErrorMsg(response.error || 'Failed to send message. Please try again.')
-        setFormState('idle')
+        setErrorMsg(response.error || "Failed to send message. Please try again.");
+        setFormState("idle");
       }
     } catch (err) {
-      console.error(err)
-      setErrorMsg('An unexpected error occurred. Please try again.')
-      setFormState('idle')
+      console.error(err);
+      setErrorMsg("An unexpected error occurred. Please try again.");
+      setFormState("idle");
     }
-  }
+  };
 
   const handleReset = () => {
     setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-    })
-    setFormState('idle')
-    setErrorMsg('')
-  }
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
+    setFormState("idle");
+    setErrorMsg("");
+  };
 
   return (
     <div className="relative min-h-screen w-full bg-[#fffdf2] pt-28 pb-20">
@@ -83,12 +81,11 @@ export default function ContactUs() {
 
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16 items-stretch">
-
           {/* Left Column: Form & General Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="flex flex-col justify-between lg:col-span-6 bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-[#26312d]/5"
           >
             <div>
@@ -99,13 +96,14 @@ export default function ContactUs() {
                 Get in touch
               </h1>
               <p className="mt-3 font-switzer text-[15px] sm:text-[17px] font-light text-[#26312d]/75 leading-relaxed">
-                Have a question about our Daily Greens + Collagen, need help with your order, or just want to say hello? Fill out the form or write to us directly.
+                Have a question about our Daily Greens + Collagen, need help with your order, or
+                just want to say hello? Fill out the form or write to us directly.
               </p>
 
               {/* Form Container */}
               <div className="mt-8 relative">
                 <AnimatePresence mode="wait">
-                  {formState === 'idle' && (
+                  {formState === "idle" && (
                     <motion.form
                       key="contact-form"
                       initial={{ opacity: 0 }}
@@ -214,7 +212,7 @@ export default function ContactUs() {
                     </motion.form>
                   )}
 
-                  {formState === 'redirecting' && (
+                  {formState === "redirecting" && (
                     <motion.div
                       key="redirecting-screen"
                       initial={{ opacity: 0, scale: 0.95 }}
@@ -232,7 +230,7 @@ export default function ContactUs() {
                     </motion.div>
                   )}
 
-                  {formState === 'success' && (
+                  {formState === "success" && (
                     <motion.div
                       key="success-screen"
                       initial={{ opacity: 0, scale: 0.95 }}
@@ -246,7 +244,8 @@ export default function ContactUs() {
                         Message Sent!
                       </h3>
                       <p className="mt-2 font-switzer text-sm text-[#26312d]/70 max-w-[35ch]">
-                        Thank you for reaching out. We have received your inquiry and will get back to you shortly.
+                        Thank you for reaching out. We have received your inquiry and will get back
+                        to you shortly.
                       </p>
                       <button
                         onClick={handleReset}
@@ -302,7 +301,7 @@ export default function ContactUs() {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             className="lg:col-span-6 relative flex flex-col justify-end overflow-hidden rounded-3xl shadow-md min-h-[450px] lg:min-h-full border-[5px] border-[#11731b]/10 bg-white"
           >
             {/* Base Image */}
@@ -325,16 +324,17 @@ export default function ContactUs() {
                 Our Philosophy
               </span>
               <h2 className="mt-2 font-cormorant text-[24px] sm:text-[30px] font-medium leading-snug italic">
-                Biology and thoughtful formulation brought together to solve real, everyday problems.
+                Biology and thoughtful formulation brought together to solve real, everyday
+                problems.
               </h2>
               <p className="mt-3 font-switzer text-xs sm:text-sm font-light leading-relaxed text-[#fffdf2]/85">
-                We believe nutrition should be accessible, enjoyable, and consistent. Inspired by simple science and care, designed for your active lifestyle.
+                We believe nutrition should be accessible, enjoyable, and consistent. Inspired by
+                simple science and care, designed for your active lifestyle.
               </p>
             </div>
           </motion.div>
-
         </div>
       </div>
     </div>
-  )
+  );
 }

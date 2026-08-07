@@ -22,12 +22,6 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-const XIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-);
-
 const YouTubeIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
     <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
@@ -55,16 +49,8 @@ const BottomFooter = () => (
             y1="0"
             y2="0.8725871867961712"
           >
-            <stop
-              offset="0"
-              stopColor="rgb(255, 253, 242)"
-              stopOpacity="1"
-            ></stop>
-            <stop
-              offset="1"
-              stopColor="rgba(38, 48, 45, 0)"
-              stopOpacity="0"
-            ></stop>
+            <stop offset="0" stopColor="rgb(255, 253, 242)" stopOpacity="1"></stop>
+            <stop offset="1" stopColor="rgba(38, 48, 45, 0)" stopOpacity="0"></stop>
           </linearGradient>
         </defs>
         <path
@@ -81,16 +67,8 @@ const BottomFooter = () => (
             y1="0"
             y2="0.6220505173141891"
           >
-            <stop
-              offset="0"
-              stopColor="rgb(255, 253, 242)"
-              stopOpacity="1"
-            ></stop>
-            <stop
-              offset="1"
-              stopColor="rgba(38, 48, 45, 0)"
-              stopOpacity="0"
-            ></stop>
+            <stop offset="0" stopColor="rgb(255, 253, 242)" stopOpacity="1"></stop>
+            <stop offset="1" stopColor="rgba(38, 48, 45, 0)" stopOpacity="0"></stop>
           </linearGradient>
         </defs>
         <path
@@ -141,9 +119,8 @@ const Footer = () => {
               className="font-poppins m-0 mb-4 pt-2 w-full text-[13px] font-light leading-[1.3] tracking-[0em] text-[rgba(25,26,29,0.65)] whitespace-pre-wrap wrap-break-word sm:mb-6 sm:pt-4 sm:text-[14px] sm:leading-[1.2] md:w-100.25"
               style={{ wordWrap: "break-word", wordBreak: "break-word" }}
             >
-              Yuvaya makes everyday nutrition simple, effective, and easy to
-              follow. Helping you stay consistent and take better care of your
-              health.
+              Yuvaya makes everyday nutrition simple, effective, and easy to follow. Helping you
+              stay consistent and take better care of your health.
             </p>
 
             {/* Social icons */}
@@ -164,7 +141,12 @@ const Footer = () => {
                 aria-label="X"
                 className="flex text-inherit"
               >
-                <Image src="https://ik.imagekit.io/orus/Logo/threadsLogo.webp" alt="X" width={30} height={30} />
+                <Image
+                  src="https://ik.imagekit.io/orus/Logo/threadsLogo.webp"
+                  alt="X"
+                  width={30}
+                  height={30}
+                />
               </Link>
               <Link
                 href="https://www.facebook.com/yuvayaindia"
@@ -236,8 +218,7 @@ const Footer = () => {
         {/* ── Bottom copyright bar ─────────────────────── */}
         <div className="flex w-[90%] flex-col items-start justify-between gap-3 overflow-clip p-0 sm:flex-row sm:flex-nowrap sm:items-center sm:gap-0 md:w-[84%]">
           <span className="font-poppins text-[12px] font-light leading-[1.2] text-[rgba(25,26,29,0.45)] sm:whitespace-nowrap sm:text-[13px]">
-            CC 2026 <span className="text-[rgba(25,26,29,0.6)]">Yuvaya</span>.
-            All rights reserved
+            CC 2026 <span className="text-[rgba(25,26,29,0.6)]">Yuvaya</span>. All rights reserved
           </span>
 
           <div className="flex flex-row items-center gap-4 sm:gap-8">

@@ -1,12 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -34,11 +29,7 @@ const Navbar = () => {
   const hideThreshold = 80;
 
   // Keep near-full width on mobile and compact on desktop while scrolling.
-  const navWidth = useTransform(
-    scrollY,
-    [0, shrinkThreshold],
-    ["98%", "92%"]
-  );
+  const navWidth = useTransform(scrollY, [0, shrinkThreshold], ["98%", "92%"]);
 
   const navMaxWidth = useTransform(scrollY, [0, shrinkThreshold], [1200, 800]);
 

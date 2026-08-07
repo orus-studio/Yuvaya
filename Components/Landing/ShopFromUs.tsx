@@ -4,798 +4,925 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createCheckout } from "@/app/actions/createCheckout";
-import { Loader2, ShoppingCart, Plus, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Loader2,
+  ShoppingCart,
+  Plus,
+  ChevronUp,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { ShopifyLandingProductNode } from "@/lib/shopify";
 
 interface ShopFromUsProps {
-    initialProducts?: ShopifyLandingProductNode[];
-    initialVariantParam?: string;
+  initialProducts?: ShopifyLandingProductNode[];
+  initialVariantParam?: string;
 }
 
 const features = [
-    "Refreshing taste and no fishy smell",
-    "Quick absorbing",
-    "Clinically proven results",
-    "Scientifically Formulated",
+  "Refreshing taste and no fishy smell",
+  "Quick absorbing",
+  "Clinically proven results",
+  "Scientifically Formulated",
 ];
 
 const testingParameters = [
-    {
-        src: "https://ik.imagekit.io/orus/Logo/Microbial_infection.webp",
-        label: "Microbial contamination",
-    },
-    {
-        src: "https://ik.imagekit.io/orus/Logo/Amino_acid.webp",
-        label: "Amino acid profiling",
-    },
-    {
-        src: "https://ik.imagekit.io/orus/Logo/Heavy_metal.webp",
-        label: "Heavy metal test",
-    },
-    {
-        src: "https://ik.imagekit.io/orus/Logo/pesticide_testing.webp",
-        label: "Pesticide testing",
-    },
-    {
-        src: "https://ik.imagekit.io/orus/Logo/Aflatoxin_testing.webp",
-        label: "Aflatoxin testing",
-    },
-    {
-        src: "https://ik.imagekit.io/orus/Logo/Stability_testing.webp",
-        label: "Stability testing",
-    },
-    {
-        src: "https://ik.imagekit.io/orus/Logo/Organoleptic_testing.webp",
-        label: "Organoleptic testing",
-    },
+  {
+    src: "https://ik.imagekit.io/orus/Logo/Microbial_infection.webp",
+    label: "Microbial contamination",
+  },
+  {
+    src: "https://ik.imagekit.io/orus/Logo/Amino_acid.webp",
+    label: "Amino acid profiling",
+  },
+  {
+    src: "https://ik.imagekit.io/orus/Logo/Heavy_metal.webp",
+    label: "Heavy metal test",
+  },
+  {
+    src: "https://ik.imagekit.io/orus/Logo/pesticide_testing.webp",
+    label: "Pesticide testing",
+  },
+  {
+    src: "https://ik.imagekit.io/orus/Logo/Aflatoxin_testing.webp",
+    label: "Aflatoxin testing",
+  },
+  {
+    src: "https://ik.imagekit.io/orus/Logo/Stability_testing.webp",
+    label: "Stability testing",
+  },
+  {
+    src: "https://ik.imagekit.io/orus/Logo/Organoleptic_testing.webp",
+    label: "Organoleptic testing",
+  },
 ];
 
-const getVariantIndex = (products: any[], targetParam?: string) => {
-    if (!targetParam) return 0;
-    const target = targetParam.toLowerCase().trim();
-    const index = products.findIndex((v) => {
-        // 1. Check handle (e.g. "60-day-collagreens", "mini-collagreens-6-day-pack")
-        if (v.handle) {
-            const handleLower = v.handle.toLowerCase();
-            if (handleLower === target || handleLower.includes(target) || target.includes(handleLower)) return true;
-        }
+interface ProductVariantItem {
+  id?: string;
+  handle?: string;
+  title?: string;
+  label?: string;
+  variantLabel?: string;
+  variant_handle?: string;
+}
 
-        if (!v.id) return false;
-        const idLower = v.id.toLowerCase();
+const getVariantIndex = (products: ProductVariantItem[], targetParam?: string) => {
+  if (!targetParam) return 0;
+  const target = targetParam.toLowerCase().trim();
+  const index = products.findIndex((v) => {
+    // 1. Check handle (e.g. "60-day-collagreens", "mini-collagreens-6-day-pack")
+    if (v.handle) {
+      const handleLower = v.handle.toLowerCase();
+      if (handleLower === target || handleLower.includes(target) || target.includes(handleLower))
+        return true;
+    }
 
-        // 2. Exact match
-        if (idLower === target) return true;
+    if (!v.id) return false;
+    const idLower = v.id.toLowerCase();
 
-        // 3. Suffix match (e.g. "58221348290641" matched from "gid://shopify/ProductVariant/58221348290641")
-        if (idLower.endsWith(target)) return true;
+    // 2. Exact match
+    if (idLower === target) return true;
 
-        // 4. Compare stripped pure numeric values
-        const numericParam = target.replace(/\D/g, "");
-        const numericId = idLower.replace(/\D/g, "");
-        if (numericParam && numericId && numericId === numericParam) return true;
+    // 3. Suffix match (e.g. "58221348290641" matched from "gid://shopify/ProductVariant/58221348290641")
+    if (idLower.endsWith(target)) return true;
 
-        // 5. Fallback: match by label keywords (e.g., "30", "60", "trial", "6")
-        const labelLower = v.label.toLowerCase();
-        if (labelLower.includes(target) || target.includes(labelLower)) return true;
+    // 4. Compare stripped pure numeric values
+    const numericParam = target.replace(/\D/g, "");
+    const numericId = idLower.replace(/\D/g, "");
+    if (numericParam && numericId && numericId === numericParam) return true;
 
-        return false;
-    });
-    return index !== -1 ? index : 0;
+    // 5. Fallback: match by label keywords (e.g., "30", "60", "trial", "6")
+    if (v.label) {
+      const labelLower = v.label.toLowerCase();
+      if (labelLower.includes(target) || target.includes(labelLower)) return true;
+    }
+
+    return false;
+  });
+  return index !== -1 ? index : 0;
 };
 
 const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) => {
-    const { addToCart } = useCart();
+  const { addToCart } = useCart();
 
-    const displayProducts = React.useMemo(() => {
-        if (!initialProducts || initialProducts.length === 0) {
-            return [
-                {
-                    id: "gid://shopify/ProductVariant/58221348290641",
-                    handle: "collagreens",
-                    label: "30 days pack",
-                    price: "₹ 3,100",
-                    originalPrice: undefined,
-                    img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
-                    title: "Collagreens",
-                    descriptionHtml: "",
-                    images: [
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
-                    ]
-                },
-                {
-                    id: "gid://shopify/ProductVariant/58395879473233",
-                    handle: "60-day-collagreens",
-                    label: "60 days pack",
-                    price: "₹ 5,600",
-                    originalPrice: "₹ 5,800",
-                    img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
-                    title: "Collagreens",
-                    descriptionHtml: "",
-                    images: [
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
-                    ]
-                },
-                {
-                    id: "gid://shopify/ProductVariant/59057234608209",
-                    handle: "mini-collagreens-6-day-pack",
-                    label: "6 days trial",
-                    price: "₹ 1,100",
-                    originalPrice: undefined,
-                    img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
-                    title: "Collagreens",
-                    descriptionHtml: "",
-                    images: [
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
-                        { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
-                    ]
-                }
-            ];
-        }
-
-        const sortedProducts = [...initialProducts].sort((a, b) => {
-            const order = {
-                "collagreens": 1,
-                "60-day-collagreens": 2,
-                "mini-collagreens-6-day-pack": 3
-            };
-            const orderA = order[a.handle as keyof typeof order] || 99;
-            const orderB = order[b.handle as keyof typeof order] || 99;
-            return orderA - orderB;
-        });
-
-        return sortedProducts.map((prod) => {
-            const handle = prod.handle;
-            const variantNode = prod.variants.edges[0]?.node;
-            const variantId = variantNode?.id || "";
-            const amount = variantNode?.price?.amount || "0";
-            const priceFormatted = `₹ ${parseFloat(amount).toLocaleString("en-IN")}`;
-
-            let label = "30 days pack";
-            let originalPrice = undefined;
-            if (handle === "60-day-collagreens") {
-                label = "60 days pack";
-                originalPrice = "₹ 5,800";
-            } else if (handle === "mini-collagreens-6-day-pack") {
-                label = "6 days trial";
-            }
-
-            const images = prod.images.edges.map(edge => ({
-                src: edge.node.url,
-                alt: edge.node.altText || prod.title
-            }));
-
-            const displayImages = images.length > 0 ? images : [
-                { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
-                { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
-                { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp", alt: "Sachet Back" },
-            ];
-
-            return {
-                id: variantId,
-                handle,
-                label,
-                price: priceFormatted,
-                originalPrice,
-                img: displayImages[0]?.src || "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
-                title: prod.title,
-                descriptionHtml: prod.descriptionHtml ? prod.descriptionHtml.replace(/<meta[^>]*>/gi, "") : "",
-                images: displayImages
-            };
-        });
-    }, [initialProducts]);
-
-    const [selectedVariant, setSelectedVariant] = useState(() => {
-        return getVariantIndex(displayProducts, initialVariantParam);
-    });
-    const [activeThumbnail, setActiveThumbnail] = useState(0);
-    const [isBuying, setIsBuying] = useState(false);
-    const [checkoutError, setCheckoutError] = useState<string | null>(null);
-
-    React.useEffect(() => {
-        const handlePageShow = () => {
-            setIsBuying(false);
-        };
-        window.addEventListener("pageshow", handlePageShow);
-        return () => {
-            window.removeEventListener("pageshow", handlePageShow);
-        };
-    }, []);
-
-    React.useEffect(() => {
-        if (typeof window === "undefined") return;
-
-        // Parse variant/varient from the standard query string or hash query string
-        const getParamValue = (queryString: string) => {
-            const params = new URLSearchParams(queryString);
-            return params.get("variant") || params.get("varient");
-        };
-
-        let variantParam = getParamValue(window.location.search);
-
-        // If not in window.location.search, check in hash (e.g., #shop?variant=...)
-        if (!variantParam && window.location.hash) {
-            const hashParts = window.location.hash.split("?");
-            if (hashParts.length > 1) {
-                variantParam = getParamValue("?" + hashParts[1]);
-            }
-        }
-
-        if (variantParam) {
-            // Auto scroll to #shop after a short delay for rendering
-            setTimeout(() => {
-                const element = document.getElementById("shop");
-                if (element) {
-                    const yOffset = -90; // offset to account for sticky navbar
-                    const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-                    window.scrollTo({ top: y, behavior: "smooth" });
-                }
-            }, 250);
-        }
-    }, []);
-
-    React.useEffect(() => {
-        if (typeof window === "undefined") return;
-
-        const isCompleted = localStorage.getItem("yuvaya_offer_quiz_completed");
-        const isDismissed = localStorage.getItem("yuvaya_offer_quiz_dismissed");
-        const dismissTime = isDismissed ? parseInt(isDismissed, 10) : 0;
-        const now = Date.now();
-
-        // If completed, or dismissed less than 24 hours ago, do not trigger
-        if (isCompleted || (now - dismissTime < 24 * 60 * 60 * 1000)) {
-            return;
-        }
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        window.dispatchEvent(new CustomEvent("open-offer-quiz"));
-                        observer.disconnect();
-                    }
-                });
+  const displayProducts = React.useMemo(() => {
+    if (!initialProducts || initialProducts.length === 0) {
+      return [
+        {
+          id: "gid://shopify/ProductVariant/58221348290641",
+          handle: "collagreens",
+          label: "30 days pack",
+          price: "₹ 3,100",
+          originalPrice: undefined,
+          img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+          title: "Collagreens",
+          descriptionHtml: "",
+          images: [
+            {
+              src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+              alt: "Pouch Front",
             },
             {
-                threshold: 0.15, // Trigger when 15% of the section is visible
-            }
-        );
+              src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp",
+              alt: "Sachet Front",
+            },
+            {
+              src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp",
+              alt: "Sachet Back",
+            },
+          ],
+        },
+        {
+          id: "gid://shopify/ProductVariant/58395879473233",
+          handle: "60-day-collagreens",
+          label: "60 days pack",
+          price: "₹ 5,600",
+          originalPrice: "₹ 5,800",
+          img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+          title: "Collagreens",
+          descriptionHtml: "",
+          images: [
+            {
+              src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+              alt: "Pouch Front",
+            },
+            {
+              src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp",
+              alt: "Sachet Front",
+            },
+            {
+              src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp",
+              alt: "Sachet Back",
+            },
+          ],
+        },
+        {
+          id: "gid://shopify/ProductVariant/59057234608209",
+          handle: "mini-collagreens-6-day-pack",
+          label: "6 days trial",
+          price: "₹ 1,100",
+          originalPrice: undefined,
+          img: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+          title: "Collagreens",
+          descriptionHtml: "",
+          images: [
+            {
+              src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+              alt: "Pouch Front",
+            },
+            {
+              src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp",
+              alt: "Sachet Front",
+            },
+            {
+              src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp",
+              alt: "Sachet Back",
+            },
+          ],
+        },
+      ];
+    }
 
+    const sortedProducts = [...initialProducts].sort((a, b) => {
+      const order = {
+        collagreens: 1,
+        "60-day-collagreens": 2,
+        "mini-collagreens-6-day-pack": 3,
+      };
+      const orderA = order[a.handle as keyof typeof order] || 99;
+      const orderB = order[b.handle as keyof typeof order] || 99;
+      return orderA - orderB;
+    });
+
+    return sortedProducts.map((prod) => {
+      const handle = prod.handle;
+      const variantNode = prod.variants.edges[0]?.node;
+      const variantId = variantNode?.id || "";
+      const amount = variantNode?.price?.amount || "0";
+      const priceFormatted = `₹ ${parseFloat(amount).toLocaleString("en-IN")}`;
+
+      let label = "30 days pack";
+      let originalPrice = undefined;
+      if (handle === "60-day-collagreens") {
+        label = "60 days pack";
+        originalPrice = "₹ 5,800";
+      } else if (handle === "mini-collagreens-6-day-pack") {
+        label = "6 days trial";
+      }
+
+      const images = prod.images.edges.map((edge) => ({
+        src: edge.node.url,
+        alt: edge.node.altText || prod.title,
+      }));
+
+      const displayImages =
+        images.length > 0
+          ? images
+          : [
+              {
+                src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+                alt: "Pouch Front",
+              },
+              {
+                src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp",
+                alt: "Sachet Front",
+              },
+              {
+                src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Back%20latest%20mockup.webp",
+                alt: "Sachet Back",
+              },
+            ];
+
+      return {
+        id: variantId,
+        handle,
+        label,
+        price: priceFormatted,
+        originalPrice,
+        img:
+          displayImages[0]?.src ||
+          "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+        title: prod.title,
+        descriptionHtml: prod.descriptionHtml
+          ? prod.descriptionHtml.replace(/<meta[^>]*>/gi, "")
+          : "",
+        images: displayImages,
+      };
+    });
+  }, [initialProducts]);
+
+  const [selectedVariant, setSelectedVariant] = useState(() => {
+    return getVariantIndex(displayProducts, initialVariantParam);
+  });
+  const [activeThumbnail, setActiveThumbnail] = useState(0);
+  const [isBuying, setIsBuying] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const handlePageShow = () => {
+      setIsBuying(false);
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Parse variant/varient from the standard query string or hash query string
+    const getParamValue = (queryString: string) => {
+      const params = new URLSearchParams(queryString);
+      return params.get("variant") || params.get("varient");
+    };
+
+    let variantParam = getParamValue(window.location.search);
+
+    // If not in window.location.search, check in hash (e.g., #shop?variant=...)
+    if (!variantParam && window.location.hash) {
+      const hashParts = window.location.hash.split("?");
+      if (hashParts.length > 1) {
+        variantParam = getParamValue("?" + hashParts[1]);
+      }
+    }
+
+    if (variantParam) {
+      // Auto scroll to #shop after a short delay for rendering
+      setTimeout(() => {
         const element = document.getElementById("shop");
         if (element) {
-            observer.observe(element);
+          const yOffset = -90; // offset to account for sticky navbar
+          const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
         }
+      }, 250);
+    }
+  }, []);
 
-        return () => {
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const isCompleted = localStorage.getItem("yuvaya_offer_quiz_completed");
+    const isDismissed = localStorage.getItem("yuvaya_offer_quiz_dismissed");
+    const dismissTime = isDismissed ? parseInt(isDismissed, 10) : 0;
+    const now = Date.now();
+
+    // If completed, or dismissed less than 24 hours ago, do not trigger
+    if (isCompleted || now - dismissTime < 24 * 60 * 60 * 1000) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            window.dispatchEvent(new CustomEvent("open-offer-quiz"));
             observer.disconnect();
-        };
-    }, []);
-
-    const variants = displayProducts;
-    const thumbnails = variants[selectedVariant]?.images || [];
-
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const isFirstRender = useRef(true);
-    const [isScrollable, setIsScrollable] = useState(false);
-    const [canScrollUp, setCanScrollUp] = useState(false);
-    const [canScrollDown, setCanScrollDown] = useState(false);
-
-    const updateScrollButtons = React.useCallback(() => {
-        const container = scrollContainerRef.current;
-        if (container) {
-            const isMobileRow = window.innerWidth < 640;
-            if (isMobileRow) {
-                const { scrollLeft, scrollWidth, clientWidth } = container;
-                setIsScrollable(scrollWidth > clientWidth);
-                setCanScrollUp(scrollLeft > 1.5);
-                setCanScrollDown(scrollLeft + clientWidth < scrollWidth - 1.5);
-            } else {
-                const { scrollTop, scrollHeight, clientHeight } = container;
-                setIsScrollable(scrollHeight > clientHeight);
-                setCanScrollUp(scrollTop > 1.5);
-                setCanScrollDown(scrollTop + clientHeight < scrollHeight - 1.5);
-            }
-        } else {
-            setIsScrollable(false);
-            setCanScrollUp(false);
-            setCanScrollDown(false);
-        }
-    }, []);
-
-    const scrollUp = () => {
-        const container = scrollContainerRef.current;
-        if (container) {
-            const isMobileRow = window.innerWidth < 640;
-            const firstChild = container.firstElementChild as HTMLElement;
-            const gap = parseFloat(window.getComputedStyle(container).gap) || 8;
-            if (isMobileRow) {
-                const itemWidth = firstChild ? firstChild.clientWidth : 64;
-                container.scrollBy({ left: -(itemWidth + gap), behavior: "smooth" });
-            } else {
-                const itemHeight = firstChild ? firstChild.clientHeight : 100;
-                container.scrollBy({ top: -(itemHeight + gap), behavior: "smooth" });
-            }
-        }
-    };
-
-    const scrollDown = () => {
-        const container = scrollContainerRef.current;
-        if (container) {
-            const isMobileRow = window.innerWidth < 640;
-            const firstChild = container.firstElementChild as HTMLElement;
-            const gap = parseFloat(window.getComputedStyle(container).gap) || 8;
-            if (isMobileRow) {
-                const itemWidth = firstChild ? firstChild.clientWidth : 64;
-                container.scrollBy({ left: (itemWidth + gap), behavior: "smooth" });
-            } else {
-                const itemHeight = firstChild ? firstChild.clientHeight : 100;
-                container.scrollBy({ top: (itemHeight + gap), behavior: "smooth" });
-            }
-        }
-    };
-
-    React.useEffect(() => {
-        // Reset scroll position to top/left when variant changes
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTop = 0;
-            scrollContainerRef.current.scrollLeft = 0;
-        }
-        const timer = setTimeout(updateScrollButtons, 100);
-        return () => clearTimeout(timer);
-    }, [selectedVariant, thumbnails, updateScrollButtons]);
-
-    React.useEffect(() => {
-        updateScrollButtons();
-        window.addEventListener("resize", updateScrollButtons);
-        return () => {
-            window.removeEventListener("resize", updateScrollButtons);
-        };
-    }, [updateScrollButtons, thumbnails]);
-
-    React.useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-            return;
-        }
-        const container = scrollContainerRef.current;
-        if (container && container.children[activeThumbnail]) {
-            const activeElement = container.children[activeThumbnail] as HTMLElement;
-            activeElement.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-                inline: "nearest",
-            });
-        }
-    }, [activeThumbnail]);
-
-    const handleBuyNow = async () => {
-        const variantId = variants[selectedVariant].id;
-        if (!variantId) return;
-
-        setIsBuying(true);
-        setCheckoutError(null);
-
-        try {
-            const result = await createCheckout(variantId, 1);
-            if ("error" in result) {
-                setCheckoutError(result.error);
-                setIsBuying(false);
-            } else if (result.webUrl) {
-                window.location.href = result.webUrl;
-            }
-        } catch (err) {
-            console.error("Checkout creation failed:", err);
-            setCheckoutError("Failed to initiate checkout. Please try again.");
-            setIsBuying(false);
-        }
-    };
-
-    const handleAddToCart = () => {
-        const variant = variants[selectedVariant];
-        if (!variant.id) return;
-
-        addToCart({
-            id: variant.id,
-            title: "Collagreens",
-            variantLabel: variant.label,
-            price: variant.price,
-            image: variant.img,
+          }
         });
-    };
-
-    const handleVariantChange = (index: number) => {
-        setSelectedVariant(index);
-        setActiveThumbnail(0);
-
-        const variant = displayProducts[index];
-        if (variant && variant.id && typeof window !== "undefined") {
-            const newUrl = new URL(window.location.href);
-            const numericId = variant.id.replace(/\D/g, "");
-            newUrl.searchParams.set("variant", numericId || variant.id);
-            window.history.replaceState({ ...window.history.state }, "", newUrl.toString());
-        }
-
-        const element = document.getElementById("shop");
-        if (element) {
-            const yOffset = -90; // offset to account for sticky navbar
-            const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-            window.scrollTo({ top: y, behavior: "smooth" });
-        }
-    };
-
-    return (
-        <section id="shop" className="w-full pt-14 bg-[#fffff7] px-6 pb-10 ">
-            {/* Section Header */}
-            <div className="mb-8 flex flex-col items-center gap-2 text-center sm:mb-12">
-                <h2 className="font-cormorant  font-bold text-[36px] leading-[1.2] tracking-[0.01em] text-black sm:text-[48px] lg:text-[60px]">
-                    Shop from us
-                </h2>
-                <p className="font-switzer flex gap-1 text-[14px] font-medium tracking-[0.12em] text-black sm:text-[18px] lg:text-[22px]">
-                    The only
-                    <span className="font-bold">Collagen</span> that works
-                </p>
-            </div>
-
-            <div className="box-border flex w-full flex-col items-start gap-8 overflow-visible px-2 sm:px-6 lg:flex-row lg:justify-evenly lg:gap-0 lg:px-[50px]">
-                {/* ── LEFT PANEL (sticky image block) ─────────────────────────── */}
-                <div className="h-fit w-full shrink-0 lg:sticky lg:top-24 lg:w-[55%]">
-                    {/* Outer container: responsive height and styling */}
-                    <div className="box-border flex h-[380px] min-[400px]:h-[440px] sm:h-[460px] lg:h-[620px] xl:h-[660px] w-full flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 lg:gap-5 overflow-clip rounded-2xl border-[3px] sm:border-[4px] border-[#fff6b3] bg-[#faf6de] p-2.5 sm:p-4 lg:p-5">
-                        {/* Main product image — responsive height */}
-                        <div className="relative box-border flex-1 w-full sm:w-auto h-[270px] min-[400px]:h-[320px] sm:h-full flex flex-col overflow-clip rounded-xl lg:rounded-[14px] border-2 sm:border-[3px] lg:border-[4px] border-[#34803c] bg-[#fffdf2] order-1 sm:order-2">
-                            {/* Product image — changes based on selected thumbnail */}
-                            <div className="absolute inset-0 z-30 flex items-center justify-center p-3 sm:p-6 lg:p-10">
-                                <div className="relative h-full w-full max-h-full max-w-full flex items-center justify-center">
-                                    {thumbnails[activeThumbnail] && (
-                                        <Image
-                                            src={thumbnails[activeThumbnail].src}
-                                            alt={thumbnails[activeThumbnail].alt}
-                                            key={`${selectedVariant}-${activeThumbnail}`}
-                                            fill
-                                            sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 600px"
-                                            className="object-contain object-center transition-all duration-300 drop-shadow-md"
-                                            priority
-                                        />
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Pack label badge at bottom right */}
-                            <div className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-40 rounded-full bg-[#26312d] px-3 py-1 sm:px-5 sm:py-2 shadow-md">
-                                <span className="font-poppins text-[10.5px] sm:text-[14px] font-medium text-white">
-                                    {variants[selectedVariant].label === "30 days pack" ? "30 Day Pack"
-                                        : variants[selectedVariant].label === "60 days pack" ? "60 Day Pack"
-                                            : "6 Day Trial"}
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Thumbnails container — row on mobile, column on desktop */}
-                        <div className="relative flex w-full sm:w-[24%] h-auto sm:h-full shrink-0 flex-row sm:flex-col items-center justify-between px-0.5 sm:px-0 py-0.5 sm:py-1 order-2 sm:order-1">
-                            {/* Previous Scroll Button (Left on mobile, Up on desktop) */}
-                            {isScrollable && (
-                                <button
-                                    type="button"
-                                    onClick={scrollUp}
-                                    disabled={!canScrollUp}
-                                    className="z-10 flex h-6 w-6 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none mr-1 sm:mr-0 sm:mb-1 shadow-sm active:scale-95 cursor-pointer"
-                                    aria-label="Scroll Previous"
-                                >
-                                    <ChevronLeft className="w-4 h-4 sm:hidden" />
-                                    <ChevronUp className="hidden sm:block w-5 h-5" />
-                                </button>
-                            )}
-
-                            {/* Scrollable Thumbnails Container */}
-                            <div
-                                ref={scrollContainerRef}
-                                onScroll={updateScrollButtons}
-                                className={`w-full flex-1 overflow-x-auto sm:overflow-x-hidden sm:overflow-y-auto no-scrollbar scroll-smooth flex flex-row sm:flex-col gap-1.5 sm:gap-2.5 py-0.5 sm:py-1 ${isScrollable ? "justify-start" : "justify-center"
-                                    }`}
-                            >
-                                {thumbnails.map((t, i) => (
-                                    <button
-                                        key={i}
-                                        type="button"
-                                        onClick={() => setActiveThumbnail(i)}
-                                        className={`relative box-border h-14 w-14 min-[400px]:h-16 min-[400px]:w-16 sm:h-auto sm:w-full aspect-square shrink-0 cursor-pointer items-center justify-center overflow-clip rounded-lg sm:rounded-xl lg:rounded-2xl border-2 sm:border-[3px] lg:border-[4px] transition-all ${activeThumbnail === i
-                                            ? "border-[#34803c] bg-[#fffdf2] opacity-100 shadow-md scale-[0.98]"
-                                            : "border-[#e5e7eb] bg-[#fffdf2] opacity-60 hover:opacity-100 hover:border-[#34803c]/40"
-                                            }`}
-                                    >
-                                        <div className="relative w-full h-full p-1 sm:p-2 lg:p-3">
-                                            <Image
-                                                src={t.src}
-                                                alt={t.alt}
-                                                fill
-                                                sizes="(max-width: 640px) 20vw, 10vw"
-                                                className="object-contain"
-                                            />
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* Next Scroll Button (Right on mobile, Down on desktop) */}
-                            {isScrollable && (
-                                <button
-                                    type="button"
-                                    onClick={scrollDown}
-                                    disabled={!canScrollDown}
-                                    className="z-10 flex h-6 w-6 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none ml-1 sm:ml-0 sm:mt-1 shadow-sm active:scale-95 cursor-pointer"
-                                    aria-label="Scroll Next"
-                                >
-                                    <ChevronRight className="w-4 h-4 sm:hidden" />
-                                    <ChevronDown className="hidden sm:block w-5 h-5" />
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                {/* ── RIGHT PANEL ── */}
-                <div className="box-border flex w-full flex-col items-center justify-center gap-0 overflow-clip rounded-2xl px-4 pt-4 pb-0 lg:w-[45%] lg:px-[30px] lg:pt-[16px] lg:min-h-[680px]">
-                    {/* Rating */}
-                    <div className="flex h-auto min-h-[40px] lg:h-[53px] w-full flex-row flex-wrap items-center justify-start gap-2 lg:gap-[10px] overflow-clip">
-                        <div className="flex text-[#11731b]">
-                            {"★★★★★".split("").map((s, i) => (
-                                <span key={i} className="text-[16px] sm:text-[18px] lg:text-[22px]">{s}</span>
-                            ))}
-                        </div>
-                        <span className="font-poppins text-[12px] sm:text-[16px] lg:text-[20px] font-semibold text-[#11731b]">
-                            4.9/5.0
-                        </span>
-                    </div>
-
-                    {/* Product title */}
-                    <h3 className="w-full break-words  whitespace-pre-wrap font-tt-ramillas text-[32px] sm:text-[38px] lg:text-[45px] font-semibold leading-[1.2] tracking-[0.02em] text-[#34803c]">
-                        {variants[selectedVariant]?.title || "Collagreens"}
-                    </h3>
-
-                    {/* Description paragraphs */}
-                    {variants[selectedVariant]?.descriptionHtml ? (
-                        <div
-                            className="mt-4 flex w-full flex-col gap-3 lg:gap-5 shopify-description min-h-[120px] sm:min-h-[120px] lg:min-h-[120px]"
-                            dangerouslySetInnerHTML={{ __html: variants[selectedVariant].descriptionHtml }}
-                        />
-                    ) : (
-                        <div className="mt-4 flex w-full flex-col gap-3 lg:gap-5 min-h-[120px] sm:min-h-[150px] lg:min-h-[220px]">
-                            <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
-                                Collagreens combines hydrolyzed marine collagen with supergreens and 30+ bioactive ingredients across 6 clinically studied complexes. Designed to support radiant skin, stronger hair, and healthier nails while promoting gut health.
-                            </p>
-                            <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
-                                The 6 complexes naturally deliver Vitamin C, Vitamin A, antioxidants, fibres, minerals and actives like amla, moringa and spirulina to support collagen supplementation deeply.
-                            </p>
-                            <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
-                                Each convenient sachet delivers natural taste with real ingredients. Manufactured in a USFDA certified facility with third-party testing for purity and safety. No fillers. No artificial preservatives. No artificial sweeteners. No colourants.
-                            </p>
-                        </div>
-                    )}
-
-                    {/* Feature checkmarks */}
-                    <div className="mt-4 lg:mt-6 flex w-full flex-col items-start gap-2 lg:gap-[10px] overflow-clip">
-                        {features.map((f, i) => (
-                            <div key={i} className="flex items-center gap-2 lg:gap-3">
-                                <svg width="16" height="16" className="lg:w-[20px] lg:h-[20px]" viewBox="0 0 20 20" fill="none">
-                                    <path d="M4 10L8 14L16 6" stroke="#34803c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                <span className="font-poppins text-[13px] sm:text-[15px] lg:text-[21px] leading-[1.1] font-normal text-[#3d3d3d]">{f}</span>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Select Variant */}
-                    <div className="mt-6 lg:mt-8 flex w-full flex-col items-start justify-center gap-2 lg:gap-[10px] overflow-clip">
-                        <h4 className="font-poppins text-[18px] sm:text-[21px] lg:text-[24px] font-medium mt-2 mb-2 lg:mb-4 text-black">Select Variant</h4>
-                        {/* Variant row */}
-                        <div className="flex w-full flex-row items-center justify-start gap-4 sm:gap-6 lg:gap-[30px] overflow-x-auto overflow-y-clip pb-2">
-                            {variants.map((v, i) => (
-                                <button
-                                    key={i}
-                                    type="button"
-                                    onClick={() => handleVariantChange(i)}
-                                    className="flex flex-col items-center gap-2 shrink-0"
-                                >
-                                    {/* Each variant */}
-                                    <div
-                                        className={`relative box-border h-[70px] w-[70px] sm:h-[85px] sm:w-[85px] lg:h-[100px] lg:w-[100px] overflow-clip rounded-full border-2 bg-[#fffdf2] transition-all ${selectedVariant === i ? "border-[#34803c]" : "border-[#c9c9c9]"
-                                            }`}
-                                    >
-                                        <Image src={v.img} alt={v.label} fill sizes="(max-width: 768px) 20vw, 100px" className="object-contain p-2" />
-                                    </div>
-                                    <span
-                                        className={`font-poppins text-[12px] sm:text-[13px] lg:text-[14px] ${selectedVariant === i ? "font-semibold text-black" : "font-normal text-gray-500"
-                                            }`}
-                                    >
-                                        {v.label}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Price & CTA */}
-                    <div className="flex w-full flex-col items-start gap-4 mt-6 lg:mt-0 lg:h-[138px] lg:justify-between">
-                        <div>
-                            <p className="font-antic-didone text-[24px] sm:text-[28px] lg:text-[32px] font-bold pb-1 leading-[1.2] text-black">
-                                {variants[selectedVariant].label}
-                            </p>
-                            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                                {variants[selectedVariant].originalPrice ? (
-                                    <span className="font-poppins text-[16px] sm:text-[18px] lg:text-[22px] font-normal leading-[1.2] text-gray-400 line-through decoration-2 decoration-gray-400/80">
-                                        {variants[selectedVariant].originalPrice}
-                                    </span>
-                                ) : null}
-                                <span className="font-poppins text-[20px] sm:text-[24px] lg:text-[28px] font-normal leading-[1.2] text-gray-500">
-                                    {variants[selectedVariant].price}
-                                </span>
-                            </div>
-                        </div>
-                        {/* CTA Buttons */}
-                        <div className="flex w-full flex-col gap-3">
-                            <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
-                                <Link href='/shop' className="box-border rounded-full border border-gray-400 bg-white px-6 sm:px-8 py-2.5 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center">
-                                    View Details
-                                </Link>
-                                <div className="flex justify-center items-center flex-1 md:justify-normal gap-3 sm:flex-1 w-full">
-                                    <button
-                                        onClick={handleBuyNow}
-                                        type="button"
-                                        disabled={isBuying}
-                                        className="box-border flex-1 sm:flex-none rounded-full border border-gray-300 bg-[#fffc60] px-6 sm:px-10 py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
-                                    >
-                                        {isBuying ? (
-                                            <>
-                                                <Loader2 className="w-4 h-4 animate-spin" />
-                                                <span>Redirecting...</span>
-                                            </>
-                                        ) : (
-                                            "Buy Now"
-                                        )}
-                                    </button>
-                                    <button
-                                        onClick={handleAddToCart}
-                                        type="button"
-                                        title="Add to Cart"
-                                        className="box-border h-12 w-12 sm:h-12 sm:w-12 shrink-0 flex items-center justify-center rounded-full border border-[#34803c] bg-white text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white cursor-pointer active:scale-95 shadow-sm hover:shadow-md"
-                                    >
-                                        <div className="relative">
-                                            <ShoppingCart className="w-5.5 h-5.5 sm:w-5.5 sm:h-5.5" />
-                                            <div className="absolute -top-1.5 -right-1.5 bg-[#34803c] text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[10px] font-bold border border-white">
-                                                <Plus className="w-2 h-2 stroke-[3px]" />
-                                            </div>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-                            {checkoutError && (
-                                <p className="text-red-500 text-sm font-medium mt-1">
-                                    {checkoutError}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Clinical Studies Section */}
-                    <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
-                        <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
-                            Clinical studies and results
-                        </h3>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
-                            <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
-                                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">22.94%</p>
-                                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
-                                    + skin hydration
-                                </p>
-                            </div>
-                            <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
-                                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">~46.57%</p>
-                                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
-                                    - hair fall over 60 day use
-                                </p>
-                            </div>
-                            <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
-                                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">~57.34%</p>
-                                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
-                                    - crow&apos;s feet wrinkles
-                                </p>
-                            </div>
-                        </div>
-
-                        <Link href="https://drive.google.com/file/d/19fDye2tFPt_r1BdVCvvIiNdAaKwoN2t6/view" target="_blank" className="font-switzer text-[12px] font-medium sm:text-[16px] leading-[1.4] text-[#666] mb-4 underline">
-                            Clinical Study Source
-                        </Link>
-                        <p className="font-switzer pt-2 text-[13px] sm:text-[15px] leading-[1.4] text-[#666] mb-6">
-                            Note: These results may be enhanced because of daily greens. These numbers are solely for collagen supplementation. Based on a 12 week randomized, double blind placebo study with daily collagen supplementation.
-                        </p>
-
-
-                    </div>
-
-                    {/* Testing Parameters Section */}
-                    <div className="w-full mt-10 pt-10 border-t-2 gap-3 border-[#e0e0e0]">
-                        <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
-                            Testing parameters
-                        </h3>
-
-                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                            {testingParameters.map((test, i) => (
-                                <div key={i} className="h-full">
-                                    <div className="flex h-full flex-col items-center justify-start rounded-xl border-2 border-[#34803c] bg-white p-3.5 text-center sm:p-5">
-                                        <div className="relative mx-auto mb-2.5 h-9 w-9 sm:h-11 sm:w-11 lg:h-12 lg:w-12">
-                                            <Image
-                                                src={test.src}
-                                                alt={test.label}
-                                                fill
-                                                sizes="44px"
-                                                className="object-contain"
-                                            />
-                                        </div>
-                                        <p className="font-switzer text-[12px] sm:text-[14px] lg:text-[15px] leading-[1.35] text-[#333] wrap-break-word text-balance">
-                                            {test.label}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="w-full mt-5">
-                            <Link href="https://www.notion.so/TEST-RESULTS-Yuvaya-3683ae035ffc80e39898d3dff170d830" target="_blank" className="font-tt-ramillas pt-3 italic text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline">
-                                View third-party Lab test results
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* How to Use Section */}
-                    <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
-                        <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
-                            How to use
-                        </h3>
-
-                        <div className="space-y-4">
-                            <div className="flex gap-4">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">1</div>
-                                <div>
-                                    <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
-                                        Mix one sachet with 200ml of water or your favorite beverage
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex gap-4">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">2</div>
-                                <div>
-                                    <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
-                                        Stir well or shake until fully dissolved
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex gap-4">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">3</div>
-                                <div>
-                                    <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
-                                        Consume once daily, preferably in the morning on an empty stomach
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex gap-4">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">4</div>
-                                <div>
-                                    <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
-                                        Consistent use for 8-12 weeks for best results
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+      },
+      {
+        threshold: 0.15, // Trigger when 15% of the section is visible
+      }
     );
+
+    const element = document.getElementById("shop");
+    if (element) {
+      observer.observe(element);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const variants = displayProducts;
+  const thumbnails = React.useMemo(
+    () => variants[selectedVariant]?.images || [],
+    [variants, selectedVariant]
+  );
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+  const [isScrollable, setIsScrollable] = useState(false);
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+
+  const updateScrollButtons = React.useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const isMobileRow = window.innerWidth < 640;
+      if (isMobileRow) {
+        const { scrollLeft, scrollWidth, clientWidth } = container;
+        setIsScrollable(scrollWidth > clientWidth);
+        setCanScrollUp(scrollLeft > 1.5);
+        setCanScrollDown(scrollLeft + clientWidth < scrollWidth - 1.5);
+      } else {
+        const { scrollTop, scrollHeight, clientHeight } = container;
+        setIsScrollable(scrollHeight > clientHeight);
+        setCanScrollUp(scrollTop > 1.5);
+        setCanScrollDown(scrollTop + clientHeight < scrollHeight - 1.5);
+      }
+    } else {
+      setIsScrollable(false);
+      setCanScrollUp(false);
+      setCanScrollDown(false);
+    }
+  }, []);
+
+  const scrollUp = () => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const isMobileRow = window.innerWidth < 640;
+      const firstChild = container.firstElementChild as HTMLElement;
+      const gap = parseFloat(window.getComputedStyle(container).gap) || 8;
+      if (isMobileRow) {
+        const itemWidth = firstChild ? firstChild.clientWidth : 64;
+        container.scrollBy({ left: -(itemWidth + gap), behavior: "smooth" });
+      } else {
+        const itemHeight = firstChild ? firstChild.clientHeight : 100;
+        container.scrollBy({ top: -(itemHeight + gap), behavior: "smooth" });
+      }
+    }
+  };
+
+  const scrollDown = () => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const isMobileRow = window.innerWidth < 640;
+      const firstChild = container.firstElementChild as HTMLElement;
+      const gap = parseFloat(window.getComputedStyle(container).gap) || 8;
+      if (isMobileRow) {
+        const itemWidth = firstChild ? firstChild.clientWidth : 64;
+        container.scrollBy({ left: itemWidth + gap, behavior: "smooth" });
+      } else {
+        const itemHeight = firstChild ? firstChild.clientHeight : 100;
+        container.scrollBy({ top: itemHeight + gap, behavior: "smooth" });
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    // Reset scroll position to top/left when variant changes
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+      scrollContainerRef.current.scrollLeft = 0;
+    }
+    const timer = setTimeout(updateScrollButtons, 100);
+    return () => clearTimeout(timer);
+  }, [selectedVariant, thumbnails, updateScrollButtons]);
+
+  React.useEffect(() => {
+    updateScrollButtons();
+    window.addEventListener("resize", updateScrollButtons);
+    return () => {
+      window.removeEventListener("resize", updateScrollButtons);
+    };
+  }, [updateScrollButtons, thumbnails]);
+
+  React.useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const container = scrollContainerRef.current;
+    if (container && container.children[activeThumbnail]) {
+      const activeElement = container.children[activeThumbnail] as HTMLElement;
+      activeElement.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
+      });
+    }
+  }, [activeThumbnail]);
+
+  const handleBuyNow = async () => {
+    const variantId = variants[selectedVariant].id;
+    if (!variantId) return;
+
+    setIsBuying(true);
+    setCheckoutError(null);
+
+    try {
+      const result = await createCheckout(variantId, 1);
+      if ("error" in result) {
+        setCheckoutError(result.error);
+        setIsBuying(false);
+      } else if (result.webUrl) {
+        window.location.href = result.webUrl;
+      }
+    } catch (err) {
+      console.error("Checkout creation failed:", err);
+      setCheckoutError("Failed to initiate checkout. Please try again.");
+      setIsBuying(false);
+    }
+  };
+
+  const handleAddToCart = () => {
+    const variant = variants[selectedVariant];
+    if (!variant.id) return;
+
+    addToCart({
+      id: variant.id,
+      title: "Collagreens",
+      variantLabel: variant.label,
+      price: variant.price,
+      image: variant.img,
+    });
+  };
+
+  const handleVariantChange = (index: number) => {
+    setSelectedVariant(index);
+    setActiveThumbnail(0);
+
+    const variant = displayProducts[index];
+    if (variant && variant.id && typeof window !== "undefined") {
+      const newUrl = new URL(window.location.href);
+      const numericId = variant.id.replace(/\D/g, "");
+      newUrl.searchParams.set("variant", numericId || variant.id);
+      window.history.replaceState({ ...window.history.state }, "", newUrl.toString());
+    }
+
+    const element = document.getElementById("shop");
+    if (element) {
+      const yOffset = -90; // offset to account for sticky navbar
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section id="shop" className="w-full pt-14 bg-[#fffff7] px-6 pb-10 ">
+      {/* Section Header */}
+      <div className="mb-8 flex flex-col items-center gap-2 text-center sm:mb-12">
+        <h2 className="font-cormorant  font-bold text-[36px] leading-[1.2] tracking-[0.01em] text-black sm:text-[48px] lg:text-[60px]">
+          Shop from us
+        </h2>
+        <p className="font-switzer flex gap-1 text-[14px] font-medium tracking-[0.12em] text-black sm:text-[18px] lg:text-[22px]">
+          The only
+          <span className="font-bold">Collagen</span> that works
+        </p>
+      </div>
+
+      <div className="box-border flex w-full flex-col items-start gap-8 overflow-visible px-2 sm:px-6 lg:flex-row lg:justify-evenly lg:gap-0 lg:px-[50px]">
+        {/* ── LEFT PANEL (sticky image block) ─────────────────────────── */}
+        <div className="h-fit w-full shrink-0 lg:sticky lg:top-24 lg:w-[55%]">
+          {/* Outer container: responsive height and styling */}
+          <div className="box-border flex h-[380px] min-[400px]:h-[440px] sm:h-[460px] lg:h-[620px] xl:h-[660px] w-full flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 lg:gap-5 overflow-clip rounded-2xl border-[3px] sm:border-[4px] border-[#fff6b3] bg-[#faf6de] p-2.5 sm:p-4 lg:p-5">
+            {/* Main product image — responsive height */}
+            <div className="relative box-border flex-1 w-full sm:w-auto h-[270px] min-[400px]:h-[320px] sm:h-full flex flex-col overflow-clip rounded-xl lg:rounded-[14px] border-2 sm:border-[3px] lg:border-[4px] border-[#34803c] bg-[#fffdf2] order-1 sm:order-2">
+              {/* Product image — changes based on selected thumbnail */}
+              <div className="absolute inset-0 z-30 flex items-center justify-center p-3 sm:p-6 lg:p-10">
+                <div className="relative h-full w-full max-h-full max-w-full flex items-center justify-center">
+                  {thumbnails[activeThumbnail] && (
+                    <Image
+                      src={thumbnails[activeThumbnail].src}
+                      alt={thumbnails[activeThumbnail].alt}
+                      key={`${selectedVariant}-${activeThumbnail}`}
+                      fill
+                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 600px"
+                      className="object-contain object-center transition-all duration-300 drop-shadow-md"
+                      priority
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* Pack label badge at bottom right */}
+              <div className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-40 rounded-full bg-[#26312d] px-3 py-1 sm:px-5 sm:py-2 shadow-md">
+                <span className="font-poppins text-[10.5px] sm:text-[14px] font-medium text-white">
+                  {variants[selectedVariant].label === "30 days pack"
+                    ? "30 Day Pack"
+                    : variants[selectedVariant].label === "60 days pack"
+                      ? "60 Day Pack"
+                      : "6 Day Trial"}
+                </span>
+              </div>
+            </div>
+
+            {/* Thumbnails container — row on mobile, column on desktop */}
+            <div className="relative flex w-full sm:w-[24%] h-auto sm:h-full shrink-0 flex-row sm:flex-col items-center justify-between px-0.5 sm:px-0 py-0.5 sm:py-1 order-2 sm:order-1">
+              {/* Previous Scroll Button (Left on mobile, Up on desktop) */}
+              {isScrollable && (
+                <button
+                  type="button"
+                  onClick={scrollUp}
+                  disabled={!canScrollUp}
+                  className="z-10 flex h-6 w-6 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none mr-1 sm:mr-0 sm:mb-1 shadow-sm active:scale-95 cursor-pointer"
+                  aria-label="Scroll Previous"
+                >
+                  <ChevronLeft className="w-4 h-4 sm:hidden" />
+                  <ChevronUp className="hidden sm:block w-5 h-5" />
+                </button>
+              )}
+
+              {/* Scrollable Thumbnails Container */}
+              <div
+                ref={scrollContainerRef}
+                onScroll={updateScrollButtons}
+                className={`w-full flex-1 overflow-x-auto sm:overflow-x-hidden sm:overflow-y-auto no-scrollbar scroll-smooth flex flex-row sm:flex-col gap-1.5 sm:gap-2.5 py-0.5 sm:py-1 ${
+                  isScrollable ? "justify-start" : "justify-center"
+                }`}
+              >
+                {thumbnails.map((t, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setActiveThumbnail(i)}
+                    className={`relative box-border h-14 w-14 min-[400px]:h-16 min-[400px]:w-16 sm:h-auto sm:w-full aspect-square shrink-0 cursor-pointer items-center justify-center overflow-clip rounded-lg sm:rounded-xl lg:rounded-2xl border-2 sm:border-[3px] lg:border-[4px] transition-all ${
+                      activeThumbnail === i
+                        ? "border-[#34803c] bg-[#fffdf2] opacity-100 shadow-md scale-[0.98]"
+                        : "border-[#e5e7eb] bg-[#fffdf2] opacity-60 hover:opacity-100 hover:border-[#34803c]/40"
+                    }`}
+                  >
+                    <div className="relative w-full h-full p-1 sm:p-2 lg:p-3">
+                      <Image
+                        src={t.src}
+                        alt={t.alt}
+                        fill
+                        sizes="(max-width: 640px) 20vw, 10vw"
+                        className="object-contain"
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Next Scroll Button (Right on mobile, Down on desktop) */}
+              {isScrollable && (
+                <button
+                  type="button"
+                  onClick={scrollDown}
+                  disabled={!canScrollDown}
+                  className="z-10 flex h-6 w-6 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-[#34803c]/15 text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white disabled:opacity-30 disabled:pointer-events-none ml-1 sm:ml-0 sm:mt-1 shadow-sm active:scale-95 cursor-pointer"
+                  aria-label="Scroll Next"
+                >
+                  <ChevronRight className="w-4 h-4 sm:hidden" />
+                  <ChevronDown className="hidden sm:block w-5 h-5" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* ── RIGHT PANEL ── */}
+        <div className="box-border flex w-full flex-col items-center justify-center gap-0 overflow-clip rounded-2xl px-4 pt-4 pb-0 lg:w-[45%] lg:px-[30px] lg:pt-[16px] lg:min-h-[680px]">
+          {/* Rating */}
+          <div className="flex h-auto min-h-[40px] lg:h-[53px] w-full flex-row flex-wrap items-center justify-start gap-2 lg:gap-[10px] overflow-clip">
+            <div className="flex text-[#11731b]">
+              {"★★★★★".split("").map((s, i) => (
+                <span key={i} className="text-[16px] sm:text-[18px] lg:text-[22px]">
+                  {s}
+                </span>
+              ))}
+            </div>
+            <span className="font-poppins text-[12px] sm:text-[16px] lg:text-[20px] font-semibold text-[#11731b]">
+              4.9/5.0
+            </span>
+          </div>
+
+          {/* Product title */}
+          <h3 className="w-full break-words  whitespace-pre-wrap font-tt-ramillas text-[32px] sm:text-[38px] lg:text-[45px] font-semibold leading-[1.2] tracking-[0.02em] text-[#34803c]">
+            {variants[selectedVariant]?.title || "Collagreens"}
+          </h3>
+
+          {/* Description paragraphs */}
+          {variants[selectedVariant]?.descriptionHtml ? (
+            <div
+              className="mt-4 flex w-full flex-col gap-3 lg:gap-5 shopify-description min-h-[120px] sm:min-h-[120px] lg:min-h-[120px]"
+              dangerouslySetInnerHTML={{ __html: variants[selectedVariant].descriptionHtml }}
+            />
+          ) : (
+            <div className="mt-4 flex w-full flex-col gap-3 lg:gap-5 min-h-[120px] sm:min-h-[150px] lg:min-h-[220px]">
+              <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
+                Collagreens combines hydrolyzed marine collagen with supergreens and 30+ bioactive
+                ingredients across 6 clinically studied complexes. Designed to support radiant skin,
+                stronger hair, and healthier nails while promoting gut health.
+              </p>
+              <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
+                The 6 complexes naturally deliver Vitamin C, Vitamin A, antioxidants, fibres,
+                minerals and actives like amla, moringa and spirulina to support collagen
+                supplementation deeply.
+              </p>
+              <p className="w-full break-words whitespace-pre-wrap font-poppins text-[14px] sm:text-[16px] lg:text-[21px] font-normal leading-[1.3] lg:leading-[1.2] tracking-[-0.03em] text-[#3d3d3d]">
+                Each convenient sachet delivers natural taste with real ingredients. Manufactured in
+                a USFDA certified facility with third-party testing for purity and safety. No
+                fillers. No artificial preservatives. No artificial sweeteners. No colourants.
+              </p>
+            </div>
+          )}
+
+          {/* Feature checkmarks */}
+          <div className="mt-4 lg:mt-6 flex w-full flex-col items-start gap-2 lg:gap-[10px] overflow-clip">
+            {features.map((f, i) => (
+              <div key={i} className="flex items-center gap-2 lg:gap-3">
+                <svg
+                  width="16"
+                  height="16"
+                  className="lg:w-[20px] lg:h-[20px]"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <path
+                    d="M4 10L8 14L16 6"
+                    stroke="#34803c"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span className="font-poppins text-[13px] sm:text-[15px] lg:text-[21px] leading-[1.1] font-normal text-[#3d3d3d]">
+                  {f}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Select Variant */}
+          <div className="mt-6 lg:mt-8 flex w-full flex-col items-start justify-center gap-2 lg:gap-[10px] overflow-clip">
+            <h4 className="font-poppins text-[18px] sm:text-[21px] lg:text-[24px] font-medium mt-2 mb-2 lg:mb-4 text-black">
+              Select Variant
+            </h4>
+            {/* Variant row */}
+            <div className="flex w-full flex-row items-center justify-start gap-4 sm:gap-6 lg:gap-[30px] overflow-x-auto overflow-y-clip pb-2">
+              {variants.map((v, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => handleVariantChange(i)}
+                  className="flex flex-col items-center gap-2 shrink-0"
+                >
+                  {/* Each variant */}
+                  <div
+                    className={`relative box-border h-[70px] w-[70px] sm:h-[85px] sm:w-[85px] lg:h-[100px] lg:w-[100px] overflow-clip rounded-full border-2 bg-[#fffdf2] transition-all ${
+                      selectedVariant === i ? "border-[#34803c]" : "border-[#c9c9c9]"
+                    }`}
+                  >
+                    <Image
+                      src={v.img}
+                      alt={v.label}
+                      fill
+                      sizes="(max-width: 768px) 20vw, 100px"
+                      className="object-contain p-2"
+                    />
+                  </div>
+                  <span
+                    className={`font-poppins text-[12px] sm:text-[13px] lg:text-[14px] ${
+                      selectedVariant === i
+                        ? "font-semibold text-black"
+                        : "font-normal text-gray-500"
+                    }`}
+                  >
+                    {v.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Price & CTA */}
+          <div className="flex w-full flex-col items-start gap-4 mt-6 lg:mt-0 lg:h-[138px] lg:justify-between">
+            <div>
+              <p className="font-antic-didone text-[24px] sm:text-[28px] lg:text-[32px] font-bold pb-1 leading-[1.2] text-black">
+                {variants[selectedVariant].label}
+              </p>
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                {variants[selectedVariant].originalPrice ? (
+                  <span className="font-poppins text-[16px] sm:text-[18px] lg:text-[22px] font-normal leading-[1.2] text-gray-400 line-through decoration-2 decoration-gray-400/80">
+                    {variants[selectedVariant].originalPrice}
+                  </span>
+                ) : null}
+                <span className="font-poppins text-[20px] sm:text-[24px] lg:text-[28px] font-normal leading-[1.2] text-gray-500">
+                  {variants[selectedVariant].price}
+                </span>
+              </div>
+            </div>
+            {/* CTA Buttons */}
+            <div className="flex w-full flex-col gap-3">
+              <div className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
+                <Link
+                  href="/shop"
+                  className="box-border rounded-full border border-gray-400 bg-white px-6 sm:px-8 py-2.5 sm:py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:border-[#34803c] hover:text-[#34803c] text-center"
+                >
+                  View Details
+                </Link>
+                <div className="flex justify-center items-center flex-1 md:justify-normal gap-3 sm:flex-1 w-full">
+                  <button
+                    onClick={handleBuyNow}
+                    type="button"
+                    disabled={isBuying}
+                    className="box-border flex-1 sm:flex-none rounded-full border border-gray-300 bg-[#fffc60] px-6 sm:px-10 py-3 font-poppins text-[14px] sm:text-[16px] font-medium text-black transition-all hover:bg-[#f5f014] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                  >
+                    {isBuying ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Redirecting...</span>
+                      </>
+                    ) : (
+                      "Buy Now"
+                    )}
+                  </button>
+                  <button
+                    onClick={handleAddToCart}
+                    type="button"
+                    title="Add to Cart"
+                    className="box-border h-12 w-12 sm:h-12 sm:w-12 shrink-0 flex items-center justify-center rounded-full border border-[#34803c] bg-white text-[#34803c] transition-all hover:bg-[#34803c] hover:text-white cursor-pointer active:scale-95 shadow-sm hover:shadow-md"
+                  >
+                    <div className="relative">
+                      <ShoppingCart className="w-5.5 h-5.5 sm:w-5.5 sm:h-5.5" />
+                      <div className="absolute -top-1.5 -right-1.5 bg-[#34803c] text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[10px] font-bold border border-white">
+                        <Plus className="w-2 h-2 stroke-[3px]" />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+              {checkoutError && (
+                <p className="text-red-500 text-sm font-medium mt-1">{checkoutError}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Clinical Studies Section */}
+          <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
+            <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+              Clinical studies and results
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
+              <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
+                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">
+                  22.94%
+                </p>
+                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
+                  + skin hydration
+                </p>
+              </div>
+              <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
+                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">
+                  ~46.57%
+                </p>
+                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
+                  - hair fall over 60 day use
+                </p>
+              </div>
+              <div className="bg-[#26312d] p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
+                <p className="font-tt-ramillas text-[28px] sm:text-[32px] font-bold text-[#47b852] mb-2">
+                  ~57.34%
+                </p>
+                <p className="font-switzer text-[13px] sm:text-[15px] leading-[1.3] text-[#f8f8f8]">
+                  - crow&apos;s feet wrinkles
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="https://drive.google.com/file/d/19fDye2tFPt_r1BdVCvvIiNdAaKwoN2t6/view"
+              target="_blank"
+              className="font-switzer text-[12px] font-medium sm:text-[16px] leading-[1.4] text-[#666] mb-4 underline"
+            >
+              Clinical Study Source
+            </Link>
+            <p className="font-switzer pt-2 text-[13px] sm:text-[15px] leading-[1.4] text-[#666] mb-6">
+              Note: These results may be enhanced because of daily greens. These numbers are solely
+              for collagen supplementation. Based on a 12 week randomized, double blind placebo
+              study with daily collagen supplementation.
+            </p>
+          </div>
+
+          {/* Testing Parameters Section */}
+          <div className="w-full mt-10 pt-10 border-t-2 gap-3 border-[#e0e0e0]">
+            <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+              Testing parameters
+            </h3>
+
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {testingParameters.map((test, i) => (
+                <div key={i} className="h-full">
+                  <div className="flex h-full flex-col items-center justify-start rounded-xl border-2 border-[#34803c] bg-white p-3.5 text-center sm:p-5">
+                    <div className="relative mx-auto mb-2.5 h-9 w-9 sm:h-11 sm:w-11 lg:h-12 lg:w-12">
+                      <Image
+                        src={test.src}
+                        alt={test.label}
+                        fill
+                        sizes="44px"
+                        className="object-contain"
+                      />
+                    </div>
+                    <p className="font-switzer text-[12px] sm:text-[14px] lg:text-[15px] leading-[1.35] text-[#333] wrap-break-word text-balance">
+                      {test.label}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="w-full mt-5">
+              <Link
+                href="https://www.notion.so/TEST-RESULTS-Yuvaya-3683ae035ffc80e39898d3dff170d830"
+                target="_blank"
+                className="font-tt-ramillas pt-3 italic text-[16px] sm:text-[18px] font-semibold text-[#34803c] hover:text-[#2a6a30] underline"
+              >
+                View third-party Lab test results
+              </Link>
+            </div>
+          </div>
+
+          {/* How to Use Section */}
+          <div className="w-full mt-10 pt-10 border-t-2 border-[#e0e0e0]">
+            <h3 className="font-switzer text-[24px] sm:text-[28px] lg:text-[32px] font-semibold leading-[1.2] tracking-[0.02em] text-black mb-6">
+              How to use
+            </h3>
+
+            <div className="space-y-4">
+              <div className="flex gap-4">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">
+                  1
+                </div>
+                <div>
+                  <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
+                    Mix one sachet with 200ml of water or your favorite beverage
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">
+                  2
+                </div>
+                <div>
+                  <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
+                    Stir well or shake until fully dissolved
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">
+                  3
+                </div>
+                <div>
+                  <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
+                    Consume once daily, preferably in the morning on an empty stomach
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#34803c] text-white font-tt-ramillas font-bold shrink-0">
+                  4
+                </div>
+                <div>
+                  <p className="font-switzer text-[14px] sm:text-[16px] leading-[1.4] text-[#333]">
+                    Consistent use for 8-12 weeks for best results
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default ShopFromUs;

@@ -1,5 +1,5 @@
-import React from 'react'
-import Image from 'next/image'
+import React from "react";
+import Image from "next/image";
 
 const RETAILERS = [
   {
@@ -11,8 +11,8 @@ const RETAILERS = [
     name: "Nature's Basket",
     src: "https://ik.imagekit.io/orus/Logo/Natures_Basket.webp",
     alt: "Nature's Basket Logo",
-  }
-]
+  },
+];
 
 const Authorized_retailer = () => {
   return (
@@ -52,7 +52,7 @@ const Authorized_retailer = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Authorized_retailer
+export default Authorized_retailer;

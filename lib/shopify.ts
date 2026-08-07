@@ -1,5 +1,6 @@
 const SHOPIFY_STORE = process.env.SHOPIFY_STORE || "f1trh0-ay.myshopify.com";
-const SHOPIFY_STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_TOKEN || "533d55678eccafe73cbac892ca8efb90";
+const SHOPIFY_STOREFRONT_TOKEN =
+  process.env.SHOPIFY_STOREFRONT_TOKEN || "533d55678eccafe73cbac892ca8efb90";
 
 export interface ShopifyProduct {
   id: string;
@@ -21,7 +22,7 @@ export async function shopifyFetch<T>({
   revalidate = 60,
 }: {
   query: string;
-  variables?: Record<string, any>;
+  variables?: Record<string, unknown>;
   cache?: RequestCache;
   revalidate?: number;
 }): Promise<ShopifyGraphQLResponse<T>> {
@@ -335,9 +336,9 @@ export async function getArticleByHandle(handle: string): Promise<ShopifyArticle
           node: ShopifyArticle;
         }>;
       };
-    }>({ 
+    }>({
       query,
-      variables: { query: `handle:${handle}` }
+      variables: { query: `handle:${handle}` },
     });
 
     const edge = response.data.articles.edges[0];
@@ -386,9 +387,9 @@ export async function getSurveyQuestions(): Promise<SurveyQuestion[]> {
 
   try {
     console.log("shopifyFetch: Querying survey_question metaobjects from Shopify...");
-    const response = await shopifyFetch<ShopifySurveyResponse>({ 
+    const response = await shopifyFetch<ShopifySurveyResponse>({
       query,
-      cache: "no-store"
+      cache: "no-store",
     });
     const questions: SurveyQuestion[] = [];
 
@@ -408,8 +409,8 @@ export async function getSurveyQuestions(): Promise<SurveyQuestion[]> {
         } else if (field.key === "options") {
           try {
             optionsList = JSON.parse(field.value) as string[];
-          } catch (e) {
-            console.error("shopifyFetch: Failed to parse options JSON:", field.value);
+          } catch (err) {
+            console.error("shopifyFetch: Failed to parse options JSON:", field.value, err);
           }
         } else if (field.key === "order") {
           orderVal = parseInt(field.value) ?? index;
@@ -427,7 +428,10 @@ export async function getSurveyQuestions(): Promise<SurveyQuestion[]> {
     });
 
     const sortedQuestions = questions.sort((a, b) => a.order - b.order);
-    console.log(`shopifyFetch: Successfully retrieved ${sortedQuestions.length} survey questions from Shopify:`, JSON.stringify(sortedQuestions, null, 2));
+    console.log(
+      `shopifyFetch: Successfully retrieved ${sortedQuestions.length} survey questions from Shopify:`,
+      JSON.stringify(sortedQuestions, null, 2)
+    );
     return sortedQuestions;
   } catch (error) {
     console.error("shopifyFetch: Failed to fetch survey questions from Shopify:", error);

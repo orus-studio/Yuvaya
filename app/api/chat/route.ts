@@ -24,6 +24,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ reply: text, latency }, { status: resp.status });
     }
   } catch {
-    return NextResponse.json({ error: "Failed to proxy to chat server", latency: 0 }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to proxy to chat server", latency: 0 },
+      { status: 500 }
+    );
   }
 }

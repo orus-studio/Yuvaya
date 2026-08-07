@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Return & Refund Policy - Yuvaya",
-  description: "Read Yuvaya's official Return, Refund, and Cancellation Policy. Understand our policies on non-refundable consumable wellness supplements, replacements for damaged items, and refund processing.",
+  description:
+    "Read Yuvaya's official Return, Refund, and Cancellation Policy. Understand our policies on non-refundable consumable wellness supplements, replacements for damaged items, and refund processing.",
 };
 
 const ReturnRefundPolicy = () => {
@@ -31,16 +32,25 @@ const ReturnRefundPolicy = () => {
           </h2>
           <p className="mb-4 font-light">
             Orders placed on{" "}
-            <a href="https://www.shopyuvaya.com" target="_blank" rel="noopener noreferrer" className="text-[#34803c] font-medium hover:underline">
+            <a
+              href="https://www.shopyuvaya.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#34803c] font-medium hover:underline"
+            >
               www.shopyuvaya.com
             </a>{" "}
             are <strong>non-returnable and non-refundable</strong> once purchased and delivered.
           </p>
           <p className="mb-4 font-light">
-            As our products are consumable wellness supplements intended for personal health use, we do not accept returns of opened, used, or consumed products under any circumstances.
+            As our products are consumable wellness supplements intended for personal health use, we
+            do not accept returns of opened, used, or consumed products under any circumstances.
           </p>
           <p className="font-light">
-            Returns will not be accepted if the product has been used, the seal has been broken, or the serial number has been tampered with. On receipt of any returned product, Yuvaya will proceed to inspect the item and validate the claim before deciding on any further action.
+            Returns will not be accepted if the product has been used, the seal has been broken, or
+            the serial number has been tampered with. On receipt of any returned product, Yuvaya
+            will proceed to inspect the item and validate the claim before deciding on any further
+            action.
           </p>
         </section>
 
@@ -50,7 +60,10 @@ const ReturnRefundPolicy = () => {
             Damaged or Defective Products
           </h2>
           <p className="mb-6 font-light">
-            We are committed to delivering products in perfect condition. If your order arrives damaged, an incorrect product has been shipped, or a product is defective due to transit issues, we offer a <strong>full replacement</strong> subject to the following conditions:
+            We are committed to delivering products in perfect condition. If your order arrives
+            damaged, an incorrect product has been shipped, or a product is defective due to transit
+            issues, we offer a <strong>full replacement</strong> subject to the following
+            conditions:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
@@ -60,10 +73,15 @@ const ReturnRefundPolicy = () => {
                 Eligibility Criteria
               </h3>
               <ul className="list-disc pl-5 space-y-3 font-light text-[14px] sm:text-[16px]">
-                <li>Damage or defect must be reported within <strong>12 hours</strong> of delivery.</li>
+                <li>
+                  Damage or defect must be reported within <strong>12 hours</strong> of delivery.
+                </li>
                 <li>Original packaging, seals, and products must be intact and unused.</li>
                 <li>Clear photos or video evidence of the damage/defect must be provided.</li>
-                <li>Damage must be clearly attributable to shipping and handling, not misuse or tampering.</li>
+                <li>
+                  Damage must be clearly attributable to shipping and handling, not misuse or
+                  tampering.
+                </li>
               </ul>
             </div>
 
@@ -75,11 +93,29 @@ const ReturnRefundPolicy = () => {
               <ul className="list-decimal pl-5 space-y-3 font-light text-[14px] sm:text-[16px]">
                 <li>
                   Contact our customer care team at{" "}
-                  <a href="mailto:hello@yuvaya.in" className="text-[#34803c] font-medium hover:underline">hello@yuvaya.in</a> or call{" "}
-                  <a href="tel:+919011390116" className="text-[#34803c] font-medium hover:underline">+91 9011390116</a> immediately.
+                  <a
+                    href="mailto:hello@yuvaya.in"
+                    className="text-[#34803c] font-medium hover:underline"
+                  >
+                    hello@yuvaya.in
+                  </a>{" "}
+                  or call{" "}
+                  <a
+                    href="tel:+919011390116"
+                    className="text-[#34803c] font-medium hover:underline"
+                  >
+                    +91 9011390116
+                  </a>{" "}
+                  immediately.
                 </li>
-                <li>Provide your order number and clear photos/videos showing the damaged product and packaging.</li>
-                <li>Our team will validate the claim and approve the replacement within 2–3 business days.</li>
+                <li>
+                  Provide your order number and clear photos/videos showing the damaged product and
+                  packaging.
+                </li>
+                <li>
+                  Our team will validate the claim and approve the replacement within 2–3 business
+                  days.
+                </li>
                 <li>Approved replacements will be dispatched at no additional cost to you.</li>
               </ul>
             </div>
@@ -92,7 +128,9 @@ const ReturnRefundPolicy = () => {
             Returns Assessment &amp; Refunds
           </h2>
           <p className="mb-4 font-light">
-            All return requests will be evaluated on a case-by-case basis. If a return is approved (at our sole discretion), the final refund amount will account for both original shipping charges and reverse pickup costs, which will be deducted from the refund value.
+            All return requests will be evaluated on a case-by-case basis. If a return is approved
+            (at our sole discretion), the final refund amount will account for both original
+            shipping charges and reverse pickup costs, which will be deducted from the refund value.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             <div className="border border-[#26312d]/10 bg-[#26312d]/5 rounded-2xl p-6">
@@ -100,7 +138,9 @@ const ReturnRefundPolicy = () => {
                 Online Payments
               </h3>
               <p className="font-light text-[14px] sm:text-[15px]">
-                We will refund the amount back to the original payment source (debit/credit card, bank, wallet, UPI) within <strong>7 working days</strong> of receiving and validating the request.
+                We will refund the amount back to the original payment source (debit/credit card,
+                bank, wallet, UPI) within <strong>7 working days</strong> of receiving and
+                validating the request.
               </p>
             </div>
             <div className="border border-[#26312d]/10 bg-[#26312d]/5 rounded-2xl p-6">
@@ -108,7 +148,9 @@ const ReturnRefundPolicy = () => {
                 COD Payments
               </h3>
               <p className="font-light text-[14px] sm:text-[15px]">
-                Refunds will be processed to your verified bank account within <strong>14 working days</strong> of receiving the required bank details and validating the return request.
+                Refunds will be processed to your verified bank account within{" "}
+                <strong>14 working days</strong> of receiving the required bank details and
+                validating the return request.
               </p>
             </div>
           </div>
@@ -120,7 +162,10 @@ const ReturnRefundPolicy = () => {
             Shipping &amp; Delivery Delays
           </h2>
           <p className="font-light">
-            Our top priority is to provide the smoothest service and the fastest delivery. Due to unforeseen circumstances, there can be issues that delay the process of shipping, which can cause an indefinite delay. Our support team will contact you in such instances and keep you updated with the progress.
+            Our top priority is to provide the smoothest service and the fastest delivery. Due to
+            unforeseen circumstances, there can be issues that delay the process of shipping, which
+            can cause an indefinite delay. Our support team will contact you in such instances and
+            keep you updated with the progress.
           </p>
         </section>
       </article>

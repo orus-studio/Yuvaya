@@ -1,5 +1,5 @@
 import { getLandingProducts } from "@/lib/shopify";
-import ShopClient from "./ShopClient";
+import ShopClient, { ProductVariant } from "./ShopClient";
 
 export const revalidate = 60; // Revalidate Shopify data every 60 seconds
 
@@ -29,8 +29,15 @@ function formatShopifyPackTitle(rawTitle: string): string {
   return cleaned || rawTitle;
 }
 
+interface ShopProductData {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  variants?: ProductVariant[];
+}
+
 export default async function ShopPage() {
-  let shopifyData: any = null;
+  let shopifyData: ShopProductData | undefined = undefined;
 
   try {
     const products = await getLandingProducts();
@@ -63,16 +70,26 @@ export default async function ShopPage() {
         }
 
         // Build this variant's OWN images array from Shopify product images
-        const images = prod.images?.edges?.map((edge) => ({
-          src: edge.node.url,
-          alt: edge.node.altText || prod.title,
-        })) || [];
+        const images =
+          prod.images?.edges?.map((edge) => ({
+            src: edge.node.url,
+            alt: edge.node.altText || prod.title,
+          })) || [];
 
         // Fallback images if Shopify returns none
-        const displayImages = images.length > 0 ? images : [
-          { src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp", alt: "Pouch Front" },
-          { src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp", alt: "Sachet Front" },
-        ];
+        const displayImages =
+          images.length > 0
+            ? images
+            : [
+                {
+                  src: "https://ik.imagekit.io/orus/Product_Images/Stand%20Up%20Pouch%20Front%20latest%20mockup.webp",
+                  alt: "Pouch Front",
+                },
+                {
+                  src: "https://ik.imagekit.io/orus/Product_Images/Sachet%20Front%20latest%20mockup.webp",
+                  alt: "Sachet Front",
+                },
+              ];
 
         return {
           id: variantId,

@@ -60,8 +60,7 @@ export async function createCheckout(
   } else {
     const queryParams = validLines
       .map(
-        (item, index) =>
-          `items[${index}][id]=${item.id}&items[${index}][quantity]=${item.quantity}`
+        (item, index) => `items[${index}][id]=${item.id}&items[${index}][quantity]=${item.quantity}`
       )
       .join("&");
     const addToCartPath = `/cart/add?${queryParams}&return_to=/cart?gokwik=true`;
@@ -75,4 +74,3 @@ export async function createCheckout(
 
   return { webUrl: cartUrl };
 }
-

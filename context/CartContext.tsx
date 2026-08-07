@@ -1,6 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useSyncExternalStore } from "react";
+
+const emptySubscribe = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 export interface CartItem {
   id: string; // Shopify variant ID
@@ -28,15 +32,17 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot);
 
   // Initialize and load from localStorage
   useEffect(() => {
-    setIsMounted(true);
     const savedCart = localStorage.getItem("yuvaya_cart");
     if (savedCart) {
       try {
-        setCartItems(JSON.parse(savedCart));
+        const parsed = JSON.parse(savedCart);
+        queueMicrotask(() => {
+          setCartItems(parsed);
+        });
       } catch (e) {
         console.error("Failed to parse cart items from localStorage:", e);
       }

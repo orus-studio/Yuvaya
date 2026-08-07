@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-import React from 'react';
+import { redirect } from "next/navigation";
 
 interface PageProps {
   params: Promise<{ id: string }>;

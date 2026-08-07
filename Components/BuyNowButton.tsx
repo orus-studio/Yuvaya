@@ -61,8 +61,8 @@ export default function BuyNowButton({ variantId, className = "" }: BuyNowButton
           isLoading
             ? "bg-stone-500 cursor-not-allowed opacity-80"
             : !variantId
-            ? "bg-stone-300 cursor-not-allowed text-stone-500 shadow-none"
-            : "bg-stone-900 hover:bg-stone-800"
+              ? "bg-stone-300 cursor-not-allowed text-stone-500 shadow-none"
+              : "bg-stone-900 hover:bg-stone-800"
         } ${className}`}
       >
         {isLoading ? (
@@ -78,9 +78,7 @@ export default function BuyNowButton({ variantId, className = "" }: BuyNowButton
         )}
       </button>
       {error && (
-        <p className="text-red-500 text-sm font-medium text-center mt-1 animate-pulse">
-          {error}
-        </p>
+        <p className="text-red-500 text-sm font-medium text-center mt-1 animate-pulse">{error}</p>
       )}
     </div>
   );
