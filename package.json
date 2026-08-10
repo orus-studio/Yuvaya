@@ -10,7 +10,8 @@
     "type-check": "tsc --noEmit",
     "prettier:check": "prettier --check .",
     "format": "prettier --write .",
-    "check-all": "npm run lint && npm run type-check && npm run prettier:check"
+    "check-all": "npm run lint && npm run type-check && npm run prettier:check",
+    "prepare": "husky"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
@@ -29,8 +30,19 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.9.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   }
 }
