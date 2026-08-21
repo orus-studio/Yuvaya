@@ -3,13 +3,22 @@
 import React, { useState } from "react";
 import { createCheckout } from "@/app/actions/createCheckout";
 import { Loader2, ShoppingCart } from "lucide-react";
+import { trackInitiateCheckout } from "@/lib/pixel";
+import { appendTrackingParams } from "@/lib/urlParams";
 
 interface BuyNowButtonProps {
   variantId: string;
   className?: string;
+  title?: string;
+  price?: string | number;
 }
 
-export default function BuyNowButton({ variantId, className = "" }: BuyNowButtonProps) {
+export default function BuyNowButton({
+  variantId,
+  className = "",
+  title = "Collagreens",
+  price,
+}: BuyNowButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +41,19 @@ export default function BuyNowButton({ variantId, className = "" }: BuyNowButton
     setIsLoading(true);
     setError(null);
 
+    // Fire Meta Pixel InitiateCheckout event immediately before redirect
+    trackInitiateCheckout({
+      items: [
+        {
+          id: variantId,
+          title: title,
+          price: price,
+          quantity: 1,
+        },
+      ],
+      totalValue: price,
+    });
+
     try {
       const result = await createCheckout(variantId, 1);
 
@@ -39,8 +61,8 @@ export default function BuyNowButton({ variantId, className = "" }: BuyNowButton
         setError(result.error);
         setIsLoading(false);
       } else if (result.webUrl) {
-        // Redirect to Shopify checkout page
-        window.location.href = result.webUrl;
+        // Redirect to Shopify checkout page with preserved tracking parameters
+        window.location.href = appendTrackingParams(result.webUrl);
       } else {
         setError("Something went wrong. Please try again.");
         setIsLoading(false);

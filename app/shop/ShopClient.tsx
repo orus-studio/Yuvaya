@@ -30,6 +30,8 @@ import { useCart } from "@/context/CartContext";
 import { createCheckout } from "@/app/actions/createCheckout";
 import NewsLetter from "@/Components/Landing/NewsLetter";
 import Link from "next/link";
+import { trackViewContent, trackInitiateCheckout } from "@/lib/pixel";
+import { appendTrackingParams } from "@/lib/urlParams";
 
 export interface ProductVariant {
   id: string;
@@ -426,6 +428,18 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
     return () => window.removeEventListener("resize", updateScrollButtons);
   }, [updateScrollButtons]);
 
+  // Track Meta Pixel ViewContent event when viewing product or switching variants
+  useEffect(() => {
+    const v = variants[selectedVariant];
+    if (v) {
+      trackViewContent({
+        id: v.id,
+        title: productData?.title || "Collagreens",
+        price: v.price,
+      });
+    }
+  }, [selectedVariant, variants, productData?.title]);
+
   const handleAddToCart = () => {
     const v = variants[selectedVariant];
     addToCart({
@@ -440,12 +454,28 @@ export const ProductsPart = ({ productData }: ProductsPartProps = {}) => {
 
   const handleBuyNow = async () => {
     const v = variants[selectedVariant];
+    if (!v?.id) return;
+
     setIsBuying(true);
     setCheckoutError(null);
+
+    // Fire Meta Pixel InitiateCheckout event immediately before redirect
+    trackInitiateCheckout({
+      items: [
+        {
+          id: v.id,
+          title: productData?.title || "Collagreens",
+          price: v.price,
+          quantity: 1,
+        },
+      ],
+      totalValue: v.price,
+    });
+
     try {
       const res = await createCheckout(v.id, 1);
       if ("webUrl" in res && res.webUrl) {
-        window.location.href = res.webUrl;
+        window.location.href = appendTrackingParams(res.webUrl);
       } else if ("error" in res && res.error) {
         setCheckoutError(res.error);
         setIsBuying(false);

@@ -6,6 +6,8 @@ import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Loader2, Trash2, Plus, Minus, X, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { createCheckout } from "@/app/actions/createCheckout";
+import { trackInitiateCheckout } from "@/lib/pixel";
+import { appendTrackingParams } from "@/lib/urlParams";
 
 const emptySubscribe = () => () => {};
 const getClientSnapshot = () => true;
@@ -55,6 +57,17 @@ export default function CartDrawer() {
     setIsCheckingOut(true);
     setCheckoutError(null);
 
+    // Fire Meta Pixel InitiateCheckout event immediately before redirect
+    trackInitiateCheckout({
+      items: cartItems.map((item) => ({
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+      totalValue: cartTotal,
+    });
+
     const lineItems = cartItems.map((item) => ({
       merchandiseId: item.id,
       quantity: item.quantity,
@@ -66,7 +79,7 @@ export default function CartDrawer() {
         setCheckoutError(result.error);
         setIsCheckingOut(false);
       } else if (result.webUrl) {
-        window.location.href = result.webUrl;
+        window.location.href = appendTrackingParams(result.webUrl);
       }
     } catch (err) {
       console.error("Cart checkout failed:", err);

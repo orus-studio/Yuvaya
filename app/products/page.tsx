@@ -95,7 +95,11 @@ export default async function ProductsPage() {
                       variantLabel="Standard Pack"
                       image={product.image}
                     />
-                    <BuyNowButton variantId={product.variantId} />
+                    <BuyNowButton
+                      variantId={product.variantId}
+                      title={product.title}
+                      price={product.price}
+                    />
                   </div>
                 </div>
               </div>

@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { ShopifyLandingProductNode } from "@/lib/shopify";
+import { trackViewContent, trackInitiateCheckout } from "@/lib/pixel";
+import { appendTrackingParams } from "@/lib/urlParams";
 
 interface ShopFromUsProps {
   initialProducts?: ShopifyLandingProductNode[];
@@ -270,6 +272,18 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
     };
   }, []);
 
+  // Track Meta Pixel ViewContent event when viewing product or switching variants
+  React.useEffect(() => {
+    const currentVariant = displayProducts[selectedVariant];
+    if (currentVariant) {
+      trackViewContent({
+        id: currentVariant.id,
+        title: currentVariant.title || "Collagreens",
+        price: currentVariant.price,
+      });
+    }
+  }, [selectedVariant, displayProducts]);
+
   React.useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -440,11 +454,25 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
   }, [activeThumbnail]);
 
   const handleBuyNow = async () => {
-    const variantId = variants[selectedVariant].id;
+    const variant = variants[selectedVariant];
+    const variantId = variant?.id;
     if (!variantId) return;
 
     setIsBuying(true);
     setCheckoutError(null);
+
+    // Fire Meta Pixel InitiateCheckout event immediately before redirect
+    trackInitiateCheckout({
+      items: [
+        {
+          id: variant.id,
+          title: variant.title || "Collagreens",
+          price: variant.price,
+          quantity: 1,
+        },
+      ],
+      totalValue: variant.price,
+    });
 
     try {
       const result = await createCheckout(variantId, 1);
@@ -452,7 +480,7 @@ const ShopFromUs = ({ initialProducts, initialVariantParam }: ShopFromUsProps) =
         setCheckoutError(result.error);
         setIsBuying(false);
       } else if (result.webUrl) {
-        window.location.href = result.webUrl;
+        window.location.href = appendTrackingParams(result.webUrl);
       }
     } catch (err) {
       console.error("Checkout creation failed:", err);

@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { Antic_Didone, Cormorant_Garamond, Poppins } from "next/font/google";
 import localFont from "next/font/local";
+import Script from "next/script";
+import { Suspense } from "react";
 import "./globals.css";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/Components/CartDrawer";
+import MetaPixelTracker from "@/Components/Analytics/MetaPixelTracker";
+import { META_PIXEL_ID } from "@/lib/pixel";
 
 const cormorant_garamond = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -158,8 +162,37 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant_garamond.variable} scroll-smooth ${poppins.variable} ${newTitle.variable} ${anti_didone.variable} ${ttRamillas.variable} ${switzer.variable} h-full antialiased`}
     >
+      <head>
+        {/* Meta Pixel Base Script */}
+        <Script id="facebook-pixel" strategy="afterInteractive">
+          {`
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '${META_PIXEL_ID}');
+            fbq('track', 'PageView');
+          `}
+        </Script>
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
+      </head>
       <body className="min-h-full scroll-smooth relative flex flex-col bg-white">
         <CartProvider>
+          <Suspense fallback={null}>
+            <MetaPixelTracker />
+          </Suspense>
           <Navbar />
           {children}
           <CartDrawer />
