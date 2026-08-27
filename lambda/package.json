@@ -1,0 +1,13 @@
+{
+  "name": "yuvaya-lambda",
+  "version": "1.0.0",
+  "description": "AWS Lambda function for Yuvaya contact emails and quiz lead submissions",
+  "main": "index.mjs",
+  "type": "module",
+  "scripts": {
+    "zip": "zip -r function.zip index.mjs package.json node_modules"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}

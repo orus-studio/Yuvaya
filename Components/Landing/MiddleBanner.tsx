@@ -268,9 +268,9 @@ const MiddleBanner = () => {
             style={{ transform: "rotate(-4.77deg)" }}
           >
             <div className="relative w-full aspect-[1448/486] overflow-visible">
-              {/* The Union.png sachet image */}
+              {/* The Union.webp sachet image */}
               <Image
-                src="/Union.png"
+                src="/Union.webp"
                 alt="Daily Greens Sachet"
                 fill
                 sizes="(max-width: 1024px) 95vw, 1500px"
@@ -369,7 +369,7 @@ const MiddleBanner = () => {
             <Link href="/shop" className="block w-full p-2">
               <div className="relative w-full aspect-[350/500] overflow-visible">
                 <Image
-                  src="/Union_mobile.png"
+                  src="/Union_mobile.webp"
                   alt="Daily Greens Sachet Mobile Banner"
                   fill
                   sizes="(max-width: 640px) 105vw, 420px"

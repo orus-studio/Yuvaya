@@ -1,5 +1,3 @@
-"use server";
-
 export interface CartLineItem {
   merchandiseId: string;
   quantity: number;
@@ -35,7 +33,10 @@ export async function createCheckout(
   }
 
   // Target Shopify Store domain (shop.yuvaya.in) where GoKwik integration is installed
-  const storeDomain = process.env.SHOPIFY_PUBLIC_DOMAIN || "shop.yuvaya.in";
+  const storeDomain =
+    process.env.NEXT_PUBLIC_SHOPIFY_PUBLIC_DOMAIN ||
+    process.env.SHOPIFY_PUBLIC_DOMAIN ||
+    "shop.yuvaya.in";
 
   const validLines = lines
     .map((line) => ({

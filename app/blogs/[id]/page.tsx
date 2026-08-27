@@ -9,6 +9,25 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+export async function generateStaticParams() {
+  try {
+    const articles = await getBlogPosts();
+    if (!articles || articles.length === 0) {
+      return [];
+    }
+    return articles.map((article) => {
+      const raw =
+        article.handle ||
+        (article.id.includes("/") ? article.id.split("/").pop() || "" : article.id);
+      const cleaned = raw.replace(/[^a-zA-Z0-9_-]/g, "");
+      return { id: cleaned || "article" };
+    });
+  } catch (error) {
+    console.error("Failed to generate static params for blogs:", error);
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   const article = await getArticleByHandle(id);

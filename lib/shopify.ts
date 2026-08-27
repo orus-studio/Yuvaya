@@ -389,7 +389,6 @@ export async function getSurveyQuestions(): Promise<SurveyQuestion[]> {
     console.log("shopifyFetch: Querying survey_question metaobjects from Shopify...");
     const response = await shopifyFetch<ShopifySurveyResponse>({
       query,
-      cache: "no-store",
     });
     const questions: SurveyQuestion[] = [];
 

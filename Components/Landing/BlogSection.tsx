@@ -38,18 +38,18 @@ const BlogSection = ({ initialPosts }: BlogSectionProps) => {
           title: post.title,
           src: post.image?.url || "/Blog/Blog_1.jpg",
           alt: post.image?.altText || post.title,
-          link: `${process.env.BLOG_BASE_URL}/blogs/${post.handle}`,
+          link: `/blogs/${post.handle}`,
         }))
       : BLOG_POSTS.map((post) => ({
           ...post,
           id: String(post.id),
-          link: `${process.env.BLOG_BASE_URL}/blogs/how-can-you-increase-absorption-of-your-collagen-supplements`,
+          link: `/blogs/our-first-event`,
         }));
 
   const blogUrl =
-    initialPosts && initialPosts[0]?.blog?.handle
-      ? `${process.env.BLOG_BASE_URL}/blogs/${initialPosts[0].blog.handle}`
-      : `${process.env.BLOG_BASE_URL}/blogs/how-can-you-increase-absorption-of-your-collagen-supplements`;
+    initialPosts && initialPosts[0]?.handle
+      ? `/blogs/${initialPosts[0].handle}`
+      : `/blogs/our-first-event`;
 
   return (
     <section className="w-full bg-[#fffff7] px-4 sm:px-6 md:px-8 py-12 md:py-20">
@@ -87,11 +87,9 @@ const BlogSection = ({ initialPosts }: BlogSectionProps) => {
         {/* Right Column - Blog Posts */}
         <div className="w-full lg:w-[60%] flex flex-col sm:flex-row gap-8 sm:gap-6 md:gap-8">
           {displayPosts.map((post) => (
-            <a
+            <Link
               key={post.id}
               href={post.link}
-              target="_blank"
-              rel="noopener noreferrer"
               className="w-full sm:w-1/2 flex flex-col group justify-between no-underline"
             >
               <div>
@@ -122,7 +120,7 @@ const BlogSection = ({ initialPosts }: BlogSectionProps) => {
                   <ArrowUpRight className="w-5 h-5 text-[#26312d] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

@@ -32,27 +32,27 @@ const anti_didone = Antic_Didone({
 const newTitle = localFont({
   src: [
     {
-      path: "../public/Fonts/new-title-font-family/NewTitle-Extralight.otf",
+      path: "../public/Fonts/new-title-font-family/NewTitle-Extralight.woff2",
       weight: "200",
       style: "normal",
     },
     {
-      path: "../public/Fonts/new-title-font-family/NewTitle-Light.otf",
+      path: "../public/Fonts/new-title-font-family/NewTitle-Light.woff2",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../public/Fonts/new-title-font-family/NewTitle-Regular.otf",
+      path: "../public/Fonts/new-title-font-family/NewTitle-Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/Fonts/new-title-font-family/NewTitle-Medium.otf",
+      path: "../public/Fonts/new-title-font-family/NewTitle-Medium.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../public/Fonts/new-title-font-family/NewTitle-Bold.otf",
+      path: "../public/Fonts/new-title-font-family/NewTitle-Bold.woff2",
       weight: "700",
       style: "normal",
     },
@@ -63,37 +63,37 @@ const newTitle = localFont({
 const ttRamillas = localFont({
   src: [
     {
-      path: "../public/Fonts/TT Ramillas Trial ExtraLight.ttf",
+      path: "../public/Fonts/TT Ramillas Trial ExtraLight.woff2",
       weight: "200",
       style: "normal",
     },
     {
-      path: "../public/Fonts/TT Ramillas Trial Light.ttf",
+      path: "../public/Fonts/TT Ramillas Trial Light.woff2",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../public/Fonts/TT Ramillas Trial Regular.ttf",
+      path: "../public/Fonts/TT Ramillas Trial Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/Fonts/TT Ramillas Trial Medium.ttf",
+      path: "../public/Fonts/TT Ramillas Trial Medium.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../public/Fonts/TT Ramillas Trial Bold.ttf",
+      path: "../public/Fonts/TT Ramillas Trial Bold.woff2",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../public/Fonts/TT Ramillas Trial ExtraBold.ttf",
+      path: "../public/Fonts/TT Ramillas Trial ExtraBold.woff2",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../public/Fonts/TT Ramillas Trial Black.ttf",
+      path: "../public/Fonts/TT Ramillas Trial Black.woff2",
       weight: "900",
       style: "normal",
     },
@@ -104,42 +104,42 @@ const ttRamillas = localFont({
 const switzer = localFont({
   src: [
     {
-      path: "../public/Fonts/Switzer-Extralight.otf",
+      path: "../public/Fonts/Switzer-Extralight.woff2",
       weight: "200",
       style: "normal",
     },
     {
-      path: "../public/Fonts/Switzer-Light.otf",
+      path: "../public/Fonts/Switzer-Light.woff2",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../public/Fonts/Switzer-Regular.otf",
+      path: "../public/Fonts/Switzer-Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/Fonts/Switzer-Medium.otf",
+      path: "../public/Fonts/Switzer-Medium.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../public/Fonts/Switzer-Semibold.otf",
+      path: "../public/Fonts/Switzer-Semibold.woff2",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../public/Fonts/Switzer-Bold.otf",
+      path: "../public/Fonts/Switzer-Bold.woff2",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../public/Fonts/Switzer-Extrabold.otf",
+      path: "../public/Fonts/Switzer-Extrabold.woff2",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../public/Fonts/Switzer-Black.otf",
+      path: "../public/Fonts/Switzer-Black.woff2",
       weight: "900",
       style: "normal",
     },

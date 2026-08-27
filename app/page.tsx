@@ -11,34 +11,24 @@ import Testimonials from "@/Components/Landing/Testimonials";
 import NewsLetter from "@/Components/Landing/NewsLetter";
 import VerticalInstaPost from "@/Components/Landing/VerticalInstaPost";
 import InstagramReelsScroller from "@/Components/Landing/InstagramReelsScroller";
-import Chatbot from "@/Components/Shared/Chatbot";
 import OfferSection from "@/Components/Offer/OfferSection";
 import { getLandingProducts, getBlogPosts, getSurveyQuestions } from "@/lib/shopify";
 
-export const dynamic = "force-dynamic";
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-export default async function Home({ searchParams }: PageProps) {
+export default async function Home() {
   const [products, blogs, questions] = await Promise.all([
     getLandingProducts(),
     getBlogPosts(),
     getSurveyQuestions(),
   ]);
-  const resolvedSearchParams = await searchParams;
-  const variantParam = (resolvedSearchParams?.variant || resolvedSearchParams?.varient) as
-    string | undefined;
 
   return (
-    <div className="w-full ">
-      <main className="w-full  pt-20 bg-white relative flex flex-col">
+    <div className="w-full">
+      <main className="w-full pt-20 bg-white relative flex flex-col">
         <HeroSection />
         <ScrollingSection />
         {/* <SachetSection /> */}
         <MiddleBanner />
-        <ShopFromUs initialProducts={products} initialVariantParam={variantParam} />
+        <ShopFromUs initialProducts={products} />
         <LowerBanner />
         <InstagramReelsScroller />
         <Testimonials />
@@ -49,7 +39,6 @@ export default async function Home({ searchParams }: PageProps) {
         <AboutUs />
         <VerticalInstaPost />
       </main>
-      <Chatbot />
       <OfferSection initialQuestions={questions} />
     </div>
   );
